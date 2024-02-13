@@ -8,3 +8,4 @@ spec:
   interval: 5m
   secretRef:
     name: regcred
+    namespace: default
