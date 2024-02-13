@@ -2,10 +2,9 @@ apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
   name: web-repo
-  namespace: flux-system
+  namespace: default
 spec:
   image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/web-server
   interval: 5m
   secretRef:
     name: regcred
-    namespace: default
