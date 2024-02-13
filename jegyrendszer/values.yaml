@@ -1,0 +1,8 @@
+handle:
+  storageClass: longhorn
+replication:
+  web: 5
+  handle: 1
+versions:
+  handle_tag: 1.14
+  web_tag: 1.9
