@@ -31,7 +31,7 @@ spec:
       - name: handle-server-volume
         persistentVolumeClaim:
           claimName: backend-uploads-pvc
-      - name: ticket-volume
+      - name: handle-ticket-volume
         persitentVolumeClaim:
           claimName: tickets-pvc
       - name: handle-server-config
@@ -73,8 +73,8 @@ spec:
           mountPath: /uploads
         - name: handle-server-config
           mountPath: /etc/config
-        - name: ticket-volume
-          mountPath: /tickets
+        - name: handle-ticket-volume
+          mountPath: /pdfs
         livenessProbe:
           httpGet:
             path: /health
