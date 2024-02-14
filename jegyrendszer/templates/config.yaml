@@ -7,7 +7,7 @@ data:
     {
     "PY_MAIL": "agora.mail.service@gmail.com",
     "PY_DIR": "../data/email",
-    "NODE_SHARE": "/pdfs",
+    "NODE_SHARE": "pdfs",
     "EMAIL_SERVER": "http://192.168.1.216:5000",
     "MONGO_URI": "mongodb://root:root@mongo-release-mongodb-headless.service.svc.cluster.local:27017/",
     "REDIS_URI": "redis-release-master.service.svc.cluster.local",
