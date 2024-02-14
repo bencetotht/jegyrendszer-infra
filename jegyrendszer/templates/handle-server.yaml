@@ -32,7 +32,7 @@ spec:
         persistentVolumeClaim:
           claimName: backend-uploads-pvc
       - name: handle-ticket-volume
-        persitentVolumeClaim:
+        persistentVolumeClaim:
           claimName: backend-tickets-pvc
       - name: handle-server-config
         configMap:
