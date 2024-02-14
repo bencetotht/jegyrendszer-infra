@@ -31,6 +31,9 @@ spec:
       - name: handle-server-volume
         persistentVolumeClaim:
           claimName: backend-uploads-pvc
+      - name: ticket-volume
+        persitentVolumeClaim:
+          claimName: tickets-pvc
       - name: handle-server-config
         configMap:
           name: backend-configmap
@@ -70,6 +73,8 @@ spec:
           mountPath: /uploads
         - name: handle-server-config
           mountPath: /etc/config
+        - name: ticket-volume
+          mountPath: /tickets
         livenessProbe:
           httpGet:
             path: /health
@@ -99,6 +104,18 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: backend-uploads-pvc
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: {{.Values.handle.storageClass}}
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tickets-pvc
 spec:
   accessModes:
   - ReadWriteMany
