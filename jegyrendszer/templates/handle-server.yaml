@@ -33,7 +33,7 @@ spec:
           claimName: backend-uploads-pvc
       - name: handle-ticket-volume
         persitentVolumeClaim:
-          claimName: tickets-pvc
+          claimName: backend-tickets-pvc
       - name: handle-server-config
         configMap:
           name: backend-configmap
@@ -115,7 +115,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: tickets-pvc
+  name: backend-tickets-pvc
 spec:
   accessModes:
   - ReadWriteMany
