@@ -64,6 +64,8 @@ spec:
           value: "false"
         - name: REDIS_PASS
           value: "root"
+        - name: PRODUCTION_CONFIGDIR
+          value: "/etc/config"
           # valueFrom:
           #   secretKeyRef:
           #     name: handle-server-secretmap
