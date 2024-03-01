@@ -1,0 +1,10 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: ipwhitelist-middleware
+  namespace: kube-system
+spec:
+  ipWhiteList:
+    sourceRange:
+      - 127.0.0.1/32
+      - 10.10.10.1/24
