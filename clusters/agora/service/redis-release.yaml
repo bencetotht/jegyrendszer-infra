@@ -19,3 +19,5 @@ spec:
     auth:
       enabled: true
       password: "root"
+    metrics:
+      enabled: true
