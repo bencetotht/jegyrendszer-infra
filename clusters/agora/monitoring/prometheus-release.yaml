@@ -319,14 +319,6 @@ spec:
             annotations:
               summary: MongoDB too many connections (instance {{ $labels.instance }})
               description: "Too many connections (> 80%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-          - alert: MongodbVirtualMemoryUsage
-            expr: (sum(mongodb_ss_mem_virtual) BY (instance) / sum(mongodb_ss_mem_resident) BY (instance)) > 3
-            for: 2m
-            labels:
-              severity: warning
-            annotations:
-              summary: MongoDB virtual memory usage (instance {{ $labels.instance }})
-              description: "High memory usage\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
         - name: redis_alerts
           rules:
           - alert: RedisDown
@@ -377,14 +369,6 @@ spec:
             annotations:
               summary: Redis cluster flapping (instance {{ $labels.instance }})
               description: "Changes have been detected in Redis replica connection. This can occur when replica nodes lose connection to the master and reconnect (a.k.a flapping).\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-          - alert: RedisOutOfConfiguredMaxmemory
-            expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 90
-            for: 2m
-            labels:
-              severity: warning
-            annotations:
-              summary: Redis out of configured maxmemory (instance {{ $labels.instance }})
-              description: "Redis is running out of configured maxmemory (> 90%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
           - alert: RedisTooManyConnections
             expr: redis_connected_clients / redis_config_maxclients * 100 > 90
             for: 2m
