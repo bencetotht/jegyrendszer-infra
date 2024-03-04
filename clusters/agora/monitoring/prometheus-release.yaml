@@ -45,7 +45,7 @@ spec:
               title: Node {{ $labels.instance }} is down
               description: Failed to scrape {{ $labels.job }} on {{ $labels.instance }} for more than 2 minutes. Node seems down.
           - alert: HighCPUUsage
-            expr: ((sum by(instance) (irate(node_cpu_seconds_total{job="kubernetes-service-endpoints", mode!="idle"}[2m])) / on (instance) group_left sum by (instance) (irate(node_cpu_seconds_total{job="kubernetes-service-endpoints"}[$__rate_interval]))) * 100) > 80
+            expr: ((sum by(instance) (irate(node_cpu_seconds_total{job="kubernetes-service-endpoints", mode!="idle"}[2m])) / on (instance) group_left sum by (instance) (irate(node_cpu_seconds_total{job="kubernetes-service-endpoints"}[2m]))) * 100) > 80
             for: 2m
             labels:
               severity: warning
