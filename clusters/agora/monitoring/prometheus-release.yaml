@@ -270,7 +270,7 @@ spec:
             labels:
               severity: critical
           - alert: TraefikHighHttp4xxErrorRateService
-            expr: sum(rate(traefik_service_requests_total{code=~"4.*"}[3m])) by (service) / sum(rate(traefik_service_requests_total[3m])) by (service) * 100 > 5
+            expr: sum(rate(traefik_service_requests_total{code=~"4.*"}[3m])) by (service) / sum(rate(traefik_service_requests_total[3m])) by (service) * 100 > 50
             for: 1m
             labels:
               severity: critical
