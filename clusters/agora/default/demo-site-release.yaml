@@ -27,6 +27,8 @@ spec:
       type: CluserIP
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteMany
     metrics:
       enabled: true
     mariadb:
