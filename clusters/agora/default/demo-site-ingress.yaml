@@ -16,4 +16,4 @@ spec:
               service:
                 name: demosite-wordpress
                 port:
-                  number: 443
+                  number: 80
