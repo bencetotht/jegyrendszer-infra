@@ -24,7 +24,7 @@ spec:
     updateStrategy:
       type: RollingUpdate
     service:
-      type: CluserIP
+      type: ClusterIP
     persistence:
       enabled: true
       accessModes:
