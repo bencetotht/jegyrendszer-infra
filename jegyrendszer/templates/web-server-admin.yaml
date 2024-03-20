@@ -6,7 +6,7 @@ metadata:
     app: web-admin
     pod-security.kubernetes.io/audit: baseline
 spec:
-  replicas: {{.Values.replication.web}}
+  replicas: {{.Values.replication.admin}}
   selector:
     matchLabels:
       app: web-admin
