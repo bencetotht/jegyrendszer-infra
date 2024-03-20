@@ -19,6 +19,13 @@ spec:
                 name: web-server-svc
                 port:
                   number: 8080
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: web-admin-svc
+                port:
+                  number: 8080
           - path: /api/v1/
             pathType: Prefix
             backend:
