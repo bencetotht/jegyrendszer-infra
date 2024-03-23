@@ -4,6 +4,7 @@ metadata:
   name: longhorn-ingress
   labels:
     name: longhorn-ingress
+  namespace: longhorn-system
 spec:
   rules:
   - host: longhorn.local
