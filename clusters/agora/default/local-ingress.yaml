@@ -17,3 +17,24 @@ spec:
             name: longhorn-frontend
             port: 
               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus-ingress
+  labels:
+    name: prometheus-ingress
+  namespace: monitoring
+spec:
+  rules:
+  - host: prometheus.jegyrendszer.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: prometheus-release-server
+            port: 
+              number: 80
+---
