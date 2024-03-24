@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: uptime-ing
   namespace: default
+  labels:
+    name: uptime-ing
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
     # traefik.ingress.kubernetes.io/router.middlewares: kube-system-prefix-uptime@kubernetescrd
@@ -12,7 +14,7 @@ spec:
     http:
       paths:
       - pathType: Prefix
-        path: "/status/default"
+        path: "/"
         backend:
           service:
             name: uptime-kuma-service
