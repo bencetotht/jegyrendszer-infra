@@ -11,7 +11,7 @@ spec:
   - host: status.bnbdevelopment.cloud
     http:
       paths:
-      - pathType: Prefix
+      - pathType: Exact
         path: "/"
         backend:
           service:
