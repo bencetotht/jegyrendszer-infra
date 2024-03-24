@@ -5,14 +5,14 @@ metadata:
   namespace: default
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-prefix-uptime@kubernetescrd
+    # traefik.ingress.kubernetes.io/router.middlewares: kube-system-prefix-uptime@kubernetescrd
 spec:
   rules:
   - host: status.bnbdevelopment.cloud
     http:
       paths:
-      - pathType: Exact
-        path: "/"
+      - pathType: Prefix
+        path: "/status/default"
         backend:
           service:
             name: uptime-kuma-service
