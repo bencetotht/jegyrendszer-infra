@@ -5,8 +5,8 @@ metadata:
   namespace: default
   labels:
     name: uptime-ing
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+  # annotations:
+    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
     # traefik.ingress.kubernetes.io/router.middlewares: kube-system-prefix-uptime@kubernetescrd
 spec:
   rules:
