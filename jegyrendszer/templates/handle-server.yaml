@@ -57,11 +57,11 @@ spec:
         - name: NODE_ENV
           value: "production"
         - name: LOKI_URL
-          value: "http://loki-release.service.svc.cluster.local:3100"
+          value: "http://loki-release.monitoring.svc.cluster.local:3100"
         - name: TZ
           value: "Europe/Vienna"
         - name: LOKI_ENABLED
-          value: "false"
+          value: "true"
         - name: REDIS_PASS
           value: "root"
         - name: PRODUCTION_CONFIGDIR
