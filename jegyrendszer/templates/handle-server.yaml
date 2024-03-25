@@ -66,6 +66,8 @@ spec:
           value: "root"
         - name: PRODUCTION_CONFIGDIR
           value: "/etc/config"
+        - name: MERCHANT_KEY
+          value: ""
           # valueFrom:
           #   secretKeyRef:
           #     name: handle-server-secretmap
