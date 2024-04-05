@@ -48,88 +48,88 @@ spec:
       tag: 4.2.21-debian-10-r8
     metrics:
       enabled: true
-# ---
-# apiVersion: autoscaling/v2
-# kind: HorizontalPodAutoscaler
-# metadata:
-#   name: wellhello-api-autoscaler
-# spec:
-#   scaleTargetRef:
-#     apiVersion: apps/v1
-#     kind: Deployment
-#     name: wellhello-api-d
-#   minReplicas: 2
-#   maxReplicas: 5
-#   metrics:
-#   - type: Resource
-#     resource:
-#       name: memory
-#       target:
-#         type: AverageValue
-#         averageValue: 850Mi
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: wellhello-api-d
-#   labels:
-#     app: wellhello-api
-#     pod-security.kubernetes.io/audit: baseline
-# spec:
-#   replicas: 2
-#   selector:
-#     matchLabels:
-#       app: wellhello-api
-#   strategy:
-#     type: RollingUpdate
-#     rollingUpdate:
-#       maxUnavailable: 1
-#       maxSurge: 1
-#   template:
-#     metadata:
-#       labels:
-#         app: wellhello-api
-#     spec:
-#       serviceAccountName: wellhello-api-svc-a
-#       imagePullSecrets:
-#       - name: regcred
-#       containers:
-#       - name: wellhello-api
-#         image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/wellhello_api:1.20.1" # {"$imagepolicy": "flux-system:wellhello-api"}
-#         imagePullPolicy: Always
-#         resources:
-#           limits:
-#             cpu: 1000m
-#             memory: 2Gi
-#           requests:
-#             cpu: 500m
-#             memory: 1Gi
-#         ports:
-#         - containerPort: 3000
-#           name: backend-open
-#         env:
-#         - name: MONGO_URI
-#           value: ""
-#         - name: NODE_ENV
-#           value: "production"
-#         securityContext:
-#           # runAsNonRoot: true
-#           allowPrivilegeEscalation: false
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: wellhello-api-service
-# spec:
-#   selector:
-#     app: wellhello-api
-#   ports:
-#   - protocol: TCP
-#     port: 3001
-#     targetPort: backend-open
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: wellhello-api-svc-a
-#   namespace: default
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wellhello-api-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: wellhello-api-d
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: AverageValue
+        averageValue: 850Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wellhello-api-d
+  labels:
+    app: wellhello-api
+    pod-security.kubernetes.io/audit: baseline
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wellhello-api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: wellhello-api
+    spec:
+      serviceAccountName: wellhello-api-svc-a
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: wellhello-api
+        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/wellhello_api:1.20.1" # {"$imagepolicy": "flux-system:wellhello-api"}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: backend-open
+        env:
+        - name: MONGO_URI
+          value: "mongodb://root:root@wellhello-mongo-mongodb-headless.service.svc.cluster.local:27017"
+        - name: NODE_ENV
+          value: "production"
+        securityContext:
+          # runAsNonRoot: true
+          allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wellhello-api-service
+spec:
+  selector:
+    app: wellhello-api
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: backend-open
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: wellhello-api-svc-a
+  namespace: default
