@@ -1,7 +1,7 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: wellhello_api
+  name: wellhello-api
   namespace: flux-system
 spec:
   image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/wellhello_api
@@ -12,11 +12,11 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: wellhello_api
+  name: wellhello-api
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: wellhello_api
+    name: wellhello-api
   policy:
     semver:
       range: '>=1.0.0'
@@ -24,12 +24,12 @@ spec:
 # apiVersion: autoscaling/v2
 # kind: HorizontalPodAutoscaler
 # metadata:
-#   name: wellhello_api-autoscaler
+#   name: wellhello-api-autoscaler
 # spec:
 #   scaleTargetRef:
 #     apiVersion: apps/v1
 #     kind: Deployment
-#     name: wellhello_api-d
+#     name: wellhello-api-d
 #   minReplicas: 2
 #   maxReplicas: 5
 #   metrics:
@@ -43,15 +43,15 @@ spec:
 # apiVersion: apps/v1
 # kind: Deployment
 # metadata:
-#   name: wellhello_api-d
+#   name: wellhello-api-d
 #   labels:
-#     app: wellhello_api
+#     app: wellhello-api
 #     pod-security.kubernetes.io/audit: baseline
 # spec:
 #   replicas: 2
 #   selector:
 #     matchLabels:
-#       app: wellhello_api
+#       app: wellhello-api
 #   strategy:
 #     type: RollingUpdate
 #     rollingUpdate:
@@ -60,13 +60,13 @@ spec:
 #   template:
 #     metadata:
 #       labels:
-#         app: wellhello_api
+#         app: wellhello-api
 #     spec:
-#       serviceAccountName: wellhello_api-svc-a
+#       serviceAccountName: wellhello-api-svc-a
 #       imagePullSecrets:
 #       - name: regcred
 #       containers:
-#       - name: wellhello_api
+#       - name: wellhello-api
 #         image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/wellhello_api:1.20.1"
 #         imagePullPolicy: Always
 #         resources:
@@ -91,10 +91,10 @@ spec:
 # apiVersion: v1
 # kind: Service
 # metadata:
-#   name: wellhello_api-service
+#   name: wellhello-api-service
 # spec:
 #   selector:
-#     app: wellhello_api
+#     app: wellhello-api
 #   ports:
 #   - protocol: TCP
 #     port: 3001
@@ -103,5 +103,5 @@ spec:
 # apiVersion: v1
 # kind: ServiceAccount
 # metadata:
-#   name: wellhello_api-svc-a
+#   name: wellhello-api-svc-a
 #   namespace: default
