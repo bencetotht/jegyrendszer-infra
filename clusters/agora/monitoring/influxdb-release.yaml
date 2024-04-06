@@ -1,0 +1,26 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: influxdb
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: influxdb
+      version: '6.0.5'
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-repo
+        namespace: flux-system
+      interval: 1m
+  values:
+    auth:
+      admin:
+        username: admin
+        password: admin
+    influxdb:
+      service:
+        type: LoadBalancer
+    metrics:
+      enabled: false
