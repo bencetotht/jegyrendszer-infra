@@ -97,7 +97,7 @@ spec:
       - name: regcred
       containers:
       - name: wellhello-api
-        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/wellhello_api:1.20.1" # {"$imagepolicy": "flux-system:wellhello-api"}
+        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/wellhello_api:1.20.2" # {"$imagepolicy": "flux-system:wellhello-api"}
         imagePullPolicy: Always
         resources:
           limits:
