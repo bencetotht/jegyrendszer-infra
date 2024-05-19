@@ -1,0 +1,35 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: web-public
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: web-public
+  policy:
+    semver:
+      range: '>=1.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: web-admin
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: web-admin
+  policy:
+    semver:
+      range: '>=1.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: handle
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: handle
+  policy:
+    semver:
+      range: '>=1.0.0'
