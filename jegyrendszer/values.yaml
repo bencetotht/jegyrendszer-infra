@@ -7,3 +7,5 @@ versions:
   handle_tag: 1.14
   web_tag: 1.9
   web_admin_tag: 1.1
+namespace: jegyrendszer
+pvcsize: 2Gi
