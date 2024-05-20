@@ -16,11 +16,27 @@ spec:
       interval: 1m
   values:
     architecture: replicaset
-    replicaCount: 3
+    replicaCount: 2
     auth:
       enabled: true
       rootUser: root
       rootPassword: "root"
+      usernames:
+        - admin
+      passwords:
+        - admin
+      # databases:
+      #   - users
+      #   - connected-users
+      #   - event
+      #   - deleted
+      #   - buying
+      #   - coupons
+      #   - ads
+      #   - analytics
+      #   - app
+      #   - beta
+      #   - payments
     image:
       tag: 4.2.21-debian-10-r8
     metrics:
