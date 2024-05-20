@@ -21,25 +21,22 @@ spec:
       enabled: true
       rootUser: root
       rootPassword: "root"
-      usernames:
-        - admin
-      passwords:
-        - admin
-      # databases:
-      #   - users
-      #   - connected-users
-      #   - event
-      #   - deleted
-      #   - buying
-      #   - coupons
-      #   - ads
-      #   - analytics
-      #   - app
-      #   - beta
-      #   - payments
     image:
       tag: 4.2.21-debian-10-r8
     metrics:
       enabled: true
     readinessProbe:
       timeoutSeconds: 5
+    initdbScripts:
+      my_init_script.js: |
+        db.createUser({
+          user: "admin",
+          pwd: "admin",
+          roles: [
+            { role: "readWrite", db: "admin" },
+            { role: "dbAdmin", db: "admin" },
+            { role: "userAdmin", db: "admin" },
+            { role: "clusterAdmin", db: "admin" },
+            { role: "root", db: "admin" }
+          ]
+        });
