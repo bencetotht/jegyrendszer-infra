@@ -6,7 +6,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
     # traefik.ingress.kubernetes.io/router.middlewares: kube-system-ipwhitelist-middleware@kubernetescrd
     # traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-middleware@kubernetescrd
-  namespace: default
+  namespace: jegyrendszer
 spec:
   rules:
     - host: jegy.bnbdevelopment.cloud
@@ -45,7 +45,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: uptime-ing
-  namespace: default
+  namespace: monitoring
   labels:
     name: uptime-ing
   # annotations:
