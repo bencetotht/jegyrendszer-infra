@@ -9,7 +9,7 @@ data:
     "PY_DIR": "../data/email",
     "NODE_SHARE": "pdfs",
     "EMAIL_SERVER": "http://192.168.1.216:5000",
-    "MONGO_URI": "mongodb://root:root@10.10.10.201:27017/?directConnection=true",
+    "MONGO_URI": "mongodb://root:root@mongo-release-mongodb-0.mongo-release-mongodb-headless.service.svc.cluster.local:27017/?directConnection=true",
     "REDIS_URI": "redis-release-master.service.svc.cluster.local",
     "SLACK_TOKEN": "xoxp-3311554582775-3326149485602-5558132480816-b99feeab07cc6134360f9e4800c9d18b",
     "TIMES" : "./times.json",
