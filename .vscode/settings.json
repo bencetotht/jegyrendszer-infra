@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "kubernetes://schema/apps/v1%40deployment": "file:///Users/bencetoth/Documents/Development/Projects/jegyrendszer-infra/clusters/agora-k3s/jegyrendszer/election-api.yaml"
+    }
+}

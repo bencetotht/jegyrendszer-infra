@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: election-sync
+  namespace: jegyrendszer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: election-sync
+  template:
+    metadata:
+      labels:
+        app: election-sync
+    spec:
+      serviceAccountName: election-svca
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: election-sync
+        image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/election-sync:1.0
+        resources:
+          limits:
+            memory: "2Gi"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: election-svca
+  namespace: jegyrendszer
+---
