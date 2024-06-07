@@ -18,7 +18,7 @@ spec:
       - name: regcred
       containers:
       - name: election-sync
-        image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/election-sync:1.0
+        image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/election-sync:1.0 # {"$imagepolicy": "flux-system:election-flux"}
         resources:
           limits:
             memory: "2Gi"
