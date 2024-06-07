@@ -32,7 +32,7 @@ metadata:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: election-repo
+  name: election-flux
   namespace: flux-system
 spec:
   image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/election-sync
@@ -43,11 +43,11 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: election-imgpol
+  name: election-flux
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: election-repo
+    name: election-flux
   policy:
     semver:
       range: '>=1.0.0'
