@@ -29,3 +29,25 @@ metadata:
   name: election-svca
   namespace: jegyrendszer
 ---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: election-repo
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/election-sync
+  interval: 5m
+  secretRef:
+    name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: election-imgpol
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: election-repo
+  policy:
+    semver:
+      range: '>=1.0.0'
