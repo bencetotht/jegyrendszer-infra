@@ -39,3 +39,8 @@ spec:
           - ReadWriteMany
         annotations:
           helm.sh/resource-policy: "keep"
+    prometheus:
+      prometheusSpec:
+        scrapeConfigSelector:
+          matchLabels:
+            release: prom

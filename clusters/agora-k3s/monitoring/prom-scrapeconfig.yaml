@@ -5,6 +5,7 @@ metadata:
   namespace: monitoring
   labels:
     prometheus: system-monitoring-prometheus
+    release: prom
 spec:
   staticConfigs:
     - labels:
