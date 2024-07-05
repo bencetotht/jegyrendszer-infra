@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: static-config
+  namespace: my-namespace
+  labels:
+    prometheus: system-monitoring-prometheus
+spec:
+  staticConfigs:
+    - labels:
+        job: cloudflare_tunnel
+      targets:
+        - 10.10.10.107:60123
+        - 10.10.10.221:60123
+        - 10.10.20.223:60123
