@@ -43,8 +43,6 @@ spec:
       enabled: true
       rootUser: root
       rootPassword: root
-    image:
-      tag: 4.2.21-debian-10-r8
     metrics:
       enabled: true
 ---
@@ -90,7 +88,7 @@ spec:
           name: backend-open
         env:
         - name: MONGO
-          value: "mongodb://root:root@erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017/material"
+          value: "mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/material"
         - name: NODE_ENV
           value: "production"
         securityContext:
