@@ -1,0 +1,117 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: erettsegi-backend
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend
+  interval: 5m
+  secretRef:
+    name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: erettsegi-backend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: erettsegi-backend
+  policy:
+    semver:
+      range: '>=1.0.0'
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: erettsegi-mongo
+  namespace: application
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: mongodb
+      version: '14.8.3'
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-repo
+        namespace: flux-system
+      interval: 1m
+  values:
+    architecture: standalone
+    auth:
+      enabled: true
+      rootUser: root
+      rootPassword: root
+    image:
+      tag: 4.2.21-debian-10-r8
+    metrics:
+      enabled: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erettsegi-backend
+  namespace: application
+  labels:
+    app: erettsegi-backend
+    pod-security.kubernetes.io/audit: baseline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: erettsegi-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: erettsegi-backend
+    spec:
+      serviceAccountName: erettsegi-backend-svc-a
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: erettsegi-backend
+        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend:1.20.2" # {"$imagepolicy": "flux-system:erettsegi-backend"}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: backend-open
+        env:
+        - name: MONGO
+          value: "mongodb://root:root@erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017/material"
+        - name: NODE_ENV
+          value: "production"
+        securityContext:
+          allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: erettsegi-backend-service
+  namespace: application
+spec:
+  type: LoadBalancer
+  selector:
+    app: erettsegi-backend
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: backend-open
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: erettsegi-backend-svc-a
+  namespace: application
