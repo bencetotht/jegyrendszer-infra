@@ -34,3 +34,11 @@ spec:
   interval: 5m
   url: https://helm.goharbor.io
 ---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: rocketchat-repo
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://rocketchat.github.io/helm-charts
