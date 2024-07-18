@@ -74,7 +74,7 @@ spec:
       - name: regcred
       containers:
       - name: erettsegi-backend
-        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend:1.20.3" # {"$imagepolicy": "flux-system:erettsegi-backend"}
+        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend:1.20.4" # {"$imagepolicy": "flux-system:erettsegi-backend"}
         imagePullPolicy: Always
         resources:
           limits:
