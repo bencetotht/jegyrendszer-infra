@@ -1,37 +1,37 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: rocketchat
-  namespace: service
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: rocketchat
-      version: '6.16.1'
-      sourceRef:
-        kind: HelmRepository
-        name: rocketchat-repo
-        namespace: flux-system
-      interval: 1m
-  values:
-    mongodb:
-      auth:
-        passwords:
-          - rocketchat
-        rootPassword: rocketchatroot
-    host: chat.bnbdevelopment.cloud
-    replicaCount: 1
-    smtp:
-      enabled: false
-    persistence:
-      enabled: true
-      storageClass: longhorn
-    ingress:
-      enabled: true
-    prometheusScraping:
-      enabled: true
-    serviceMonitor:
-      enabled: true
-    microservices:
-      enabled: false
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: rocketchat
+#   namespace: service
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: rocketchat
+#       version: '6.16.1'
+#       sourceRef:
+#         kind: HelmRepository
+#         name: rocketchat-repo
+#         namespace: flux-system
+#       interval: 1m
+#   values:
+#     mongodb:
+#       auth:
+#         passwords:
+#           - rocketchat
+#         rootPassword: rocketchatroot
+#     host: chat.bnbdevelopment.cloud
+#     replicaCount: 1
+#     smtp:
+#       enabled: false
+#     persistence:
+#       enabled: true
+#       storageClass: longhorn
+#     ingress:
+#       enabled: true
+#     prometheusScraping:
+#       enabled: true
+#     serviceMonitor:
+#       enabled: true
+#     microservices:
+#       enabled: false
