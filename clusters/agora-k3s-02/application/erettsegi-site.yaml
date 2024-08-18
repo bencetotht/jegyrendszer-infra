@@ -203,6 +203,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: erettsegi-site-ingress
+  namespace: application
   labels:
     name: erettsegi-site-ingress
 spec:
