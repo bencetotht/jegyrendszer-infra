@@ -10,6 +10,17 @@ spec:
     name: regcred
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: erettsegi-frontend
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-frontend
+  interval: 5m
+  secretRef:
+    name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
   name: erettsegi-backend
@@ -17,6 +28,18 @@ metadata:
 spec:
   imageRepositoryRef:
     name: erettsegi-backend
+  policy:
+    semver:
+      range: '>=1.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: erettsegi-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: erettsegi-frontend
   policy:
     semver:
       range: '>=1.0.0'
@@ -94,22 +117,113 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erettsegi-frontend
+  namespace: application
+  labels:
+    app: erettsegi-frontend
+    pod-security.kubernetes.io/audit: baseline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: erettsegi-frontend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: erettsegi-frontend
+    spec:
+      serviceAccountName: erettsegi-frontend-svc-a
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: erettsegi-frontend
+        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-frontend:1.20.7" # {"$imagepolicy": "flux-system:erettsegi-frontend"}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: frontend-open
+        env:
+        - name: NODE_ENV
+          value: "production"
+        securityContext:
+          allowPrivilegeEscalation: false
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: erettsegi-backend-service
   namespace: application
 spec:
-  type: LoadBalancer
   selector:
     app: erettsegi-backend
   ports:
-  - protocol: TCP
-    port: 3001
+  - port: 3001
     targetPort: backend-open
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: erettsegi-frontend-service
+  namespace: application
+spec:
+  selector:
+    app: erettsegi-frontend
+  ports:
+  - port: 3000
+    targetPort: frontend-open
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: erettsegi-backend-svc-a
   namespace: application
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: erettsegi-frontend-svc-a
+  namespace: application
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: erettsegi-site-ingress
+  labels:
+    name: erettsegi-site-ingress
+spec:
+  rules:
+  - host: irodalomerettsegi.hu
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: erettsegi-frontend-service
+            port: 
+              number: 3000
+  - host: api.irodalomerettsegi.hu
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: erettsegi-backend-service
+            port: 
+              number: 3001

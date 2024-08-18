@@ -34,6 +34,15 @@ spec:
   interval: 5m
   url: https://prometheus-community.github.io/helm-charts
 ---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: wandb-repo
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://charts.wandb.ai
+---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
