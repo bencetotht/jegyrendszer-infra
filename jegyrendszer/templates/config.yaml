@@ -31,7 +31,21 @@ data:
     "ACCEPTED_IMAGE_EXTENSIONS" : ["PNG", "JPG", "JFIF", "JPEG", "MOV", "MP4"],
     "MAX_PAGINATOR_LIMIT" : 30,
     "TICKET_NODE_SHARE" : "/pdfs",
-    "IMAGES_NODE_SHARE" : "/uploads"
+    "IMAGES_NODE_SHARE" : "/uploads",
+    "CSV_HEADER" : [
+      {
+        "id" : "event",
+        "title" : "Esemény neve" 
+      },
+      {
+          "id" : "fullPrice",
+          "title" : "Fizetett összes"
+      },
+      {
+          "id" : "time",
+          "title" : "Vásárlás időpontja"
+      }
+    ]
     }
   times.json: |
     {
