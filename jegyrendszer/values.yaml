@@ -3,8 +3,10 @@ handle:
 replication:
   web: 5
   handle: 1
+  mail: 1
 versions:
   handle_tag: 1.14
+  mail_tag: 1.20.1
   web_tag: 1.9
   web_admin_tag: 1.1
 namespace: jegyrendszer

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-handler-deployment
+  labels:
+    app: mail-handler
+    pod-security.kubernetes.io/audit: baseline
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "3001"
+spec:
+  replicas: {{.Values.replication.mail}}
+  selector:
+    matchLabels:
+      app: mail-handler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: mail-handler
+    spec:
+      serviceAccountName: handle-svc-a
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: mail-handler
+        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/mail-handler:{{.Values.versions.mail_tag}}"
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        env:
+        - name: CONFIGDIR
+          value: "/etc/config"
+        - name: NODE_ENV
+          value: "production"
+        - name: LOKI_URL
+          value: "http://loki-release.monitoring.svc.cluster.local:3100"
+        - name: TZ
+          value: "Europe/Vienna"
+        - name: LOKI_ENABLED
+          value: "true"
+        - name: REDIS_PASS
+          value: "root"
+        - name: PRODUCTION_CONFIGDIR
+          value: "/etc/config"
+        - name: MERCHANT_KEY
+          value: ""
+        securityContext:
+          # runAsNonRoot: true
+          allowPrivilegeEscalation: false
+---
