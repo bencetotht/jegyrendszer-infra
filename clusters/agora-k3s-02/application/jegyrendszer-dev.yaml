@@ -22,3 +22,19 @@ spec:
       rootPassword: root
     metrics:
       enabled: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dev-mongo-lb
+  namespace: application
+spec:
+  selector:
+    app.kubernetes.io/component: mongodb
+    app.kubernetes.io/instance: dev-mongo
+    app.kubernetes.io/name: mongodb
+  type: LoadBalancer
+  loadBalancerIP: 10.10.20.219
+  ports:
+  - port: 27017
+    targetPort: mongodb
