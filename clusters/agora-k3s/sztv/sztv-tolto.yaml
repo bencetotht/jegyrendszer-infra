@@ -1,65 +1,65 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sztv-tolto
-  namespace: application
-  labels:
-    app: sztv-tolto
-    pod-security.kubernetes.io/audit: baseline
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sztv-tolto
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
-  template:
-    metadata:
-      labels:
-        app: sztv-tolto
-    spec:
-      serviceAccountName: sztv-tolto-svc-a
-      imagePullSecrets:
-      - name: regcred
-      containers:
-      - name: sztv-tolto
-        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/sztv:1.20.1" # {"$imagepolicy": "flux-system:sztv"}
-        imagePullPolicy: Always
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 2Gi
-          requests:
-            cpu: 500m
-            memory: 1Gi
-        env:
-        - name: MONGO
-          value: "mongodb://root:root@sztv-mongo-mongodb.sztv.svc.cluster.local:27017/"
-        - name: NODE_ENV
-          value: "production"
-        - name: API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: tolto-secrets
-              key: API_KEY
-        - name: channel_id
-          valueFrom:
-            secretKeyRef:
-              name: tolto-secrets
-              key: channel_id
-        - name: webpass
-          valueFrom:
-            secretKeyRef:
-              name: tolto-secrets
-              key: webpass
-        securityContext:
-          allowPrivilegeEscalation: false
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: sztv-tolto-svc-a
-  namespace: sztv
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: sztv-tolto
+#   namespace: sztv
+#   labels:
+#     app: sztv-tolto
+#     pod-security.kubernetes.io/audit: baseline
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: sztv-tolto
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate:
+#       maxUnavailable: 1
+#       maxSurge: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: sztv-tolto
+#     spec:
+#       serviceAccountName: sztv-tolto-svc-a
+#       imagePullSecrets:
+#       - name: regcred
+#       containers:
+#       - name: sztv-tolto
+#         image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/sztv:1.20.1" # {"$imagepolicy": "flux-system:sztv"}
+#         imagePullPolicy: Always
+#         resources:
+#           limits:
+#             cpu: 1000m
+#             memory: 2Gi
+#           requests:
+#             cpu: 500m
+#             memory: 1Gi
+#         env:
+#         - name: MONGO
+#           value: "mongodb://root:root@sztv-mongo-mongodb.sztv.svc.cluster.local:27017/"
+#         - name: NODE_ENV
+#           value: "production"
+#         - name: API_KEY
+#           valueFrom:
+#             secretKeyRef:
+#               name: tolto-secrets
+#               key: API_KEY
+#         - name: channel_id
+#           valueFrom:
+#             secretKeyRef:
+#               name: tolto-secrets
+#               key: channel_id
+#         - name: webpass
+#           valueFrom:
+#             secretKeyRef:
+#               name: tolto-secrets
+#               key: webpass
+#         securityContext:
+#           allowPrivilegeEscalation: false
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: sztv-tolto-svc-a
+#   namespace: sztv
