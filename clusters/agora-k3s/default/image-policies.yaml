@@ -45,3 +45,15 @@ spec:
   policy:
     semver:
       range: '>=1.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: sztv
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: sztv
+  policy:
+    semver:
+      range: '>=1.0.0'

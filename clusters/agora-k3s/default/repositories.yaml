@@ -86,3 +86,14 @@ spec:
   interval: 5m
   secretRef:
     name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: sztv
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/sztv-tolto
+  interval: 5m
+  secretRef:
+    name: regcred
