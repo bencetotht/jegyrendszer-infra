@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: sztv-tolto-cron
+  namespace: sztv
 spec:
   schedule: "0 1 * * *"
   timeZone: Europe/Vienna
