@@ -38,6 +38,3 @@ spec:
     ingress:
       enabled: true
       hostname: s3.bnbdevelopment.cloud
-    extraEnvVars:
-    - name: MINIO_API_ROOT_ACCESS
-      value: off
