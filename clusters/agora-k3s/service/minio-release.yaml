@@ -17,8 +17,8 @@ spec:
   values:
     mode: standalone # or distributed
     auth:
-      rootUser: agoraadmin
-      rootPassword: e8bbbd769d1c5ae2cd5debbf3a504c3c77d679102c99a46cfc9c2e241ace42db62986aa8be96ef9cdeade55d2bb89522
+      rootUser: admin
+      rootPassword: admin
     defaultBuckets: "" # , separated
     tls:
       enabled: false
