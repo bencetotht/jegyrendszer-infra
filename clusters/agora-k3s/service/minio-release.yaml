@@ -29,3 +29,9 @@ spec:
       serviceMonitor:
         enabled: true  # for prom-operator
         namespace: monitoring # namespace of prometheus
+    livenessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
