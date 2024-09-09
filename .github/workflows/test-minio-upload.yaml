@@ -30,4 +30,4 @@ jobs:
         MINIO_BUCKET: jegyrendszer-app
         MINIO_ENDPOINT: https://apis3.bnbdevelopment.cloud
       run: |
-        aws --endpoint-url $MINIO_ENDPOINT s3 cp myfile s3://$MINIO_BUCKET/newfile
+        aws --endpoint-url https://apis3.bnbdevelopment.cloud s3 cp myfile s3://jegyrendszer-app/newfile2
