@@ -23,6 +23,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install awscli
+    - name: See if funny is there
+      run: |-
+        cat myfile
     - name: Upload APK to Minio via AWS CLI
       env:
         AWS_ACCESS_KEY_ID: "2kAU2JKGITdFaJDsm2xy"
