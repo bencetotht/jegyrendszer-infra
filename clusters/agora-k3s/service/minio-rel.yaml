@@ -18,7 +18,7 @@ spec:
     mode: standalone
     auth:
       rootUser: agoraadmin
-      rootPassword: adminpassword
+      rootPassword: vtb-GDH!zqu3fmw2hjz
     defaultBuckets: ""
     tls:
       enabled: false
