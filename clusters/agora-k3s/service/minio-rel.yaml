@@ -41,7 +41,5 @@ spec:
     extraEnvVars:
     - name: MINIO_LOG_LEVEL
       value: DEBUG
-    - name: MINIO_API_ROOT_ACCESS
-      value: off
     image:
       debug: true
