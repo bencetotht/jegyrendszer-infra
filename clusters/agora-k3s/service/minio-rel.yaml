@@ -19,7 +19,7 @@ spec:
     auth:
       rootUser: agoraadmin
       rootPassword: adminpassword
-    defaultBuckets: "minio"
+    defaultBuckets: ""
     tls:
       enabled: false
     persistence:
