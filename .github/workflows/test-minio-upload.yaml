@@ -28,6 +28,6 @@ jobs:
         AWS_ACCESS_KEY_ID: "2kAU2JKGITdFaJDsm2xy"
         AWS_SECRET_ACCESS_KEY: "cDxnEueNBve5HdawDYgsj7QHu6G2EvVRi9ILEPkf"
         MINIO_BUCKET: jegyrendszer-app
-        MINIO_ENDPOINT: https://s3.bnbdevelopment.cloud
+        MINIO_ENDPOINT: https://api.s3.bnbdevelopment.cloud
       run: |
         aws --endpoint-url $MINIO_ENDPOINT s3 cp myfile s3://$MINIO_BUCKET/myfile
