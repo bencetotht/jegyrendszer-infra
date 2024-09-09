@@ -38,6 +38,9 @@ spec:
     ingress:
       enabled: true
       hostname: s3.bnbdevelopment.cloud
+    apiIngress:
+      enabled: true
+      hostname: s3api.bnbdevelopment.cloud
     extraEnvVars:
     - name: MINIO_LOG_LEVEL
       value: DEBUG
