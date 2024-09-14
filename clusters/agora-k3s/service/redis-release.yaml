@@ -21,6 +21,12 @@ spec:
       password: "root"
     metrics:
       enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+      prometheusRule:
+        enabled: false
+        namespace: monitoring
     replica:
       enabled: true
       minReplicas: 1
