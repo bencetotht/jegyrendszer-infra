@@ -44,3 +44,5 @@ spec:
         scrapeConfigSelector:
           matchLabels:
             release: prom
+        podMonitorSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
