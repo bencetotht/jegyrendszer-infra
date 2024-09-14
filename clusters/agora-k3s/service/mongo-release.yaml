@@ -25,6 +25,14 @@ spec:
       tag: 4.2.21-debian-10-r8
     metrics:
       enabled: true
+      collector:
+        all: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+      prometheusRule:
+        enabled: false
+        namespace: monitoring
     readinessProbe:
       timeoutSeconds: 5
     arbiter:
