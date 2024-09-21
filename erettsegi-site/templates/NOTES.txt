@@ -1,0 +1,6 @@
+Project erettsegi-site is being deployed on your cluster.
+Main namespace: {{.Values.namespace}}
+Prometheus logging enabled: {{.Values.prometheus.enabled}}
+{{- if .Values.ingress.enabled }}
+Hostname: {{.Values.ingress.host}}
+{{- end }}

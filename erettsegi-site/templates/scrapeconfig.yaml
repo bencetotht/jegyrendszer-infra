@@ -1,0 +1,15 @@
+{{- if prometheus.enabled -}}
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: erettsegi-site-scrape
+  namespace: {{.Values.prometheus.namespace}}
+  labels:
+    prometheus: system-monitoring-prometheus
+    app.kubernetes.io/name: erettsegi-site
+spec:
+  httpSDConfigs:
+    - url: "http://erettsegi-backend-service.{{.Values.namespace}}.svc.cluster.local:3001/api/v1/metrics"
+      refreshInterval: 15s
+{{- end -}}

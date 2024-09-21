@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erettsegi-backend
+  namespace: {{.Values.namespace}}
+  labels:
+    app: erettsegi-backend
+    pod-security.kubernetes.io/audit: baseline
+spec:
+  replicas: {{.Values.backend.replicas}}
+  selector:
+    matchLabels:
+      app: erettsegi-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: erettsegi-backend
+    spec:
+      serviceAccountName: erettsegi-backend-svc-a
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: erettsegi-backend
+        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend:{{.Values.backend.tag}}" 
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: backend-open
+        env:
+        - name: MONGO
+          value: {{.Values.uri.mongo}}
+        - name: NODE_ENV
+          value: "production"
+        securityContext:
+          allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: erettsegi-backend-service
+  namespace: application
+spec:
+  selector:
+    app: erettsegi-backend
+  ports:
+  - port: 3001
+    targetPort: backend-open
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: erettsegi-backend-svc-a
+  namespace: application
