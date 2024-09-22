@@ -42,13 +42,13 @@ spec:
         env:
         - name: MONGO
           value: {{ .Values.uri.mongo }}
-{{- if .Values.development }}
+{{ if .Values.development }}
         - name: NODE_ENV
           value: "development"
-{{- else }}
+{{ else }}
         - name: NODE_ENV
           value: "production"
-{{- end }}
+{{ end }}
         securityContext:
           allowPrivilegeEscalation: false
 ---
