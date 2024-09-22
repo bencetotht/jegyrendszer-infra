@@ -51,7 +51,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: erettsegi-backend-service
-  namespace: application
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     app: erettsegi-backend
@@ -63,4 +63,4 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: erettsegi-backend-svc-a
-  namespace: application
+  namespace: {{ .Values.namespace }}
