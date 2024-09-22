@@ -1,0 +1,57 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: erettsegi-backend
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend
+  interval: 5m
+  secretRef:
+    name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: erettsegi-frontend
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-frontend
+  interval: 5m
+  secretRef:
+    name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: erettsegi-backend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: erettsegi-backend
+  policy:
+    semver:
+      range: '>=1.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: erettsegi-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: erettsegi-frontend
+  policy:
+    semver:
+      range: '>=1.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: erettsegi-backend-d
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: erettsegi-backend
+  policy:
+    semver:
+      range: '>=d1.0.0'

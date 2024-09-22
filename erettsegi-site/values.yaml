@@ -4,8 +4,8 @@ ingress:
   host: irodalomerettsegi.hu
 frontend:
   replicas: 1
-  image: 
-  tag:
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-frontend
+  tag: 1.20.24
 backend:
   replicas: 1
   image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend
