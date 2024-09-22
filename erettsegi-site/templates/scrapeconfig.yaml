@@ -1,4 +1,4 @@
-{{- if prometheus.enabled -}}
+{{- if .Values.prometheus.enabled -}}
 ---
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
