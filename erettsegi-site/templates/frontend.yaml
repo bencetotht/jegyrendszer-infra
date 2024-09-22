@@ -3,12 +3,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: erettsegi-frontend
-  namespace: {{.Values.namespace}}
+  namespace: {{ .Values.namespace }}
   labels:
     app: erettsegi-frontend
     pod-security.kubernetes.io/audit: baseline
 spec:
-  replicas: {{.Values.frontend.replicas}}
+  replicas: {{ .Values.frontend.replicas }}
   selector:
     matchLabels:
       app: erettsegi-frontend
@@ -56,7 +56,7 @@ spec:
   ports:
   - port: 3000
     targetPort: frontend-open
---
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
