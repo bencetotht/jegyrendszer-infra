@@ -3,11 +3,11 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: erettsegi-site-scrape
+  name: http-sd
   namespace: {{.Values.prometheus.namespace}}
   labels:
     prometheus: system-monitoring-prometheus
-    app.kubernetes.io/name: erettsegi-site
+    app.kubernetes.io/name: erettsegi
 spec:
   httpSDConfigs:
     - url: "http://erettsegi-backend-service.{{.Values.namespace}}.svc.cluster.local:3001/api/v1/metrics"
