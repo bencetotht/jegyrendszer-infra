@@ -1,4 +1,5 @@
 namespace: erettsegi
+development: false
 ingress:
   enabled: true
   host: irodalomerettsegi.hu
@@ -6,12 +7,14 @@ frontend:
   replicas: 1
   image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-frontend
   tag: 1.20.24
+  hpa: false
 backend:
   replicas: 1
   image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend
   tag: 1.20.21
+  hpa: false
 uri:
-  mongo: mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/
+  mongo: mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/material
 prometheus:
   enabled: true
   namespace: monitoring
