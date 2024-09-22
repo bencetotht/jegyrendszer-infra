@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: erettsegi-prod
-  namespace: jegyrendszer
+  namespace: erettsegisite
 spec:
   chart:
     spec:
