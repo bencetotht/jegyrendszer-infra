@@ -32,3 +32,6 @@ spec:
       web_tag: 1.20.18 # {"$imagepolicy": "flux-system:web-public:tag"}
       web_admin: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/web-admin # {"$imagepolicy": "flux-system:web-admin:name"}
       web_admin_tag: 1.20.26 # {"$imagepolicy": "flux-system:web-admin:tag"}
+    ingress:
+      enabled: false
+      hostname: jegy.bnbdevelopment.cloud
