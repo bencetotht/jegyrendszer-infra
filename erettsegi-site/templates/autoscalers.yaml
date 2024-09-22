@@ -1,4 +1,4 @@
-{{- if .Values.backend.hpa -}}
+{{ if .Values.backend.hpa }}
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -18,8 +18,8 @@ spec:
       target:
         type: AverageValue
         averageValue: 850Mi
-{{- end -}}
-{{- if .Values.frontend.hpa -}}
+{{ end }}
+{{ if .Values.frontend.hpa }}
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -39,4 +39,4 @@ spec:
       target:
         type: AverageValue
         averageValue: 850Mi
-{{- end -}}
+{{ end }}
