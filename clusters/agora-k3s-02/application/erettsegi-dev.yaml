@@ -73,7 +73,7 @@ spec:
     backend:
       replicas: 1
       image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend # {"$imagepolicy": "flux-system:erettsegi-backend:name"}
-      tag: 1.20.25 # {"$imagepolicy": "flux-system:erettsegi-backend:tag"}
+      tag: 1.20.26 # {"$imagepolicy": "flux-system:erettsegi-backend:tag"}
       hpa: false
     uri:
       mongo: mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/material
