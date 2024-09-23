@@ -41,5 +41,8 @@ spec:
           helm.sh/resource-policy: "keep"
     prometheus:
       prometheusSpec:
+        scrapeConfigSelector:
+          matchLabels:
+            release: prom
         podMonitorSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
