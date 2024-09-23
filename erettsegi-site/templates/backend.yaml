@@ -6,12 +6,16 @@ metadata:
   namespace: {{.Values.namespace}}
   labels:
     app: erettsegi-backend
+    app.kubernetes.io/instance: erettsegib-release
+    app.kubernetes.io/name: erettsegib
     pod-security.kubernetes.io/audit: baseline
 spec:
   replicas: {{.Values.backend.replicas}}
   selector:
     matchLabels:
       app: erettsegi-backend
+      app.kubernetes.io/instance: erettsegib-release
+      app.kubernetes.io/name: erettsegib
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,6 +25,8 @@ spec:
     metadata:
       labels:
         app: erettsegi-backend
+        app.kubernetes.io/instance: erettsegib-release
+        app.kubernetes.io/name: erettsegib
     spec:
       serviceAccountName: erettsegi-backend-svc-a
       imagePullSecrets:

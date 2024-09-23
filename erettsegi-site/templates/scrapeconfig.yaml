@@ -13,6 +13,8 @@ spec:
   selector:
     matchLabels:
       app: erettsegi-backend
+      app.kubernetes.io/instance: erettsegib-release
+      app.kubernetes.io/name: erettsegib
   namespaceSelector:
     matchNames:                                                                                                                                         
     - {{ .Values.namespace }}
