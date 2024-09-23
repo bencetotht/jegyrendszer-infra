@@ -16,21 +16,6 @@ spec:
   endpoints:
     - port: backend-open
       path: /api/v1/metrics
-      interval: 15s
+      scheme: http
+      interval: 30s
 {{- end -}}
-# {{- if .Values.prometheus.enabled -}}
-# ---
-# apiVersion: monitoring.coreos.com/v1alpha1
-# kind: ScrapeConfig
-# metadata:
-#   name: http-sd
-#   namespace: {{.Values.prometheus.namespace}}
-#   labels:
-#     prometheus: system-monitoring-prometheus
-#     release: prom
-#     app.kubernetes.io/name: erettsegi
-# spec:
-#   httpSDConfigs:
-#     - url: "http://erettsegi-backend-service.{{.Values.namespace}}.svc.cluster.local:3001/api/v1/metrics"
-#       refreshInterval: 15s
-# {{- end -}}
