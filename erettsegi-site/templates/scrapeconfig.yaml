@@ -4,7 +4,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: erettsegi-backend-servicemon
-  namespace: {{.Values.namespace}}
+  namespace: {{.Values.prometheus.namespace}}
   labels:
     release: prom
     app.kubernetes.io/name: erettsegi
