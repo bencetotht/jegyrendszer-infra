@@ -5,7 +5,7 @@ metadata:
   name: erettsegi-backend
   namespace: {{.Values.namespace}}
   labels:
-    app: erettsegi-backend
+    # app: erettsegi-backend
     app.kubernetes.io/instance: erettsegib-release
     app.kubernetes.io/name: erettsegib
     pod-security.kubernetes.io/audit: baseline
@@ -13,7 +13,7 @@ spec:
   replicas: {{.Values.backend.replicas}}
   selector:
     matchLabels:
-      app: erettsegi-backend
+      # app: erettsegi-backend
       app.kubernetes.io/instance: erettsegib-release
       app.kubernetes.io/name: erettsegib
   strategy:
@@ -24,7 +24,7 @@ spec:
   template:
     metadata:
       labels:
-        app: erettsegi-backend
+        # app: erettsegi-backend
         app.kubernetes.io/instance: erettsegib-release
         app.kubernetes.io/name: erettsegib
     spec:
@@ -63,11 +63,17 @@ kind: Service
 metadata:
   name: erettsegi-backend
   namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/instance: erettsegib-release
+    app.kubernetes.io/name: erettsegib
 spec:
   selector:
-    app: erettsegi-backend
+    app.kubernetes.io/instance: erettsegib-release
+    app.kubernetes.io/name: erettsegib
   ports:
-  - port: 3001
+  - name: backend-open
+    port: 3000
+    protocol: TCP
     targetPort: backend-open
 ---
 apiVersion: v1
