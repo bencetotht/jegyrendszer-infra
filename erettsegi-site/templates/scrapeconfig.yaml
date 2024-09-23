@@ -1,6 +1,6 @@
 {{- if .Values.prometheus.enabled -}}
 ---
-apiVersion: monitoring.coreos.com/v1alpha1
+apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: erettsegi-backend-servicemon
