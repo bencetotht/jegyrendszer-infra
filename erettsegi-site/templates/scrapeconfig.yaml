@@ -13,6 +13,9 @@ spec:
   selector:
     matchLabels:
       app: erettsegi-backend
+  namespaceSelector:                                                                                                                                    │
+    matchNames:                                                                                                                                         │
+    - {{ .Values.namespace }}
   endpoints:
     - port: backend-open
       path: /api/v1/metrics
