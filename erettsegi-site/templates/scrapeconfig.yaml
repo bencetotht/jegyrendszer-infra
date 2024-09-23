@@ -13,8 +13,8 @@ spec:
   selector:
     matchLabels:
       app: erettsegi-backend
-  namespaceSelector:                                                                                                                                    │
-    matchNames:                                                                                                                                         │
+  namespaceSelector:
+    matchNames:                                                                                                                                         
     - {{ .Values.namespace }}
   endpoints:
     - port: backend-open
