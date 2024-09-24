@@ -15,7 +15,7 @@ spec:
           - name: regcred
           containers:
           - name: sztv-tolto
-            image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/sztv-tolto:1.20.8" # {"$imagepolicy": "flux-system:sztv"}
+            image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/sztv-tolto:1.20.9" # {"$imagepolicy": "flux-system:sztv"}
             imagePullPolicy: Always
             resources:
               limits:
