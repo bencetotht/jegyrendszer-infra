@@ -25,6 +25,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: erettsegi-backend-service
+            name: erettsegi-backend
             port:
-              number: 3001
+              number: 3000
