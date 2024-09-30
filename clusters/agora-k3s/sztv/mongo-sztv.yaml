@@ -22,3 +22,9 @@ spec:
       enabled: true
       rootUser: root
       rootPassword: root
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
