@@ -15,7 +15,7 @@ spec:
   interval: 10m0s
   values:
     namespace: jegyrendszer
-    pvcsize: 2Gi
+    pvcsize: 10Gi
     handle:
       storageClass: longhorn
     replication:
