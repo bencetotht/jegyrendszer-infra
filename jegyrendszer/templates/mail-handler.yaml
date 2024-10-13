@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -59,7 +60,11 @@ spec:
           value: mongodb://root:root@mongo-release-mongodb-0.mongo-release-mongodb-headless.service.svc.cluster.local:27017,mongo-release-mongodb-1.mongo-release-mongodb-headless.service.svc.cluster.local:27017,mongo-release-mongodb-2.mongo-release-mongodb-headless.service.svc.cluster.local:27017/mail?replicaSet=rs0
         - name: REDIS
           value: redis-release-master.service.svc.cluster.local
+        envFrom:
+        - secretRef:
+            name: mail-secretmap
+        volumeMounts:
+        - name: handle-ticket-volume
+          mountPath: /pdfs
         securityContext:
-          # runAsNonRoot: true
           allowPrivilegeEscalation: false
----
