@@ -28,6 +28,10 @@ spec:
       serviceAccountName: handle-svc-a
       imagePullSecrets:
       - name: regcred
+      volumes:
+      - name: handle-ticket-volume
+        persistentVolumeClaim:
+          claimName: backend-tickets-pvc
       containers:
       - name: mail-handler
         image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/mail-handler:{{.Values.versions.mail_tag}}"
