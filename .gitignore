@@ -6,3 +6,4 @@
 *.tfvars
 
 .secrets/*
+.certs/*
