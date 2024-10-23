@@ -1,50 +1,50 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: prometheus-release
-  namespace: monitoring
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: kube-prometheus-stack
-      version: '58.5.3'
-      sourceRef:
-        kind: HelmRepository
-        name: prometheus-repo
-        namespace: flux-system
-      interval: 1m
-  values:
-    alertmanager:
-      enabled: true
-      config:
-        receivers:
-        - name: slack-receiver
-          slack_configs:
-          - api_url: "https://hooks.slack.com/services/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"
-            channel: "#grafana-alerts"
-            send_resolved: true
-            text: >-
-                {{ range .Alerts -}}
-                *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
-                *Description:* {{ .Annotations.description }}
-                *Details:*
-                  {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-                  {{ end }}
-                {{ end }}
-    grafana:
-      persistence:
-        enabled: true
-        storageClassName: "longhorn"
-        accessModes:
-          - ReadWriteMany
-        annotations:
-          helm.sh/resource-policy: "keep"
-    prometheus:
-      prometheusSpec:
-        scrapeConfigSelector:
-          matchLabels:
-            release: prom
-        podMonitorSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
-        serviceMonitorNamespaceSelector: {}
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: prometheus-release
+#   namespace: monitoring
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: kube-prometheus-stack
+#       version: '58.5.3'
+#       sourceRef:
+#         kind: HelmRepository
+#         name: prometheus-repo
+#         namespace: flux-system
+#       interval: 1m
+#   values:
+#     alertmanager:
+#       enabled: true
+#       config:
+#         receivers:
+#         - name: slack-receiver
+#           slack_configs:
+#           - api_url: "https://hooks.slack.com/services/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"
+#             channel: "#grafana-alerts"
+#             send_resolved: true
+#             text: >-
+#                 {{ range .Alerts -}}
+#                 *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+#                 *Description:* {{ .Annotations.description }}
+#                 *Details:*
+#                   {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+#                   {{ end }}
+#                 {{ end }}
+#     grafana:
+#       persistence:
+#         enabled: true
+#         storageClassName: "longhorn"
+#         accessModes:
+#           - ReadWriteMany
+#         annotations:
+#           helm.sh/resource-policy: "keep"
+#     prometheus:
+#       prometheusSpec:
+#         scrapeConfigSelector:
+#           matchLabels:
+#             release: prom
+#         podMonitorSelectorNilUsesHelmValues: false
+#         serviceMonitorSelectorNilUsesHelmValues: false
+#         serviceMonitorNamespaceSelector: {}
