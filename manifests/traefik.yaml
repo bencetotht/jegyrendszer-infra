@@ -14,17 +14,6 @@ deployment:
   additionalContainers: []
   initContainers: []
 
-# ports:
-  # web:
-  #   forwardedHeaders:
-  #     insecure: true
-  #   redirectTo:
-  #     port: websecure
-  #     priority: 10
-#   websecure:
-#     tls:
-#       enabled: true
-
 ingressRoute:
   dashboard:
     enabled: true
