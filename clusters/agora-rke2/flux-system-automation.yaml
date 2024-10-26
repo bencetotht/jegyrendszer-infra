@@ -20,5 +20,5 @@ spec:
     push:
       branch: main
   update:
-    path: ./clusters/agora-k3s
+    path: ./clusters/agora-rke2
     strategy: Setters
