@@ -48,7 +48,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: erettsegi-prod
-  namespace: erettsegisite
+  namespace: erettsegi
 spec:
   chart:
     spec:
@@ -60,7 +60,7 @@ spec:
         namespace: flux-system
   interval: 10m0s
   values:
-    namespace: erettsegisite
+    namespace: erettsegi
     development: false
     ingress:
       enabled: true
