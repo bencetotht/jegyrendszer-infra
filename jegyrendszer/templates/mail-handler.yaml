@@ -61,7 +61,7 @@ spec:
         - name: MERCHANT_KEY
           value: ""
         - name: MONGO
-          value: mongodb://root:root@mongo-release-mongodb-0.mongo-release-mongodb-headless.service.svc.cluster.local:27017,mongo-release-mongodb-1.mongo-release-mongodb-headless.service.svc.cluster.local:27017,mongo-release-mongodb-2.mongo-release-mongodb-headless.service.svc.cluster.local:27017/mail?replicaSet=rs0
+          value: mongodb://root:root@mongo-jegyrendszer-mongodb-0.mongo-jegyrendszer-mongodb-headless.jegyrendszer.svc.cluster.local:27017,mongo-jegyrendszer-mongodb-1.mongo-jegyrendszer-mongodb-headless.jegyrendszer.svc.cluster.local:27017/mail?replicaSet=rs0
         - name: REDIS
           value: redis-release-master.service.svc.cluster.local
         envFrom:
