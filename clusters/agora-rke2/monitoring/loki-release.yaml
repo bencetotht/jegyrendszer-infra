@@ -15,21 +15,23 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
+    global:
+      dnsService: "rke2-coredns-rke2-coredns"
     deploymentMode: SingleBinary
     loki:
       commonConfig:
         replication_factor: 1
       storage:
         type: 'filesystem'
-      schemaConfig:
-        configs:
-        - from: "2024-01-01"
-          store: tsdb
-          index:
-            prefix: loki_index_
-            period: 24h
-          object_store: filesystem
-          schema: v13
+      # schemaConfig:
+      #   configs:
+      #   - from: "2024-01-01"
+      #     store: tsdb
+      #     index:
+      #       prefix: loki_index_
+      #       period: 24h
+      #     object_store: filesystem
+      #     schema: v13
       auth_enabled: false
     singleBinary:
       replicas: 1
