@@ -12,24 +12,24 @@ spec:
     - labels:
         job: cloudflare_tunnel
       targets:
-        - 10.10.10.107:60123
-        - 10.10.10.221:60123
-        - 10.10.20.223:60123
----
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: ScrapeConfig
-metadata:
-  name: mc-scrapeconfig
-  namespace: monitoring
-  labels:
-    prometheus: system-monitoring-prometheus
-    release: prom
-spec:
-  staticConfigs:
-    - labels:
-        job: papermc
-      targets:
-        - 10.10.20.106:9940
+        - 192.168.88.41:60123
+        - 192.168.88.42:60123
+        - 192.168.88.43:60123
+# ---
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: ScrapeConfig
+# metadata:
+#   name: mc-scrapeconfig
+#   namespace: monitoring
+#   labels:
+#     prometheus: system-monitoring-prometheus
+#     release: prom
+# spec:
+#   staticConfigs:
+#     - labels:
+#         job: papermc
+#       targets:
+#         - 10.10.20.106:9940
 ---
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
@@ -44,7 +44,7 @@ spec:
     - labels:
         job: nut
       targets:
-        - 10.10.10.100:3493
+        - 192.168.88.253:3493
   metricsPath: /metrics
   honorTimestamps: true
   scrapeTimeout: 10s
@@ -55,4 +55,4 @@ spec:
     - sourceLabels: [__param_target]
       targetLabel: instance
     - targetLabel: __address__
-      replacement: 10.10.10.100:9995
+      replacement: 192.168.88.253:9995

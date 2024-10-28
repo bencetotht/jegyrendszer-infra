@@ -1,0 +1,13 @@
+---
+rke2_token: 
+
+vip: 192.168.88.50
+vip_interface: eth0
+lb_range: 192.168.88.100-192.168.88.120
+lb_pool_name: first-pool
+
+manifests_dir: /tmp/manifests/
+traefik_lb_ip: 192.168.88.105
+
+ansible_become: true
+ansible_become_method: sudo
