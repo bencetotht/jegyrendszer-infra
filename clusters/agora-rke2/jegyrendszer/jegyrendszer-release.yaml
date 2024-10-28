@@ -29,7 +29,7 @@ spec:
       mail_img: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/mail-handler # {"$imagepolicy": "flux-system:mail:name"}
       mail_tag: 1.20.12 # {"$imagepolicy": "flux-system:mail:tag"}
       web_img: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/web-public # {"$imagepolicy": "flux-system:web-public:name"}
-      web_tag: 1.20.19 # {"$imagepolicy": "flux-system:web-public:tag"}
+      web_tag: 1.20.20 # {"$imagepolicy": "flux-system:web-public:tag"}
       web_admin: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/web-admin # {"$imagepolicy": "flux-system:web-admin:name"}
       web_admin_tag: 1.20.29 # {"$imagepolicy": "flux-system:web-admin:tag"}
     ingress:
