@@ -16,11 +16,11 @@
 #       interval: 1m
 #   values:
 #     authentik:
-#         secret_key: juAg+C7lZV0Bz7y9GofBPt4pz4lZG7yRFJOxA/lEljxCSEMpva5YEP7gDYXNMoJJ7VXTTSn1SY6ZT/dk
+#         secret_key: ''
 #         error_reporting:
 #             enabled: true
 #         postgresql:
-#             password: 90b3b547560b3fd1cf98bb8a7aa2a064f45fa721
+#             password: ''
 #     server:
 #         ingress:
 #             ingressClassName: traefik
@@ -30,6 +30,6 @@
 #     postgresql:
 #         enabled: true
 #         auth:
-#             password: 90b3b547560b3fd1cf98bb8a7aa2a064f45fa721
+#             password: ''
 #     redis:
 #         enabled: true

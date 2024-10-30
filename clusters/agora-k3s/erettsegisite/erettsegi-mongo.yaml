@@ -20,7 +20,7 @@ spec:
     auth:
       enabled: true
       rootUser: root
-      rootPassword: "root"
+      rootPassword: ""
     image:
       tag: 4.2.21-debian-10-r8
     metrics:

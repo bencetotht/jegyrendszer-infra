@@ -76,7 +76,7 @@ spec:
       tag: 1.20.26 # {"$imagepolicy": "flux-system:erettsegi-backend:tag"}
       hpa: false
     uri:
-      mongo: mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/material
+      mongo: mongodb://erettsegi-mongo-mongodb.application.svc.cluster.local:27017/material
     prometheus:
       enabled: false
       namespace: monitoring

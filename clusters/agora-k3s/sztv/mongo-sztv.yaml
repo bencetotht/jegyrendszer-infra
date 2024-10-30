@@ -21,7 +21,7 @@ spec:
     auth:
       enabled: true
       rootUser: root
-      rootPassword: root
+      rootPassword: ""
     livenessProbe:
       enabled: false
     readinessProbe:

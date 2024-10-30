@@ -17,9 +17,7 @@
 #   values:
 #     mongodb:
 #       auth:
-#         passwords:
-#           - rocketchat
-#         rootPassword: rocketchatroot
+#         rootPassword: 
 #     host: chat.bnbdevelopment.cloud
 #     replicaCount: 1
 #     smtp:

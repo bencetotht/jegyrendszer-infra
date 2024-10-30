@@ -30,7 +30,7 @@ spec:
       tag: 2.20.3 # {"$imagepolicy": "flux-system:erettsegi-backend:tag"}
       hpa: true
     uri:
-      mongo: mongodb://root:root@erettsegi-mongo-mongodb-0.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017,erettsegi-mongo-mongodb-1.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017/material
+      mongo: mongodb://erettsegi-mongo-mongodb-0.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017,erettsegi-mongo-mongodb-1.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017/material
     prometheus:
       enabled: true
       namespace: monitoring

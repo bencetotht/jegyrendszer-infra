@@ -17,8 +17,8 @@
 #   values:
 #     auth:
 #       admin:
-#         username: admin
-#         password: admin
+#         username: ""
+#         password: ""
 #     influxdb:
 #       service:
 #         type: LoadBalancer

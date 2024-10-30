@@ -60,8 +60,6 @@ spec:
           value: "/etc/config"
         - name: MERCHANT_KEY
           value: ""
-        - name: MONGO
-          value: mongodb://root:root@mongo-jegyrendszer-mongodb-0.mongo-jegyrendszer-mongodb-headless.jegyrendszer.svc.cluster.local:27017,mongo-jegyrendszer-mongodb-1.mongo-jegyrendszer-mongodb-headless.jegyrendszer.svc.cluster.local:27017/mail?replicaSet=rs0
         - name: REDIS
           value: redis-release-master.service.svc.cluster.local
         envFrom:

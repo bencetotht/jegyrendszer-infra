@@ -21,8 +21,8 @@ spec:
         receivers:
         - name: slack-receiver
           slack_configs:
-          - api_url: "https://hooks.slack.com/services/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"
-            channel: "#grafana-alerts"
+          - api_url: ""
+            channel: "#"
             send_resolved: true
             text: >-
                 {{ range .Alerts -}}

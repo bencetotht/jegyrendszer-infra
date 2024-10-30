@@ -17,8 +17,9 @@ spec:
   values:
     mode: standalone
     auth:
-      rootUser: agoraadmin
-      rootPassword: vtb-GDH!zqu3fmw2hjz
+      existingSecret: minio-secret
+      rootUserSecretKey: root-user
+      rootPasswordSecretKey: root-password
     defaultBuckets: ""
     tls:
       enabled: false

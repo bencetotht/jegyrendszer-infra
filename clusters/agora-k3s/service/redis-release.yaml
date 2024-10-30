@@ -18,7 +18,7 @@ spec:
     architecture: standalone
     auth:
       enabled: true
-      password: "root"
+      password: ""
     metrics:
       enabled: true
       serviceMonitor:
