@@ -15,6 +15,7 @@ backend:
   hpa: true
 uri:
   mongo: mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/material
+  redis: ''
 prometheus:
   enabled: true
   namespace: monitoring

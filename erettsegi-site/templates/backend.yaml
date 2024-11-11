@@ -45,7 +45,12 @@ spec:
         ports:
         - containerPort: 3000
           name: backend-open
+        envFrom:
+        - secretRef:
+            name: erettsegi-site-sm
         env:
+        - name: REDIS
+          value: {{ .Values.uri.redis }}
         - name: MONGO
           value: {{ .Values.uri.mongo }}
 {{ if .Values.development }}

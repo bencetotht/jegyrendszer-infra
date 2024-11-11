@@ -77,6 +77,7 @@ spec:
       hpa: true
     uri:
       mongo: mongodb://root:root@erettsegi-mongo-mongodb-0.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017,erettsegi-mongo-mongodb-1.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017/material
+      redis: erettsegi-redis-master.erettsegi-redis-headless.erettsegi.svc.cluster.local
     prometheus:
       enabled: true
       namespace: monitoring
