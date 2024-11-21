@@ -65,6 +65,7 @@ spec:
     ingress:
       enabled: true
       host: irodalomerettsegi.hu
+      ingressclass: traefik-external
     frontend:
       replicas: 3
       image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-frontend # {"$imagepolicy": "flux-system:erettsegi-frontend:name"}
