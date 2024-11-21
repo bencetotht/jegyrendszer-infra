@@ -8,16 +8,16 @@ metadata:
     name: erettsegi-site-ingress
 spec:
   rules:
-  # - host: {{.Values.ingress.host}}
-  #   http:
-  #     paths:
-  #     - pathType: Prefix
-  #       path: "/"
-  #       backend:
-  #         service:
-  #           name: erettsegi-frontend-service
-  #           port:
-  #             number: 3000
+  - host: {{.Values.ingress.host}}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: erettsegi-frontend-service
+            port:
+              number: 3000
   - host: "api.{{.Values.ingress.host}}"
     http:
       paths:
