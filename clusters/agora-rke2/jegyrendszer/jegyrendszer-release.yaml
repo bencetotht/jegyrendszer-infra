@@ -35,3 +35,4 @@ spec:
     ingress:
       enabled: true
       hostname: jegy-agorasavaria.hu
+      ingressclass: traefik-external

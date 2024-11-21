@@ -12,5 +12,6 @@ versions:
 namespace: jegyrendszer
 pvcsize: 10Gi
 ingress:
-  enabled: false
+  enabled: true
   hostname: jegy.bnbdevelopment.cloud
+  ingressclass: traefik-external
