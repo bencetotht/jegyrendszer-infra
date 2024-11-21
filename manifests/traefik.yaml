@@ -17,6 +17,8 @@ deployment:
 ingressRoute:
   dashboard:
     enabled: true
+    entryPoints: [web, websecure]
+    matchRule: Host(`traefik.paks.local`)
 
 providers:
   kubernetesCRD:
