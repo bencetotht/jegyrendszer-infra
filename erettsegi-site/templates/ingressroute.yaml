@@ -10,14 +10,14 @@ spec:
     - websecure
   routes:
   - kind: Rule
-    match: "Host(`{{ .Values.ingress.host }}`)"
+    match: "Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/`)"
     services:
     - kind: Service
       name: erettsegi-frontend-service
       namespace: {{ .Values.namespace }}
       port: 3000
 #   - kind: Rule
-#     match: "Host(`api.{{ .Values.ingress.host }}`)"
+#     match: "Host(`api.{{ .Values.ingress.host }}`) && PathPrefix(`/`) "
 #     services:
 #     - kind: Service
 #       name: erettsegi-backend
