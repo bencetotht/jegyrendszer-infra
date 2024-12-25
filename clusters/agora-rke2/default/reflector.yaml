@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: certmanager
-  namespace: certmanager
+  name: reflector
+  namespace: default
 spec:
   interval: 5m
   chart:
