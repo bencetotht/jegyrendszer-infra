@@ -19,3 +19,24 @@ spec:
       reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system"
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
       reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: local-bnbdevelopment-cloud-prod
+  namespace: certmanager
+spec:
+  secretName: local-bnbdevelopment-cloud-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "*.local.bnbdevelopment.cloud"
+  dnsNames:
+  - "local.bnbdevelopment.cloud"
+  - "*.local.bnbdevelopment.cloud"
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system"
