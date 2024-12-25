@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: local-bnbdevelopment-cloud
+  namespace: certmanager
+spec:
+  secretName: local-bnbdevelopment-cloud-staging-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: "*.local.bnbdevelopment.cloud"
+  dnsNames:
+  - "local.bnbdevelopment.cloud"
+  - "*.local.bnbdevelopment.cloud"
