@@ -16,9 +16,9 @@ spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -37,6 +37,6 @@ spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
