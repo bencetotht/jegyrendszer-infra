@@ -8,6 +8,7 @@ metadata:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
+    - web
     - websecure
   routes:
   - kind: Rule
@@ -30,6 +31,7 @@ metadata:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
+    - web
     - websecure
   routes:
   - kind: Rule
