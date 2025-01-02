@@ -1,29 +1,18 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: OCIRepository
-metadata:
-  name: gha-runner-scale-set-controller
-  namespace: flux-system
-spec:
-  interval: 5m0s
-  url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: OCIRepository
-metadata:
-  name: gha-runner-scale-set
-  namespace: flux-system
-spec:
-  interval: 5m0s
-  url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
-  ref:
-    tag: latest
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: OCIRepository
-metadata:
-  name: actions-runner-controller-charts
-  namespace: flux-system
-spec:
-  interval: 5m0s
-  url: oci://ghcr.io/actions/actions-runner-controller-charts
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1beta2
+# kind: OCIRepository
+# metadata:
+#   name: gha-runner-scale-set-controller
+#   namespace: flux-system
+# spec:
+#   interval: 5m0s
+#   url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1beta2
+# kind: OCIRepository
+# metadata:
+#   name: gha-runner-scale-set
+#   namespace: flux-system
+# spec:
+#   interval: 5m0s
+#   url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
