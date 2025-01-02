@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: arc-quota
+  namespace: arc-runner
+spec:
+  hard:
+    requests.cpu: "2000m"
+    requests.memory: "10Gi"
+    limits.cpu: "2000m"
+    limits.memory: "10Gi"
