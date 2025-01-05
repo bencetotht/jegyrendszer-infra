@@ -115,37 +115,37 @@ spec:
             password => '${ELASTICSEARCH_PASSWORD}' 
           }
         }
-# ---
-# apiVersion: helm.toolkit.fluxcd.io/v2beta1
-# kind: HelmRelease
-# metadata:
-#   name: filebeat
-#   namespace: monitoring
-# spec:
-#   interval: 5m
-#   chart:
-#     spec:
-#       chart: filebeat
-#       version: '8.5.1'
-#       sourceRef:
-#         kind: HelmRepository
-#         name: elastic-repo
-#         namespace: flux-system
-#       interval: 1m
-#   values:
-#     daemonset:
-#       filebeatConfig:
-#         filebeat.yml: |
-#           filebeat.inputs:
-#           - type: container
-#             paths:
-#               - /var/log/containers/*.log
-#             processors:
-#             - add_kubernetes_metadata:
-#                 host: ${NODE_NAME}
-#                 matchers:
-#                 - logs_path:
-#                     logs_path: "/var/log/containers/"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: filebeat
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: filebeat
+      version: '8.5.1'
+      sourceRef:
+        kind: HelmRepository
+        name: elastic-repo
+        namespace: flux-system
+      interval: 1m
+  values:
+    daemonset:
+      filebeatConfig:
+        filebeat.yml: |
+          filebeat.inputs:
+          - type: container
+            paths:
+              - /var/log/containers/*.log
+            processors:
+            - add_kubernetes_metadata:
+                host: ${NODE_NAME}
+                matchers:
+                - logs_path:
+                    logs_path: "/var/log/containers/"
 
-#           output.logstash:
-#             hosts: ["logstash-logstash:5044"]
+          output.logstash:
+            hosts: ["logstash-logstash:5044"]
