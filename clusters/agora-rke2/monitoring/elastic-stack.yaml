@@ -42,6 +42,7 @@ spec:
       port: 5601
     ingress:
       enabled: true
+      className: traefik
       hosts:
         - host: kibana.paks.local
           paths:
