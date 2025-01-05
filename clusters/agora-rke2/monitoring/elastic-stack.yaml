@@ -67,6 +67,10 @@ spec:
   values:
     persistence:
       enabled: true
+    secretMounts:
+    - name: "elasticsearch-master-certs"
+      secretName: "elasticsearch-master-certs"
+      path: "/usr/share/logstash/config/elasticsearch-master-certs"
     service:
       annotations: {}
       type: ClusterIP
@@ -95,6 +99,7 @@ spec:
         output {
           elasticsearch {
             hosts => "https://elasticsearch-master:9200"
+            cacert => "/usr/share/logstash/config/elasticsearch-master-certs/ca.crt"
             manage_template => false
             index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
             document_type => "%{[@metadata][type]}"
