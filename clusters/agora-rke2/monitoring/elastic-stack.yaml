@@ -71,6 +71,17 @@ spec:
     - name: "elasticsearch-master-certs"
       secretName: "elasticsearch-master-certs"
       path: "/usr/share/logstash/config/elasticsearch-master-certs"
+    extraEnvs: 
+    - name: "ELASTICSEARCH_USERNAME"
+      valueFrom:
+        secretKeyRef:
+          name: elasticsearch-master-credentials
+          key: username
+    - name: "ELASTICSEARCH_PASSWORD"
+      valueFrom:
+        secretKeyRef:
+          name: elasticsearch-master-credentials
+          key: password
     service:
       annotations: {}
       type: ClusterIP
@@ -100,9 +111,8 @@ spec:
           elasticsearch {
             hosts => "https://elasticsearch-master:9200"
             cacert => "/usr/share/logstash/config/elasticsearch-master-certs/ca.crt"
-            manage_template => false
-            index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
-            document_type => "%{[@metadata][type]}"
+            user => '${ELASTICSEARCH_USERNAME}'
+            password => '${ELASTICSEARCH_PASSWORD}' 
           }
         }
 # ---
