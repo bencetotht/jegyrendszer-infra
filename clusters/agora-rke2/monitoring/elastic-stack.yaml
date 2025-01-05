@@ -47,59 +47,59 @@ spec:
         - host: kibana.paks.local
           paths:
             - path: /
-# ---
-# apiVersion: helm.toolkit.fluxcd.io/v2beta1
-# kind: HelmRelease
-# metadata:
-#   name: logstash
-#   namespace: monitoring
-# spec:
-#   interval: 5m
-#   chart:
-#     spec:
-#       chart: logstash
-#       version: '8.5.1'
-#       sourceRef:
-#         kind: HelmRepository
-#         name: elastic-repo
-#         namespace: flux-system
-#       interval: 1m
-#   values:
-#     persistence:
-#       enabled: true
-#     service:
-#       annotations: {}
-#       type: ClusterIP
-#       loadBalancerIP: ""
-#       ports:
-#         - name: beats
-#           port: 5044
-#           protocol: TCP
-#           targetPort: 5044
-#         - name: http
-#           port: 8080
-#           protocol: TCP
-#           targetPort: 8080
-#     logstashConfig:
-#       logstash.yml: |
-#         http.host: 0.0.0.0
-#         xpack.monitoring.enabled: false
-#     logstashPipeline:
-#       logstash.conf: |
-#         input {
-#           beats {
-#             port => 5044
-#           }
-#         }
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: logstash
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: logstash
+      version: '8.5.1'
+      sourceRef:
+        kind: HelmRepository
+        name: elastic-repo
+        namespace: flux-system
+      interval: 1m
+  values:
+    persistence:
+      enabled: true
+    service:
+      annotations: {}
+      type: ClusterIP
+      loadBalancerIP: ""
+      ports:
+        - name: beats
+          port: 5044
+          protocol: TCP
+          targetPort: 5044
+        - name: http
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+    logstashConfig:
+      logstash.yml: |
+        http.host: 0.0.0.0
+        xpack.monitoring.enabled: false
+    logstashPipeline:
+      logstash.conf: |
+        input {
+          beats {
+            port => 5044
+          }
+        }
 
-#         output {
-#           elasticsearch {
-#             hosts => "https://elasticsearch-master:9200"
-#             manage_template => false
-#             index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
-#             document_type => "%{[@metadata][type]}"
-#           }
-#         }
+        output {
+          elasticsearch {
+            hosts => "https://elasticsearch-master:9200"
+            manage_template => false
+            index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+            document_type => "%{[@metadata][type]}"
+          }
+        }
 # ---
 # apiVersion: helm.toolkit.fluxcd.io/v2beta1
 # kind: HelmRelease
