@@ -48,6 +48,29 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
+  name: kibana-ingressroute
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+  - kind: Rule
+    match: "Host(`kibana.local.bnbdevelopment.cloud`) && PathPrefix(`/`)"
+    services:
+    - name: kibana-kibana
+      port: 5601
+    middlewares:
+    - name: redirect-middleware
+      namespace: traefik-system
+  tls:
+    secretName: local-bnbdevelopment-cloud-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
   name: traefik-ingressroute
   namespace: traefik-system
   annotations:
