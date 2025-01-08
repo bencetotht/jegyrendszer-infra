@@ -15,8 +15,15 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "1000m"
+      limits:
+        memory: "4Gi"
+        cpu: "2000m"
     architecture: replicaset
-    replicaCount: 2
+    replicaCount: 3
     auth:
       enabled: true
       rootUser: root
