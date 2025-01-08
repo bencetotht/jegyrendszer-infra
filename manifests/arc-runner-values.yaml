@@ -1,0 +1,4 @@
+runnerScaleSetName: arc-runner
+githubConfigUrl: https://github.com/bencetotht/erettsegi-site
+githubConfigSecret: arc-pat
+maxRunners: 10
