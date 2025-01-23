@@ -74,7 +74,7 @@ spec:
     backend:
       replicas: 2
       image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend # {"$imagepolicy": "flux-system:erettsegi-backend:name"}
-      tag: 2.20.25 # {"$imagepolicy": "flux-system:erettsegi-backend:tag"}
+      tag: 2.20.26 # {"$imagepolicy": "flux-system:erettsegi-backend:tag"}
       hpa: true
       livenessProbe: true
       startupProbe: true
