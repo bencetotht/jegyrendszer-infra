@@ -100,7 +100,7 @@ spec:
       tag: 2.20.35 # {"$imagepolicy": "flux-system:erettsegi-backend:tag"}
       hpa: true
       livenessProbe: true
-      startupProbe: true
+      startupProbe: false
     statistics:
       enabled: true
       replicas: 1
