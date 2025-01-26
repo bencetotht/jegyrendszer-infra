@@ -42,7 +42,7 @@ spec:
         - secretRef:
             name: erettsegi-statistics-secret
         env:
-        - name: MONGO
+        - name: MONGODB_URI
           value: {{ .Values.statistics.mongo }}
         - name: NODE_ENV
           value: "production"
