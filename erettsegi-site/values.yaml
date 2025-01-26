@@ -16,6 +16,12 @@ backend:
   hpa: true
   livenessProbe: true
   startupProbe: true
+statistics:
+  enabled: true
+  replicas: 1
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-statistics
+  tag: 1.20.1
+  mongo: mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/erettsegi
 uri:
   mongo: mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/material
   redis: ''
