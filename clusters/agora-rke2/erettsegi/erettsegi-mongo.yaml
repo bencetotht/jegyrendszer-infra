@@ -1,3 +1,4 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -44,3 +45,57 @@ spec:
       timeoutSeconds: 5
     arbiter:
       enabled: false
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: statsdb
+  namespace: service
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: mongodb
+      version: "14.8.3"
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-repo
+        namespace: flux-system
+      interval: 1m
+  values:
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "1000m"
+      limits:
+        memory: "4Gi"
+        cpu: "2000m"
+    architecture: standalone
+    auth:
+      enabled: true
+      rootUser: root
+      existingSecret: mongosecr-erettsegi
+    image:
+      tag: 4.2.21-debian-10-r8
+    metrics:
+      enabled: true
+      collector:
+        all: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+      prometheusRule:
+        enabled: false
+        namespace: monitoring
+    readinessProbe:
+      timeoutSeconds: 5
+    # affinity:
+    #   nodeAffinity:
+    #     preferredDuringSchedulingIgnoredDuringExecution:
+    #     - weight: 100
+    #       preference:
+    #         matchExpressions:
+    #         - key: mongo-pref
+    #           operator: In
+    #           values:
+    #           - "true"
