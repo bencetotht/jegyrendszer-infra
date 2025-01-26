@@ -21,6 +21,17 @@ spec:
     name: regcred
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: erettsegi-statistics
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-statistics
+  interval: 5m
+  secretRef:
+    name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
   name: erettsegi-backend
@@ -40,6 +51,18 @@ metadata:
 spec:
   imageRepositoryRef:
     name: erettsegi-frontend
+  policy:
+    semver:
+      range: 2.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: erettsegi-statistics
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: erettsegi-statistics
   policy:
     semver:
       range: 2.x.x
