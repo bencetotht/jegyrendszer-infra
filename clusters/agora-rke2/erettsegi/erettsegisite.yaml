@@ -105,7 +105,7 @@ spec:
       enabled: true
       replicas: 1
       image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-statistics # {"$imagepolicy": "flux-system:erettsegi-statistics:name"}
-      tag: 2.20.5 # {"$imagepolicy": "flux-system:erettsegi-statistics:tag"}
+      tag: 2.20.6 # {"$imagepolicy": "flux-system:erettsegi-statistics:tag"}
       mongo: mongodb://root:root@statsdb-mongodb.service.svc.cluster.local:27017/erettsegi
     uri:
       mongo: mongodb://root:root@erettsegi-mongo-mongodb-0.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017,erettsegi-mongo-mongodb-1.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017/material
