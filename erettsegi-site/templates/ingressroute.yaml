@@ -21,3 +21,10 @@ spec:
     services:
     - name: erettsegi-backend
       port: 3000
+{{ if .Values.statistics.enabled }}
+  - kind: Rule
+    match: "Host(`api.{{ .Values.ingress.host }}`) && PathPrefix(`/stats`) "
+    services:
+    - name: erettsegi-statistics
+      port: 3000
+{{ end }}
