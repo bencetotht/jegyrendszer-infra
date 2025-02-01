@@ -23,7 +23,7 @@ spec:
     spec:
       serviceAccountName: erettsegi-statistics-svc-a
       imagePullSecrets:
-      - name: regcred
+      - name: regcred-bnb
       containers:
       - name: erettsegi-backend
         image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-statistics:{{.Values.statistics.tag}}" 
