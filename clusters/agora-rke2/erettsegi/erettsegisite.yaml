@@ -2,7 +2,7 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: erettsegi-backend-test
+  name: erettsegi-backend
   namespace: flux-system
 spec:
   image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/backend
@@ -13,24 +13,13 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: erettsegi-backend
-  namespace: flux-system
-spec:
-  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend
-  interval: 5m
-  secretRef:
-    name: regcred
----
-apiVersion: image.toolkit.fluxcd.io/v1beta2
-kind: ImageRepository
-metadata:
   name: erettsegi-frontend
   namespace: flux-system
 spec:
-  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-frontend
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/frontend
   interval: 5m
   secretRef:
-    name: regcred
+    name: regcred-bnb
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
@@ -38,10 +27,10 @@ metadata:
   name: erettsegi-statistics
   namespace: flux-system
 spec:
-  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-statistics
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/statistics
   interval: 5m
   secretRef:
-    name: regcred
+    name: regcred-bnb
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
@@ -103,12 +92,12 @@ spec:
       ingressclass: traefik-external
     frontend:
       replicas: 2
-      image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-frontend # {"$imagepolicy": "flux-system:erettsegi-frontend:name"}
+      image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/frontend # {"$imagepolicy": "flux-system:erettsegi-frontend:name"}
       tag: 2.20.152 # {"$imagepolicy": "flux-system:erettsegi-frontend:tag"}
       hpa: true
     backend:
       replicas: 2
-      image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend # {"$imagepolicy": "flux-system:erettsegi-backend:name"}
+      image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/backend # {"$imagepolicy": "flux-system:erettsegi-backend:name"}
       tag: 2.20.44 # {"$imagepolicy": "flux-system:erettsegi-backend:tag"}
       hpa: true
       livenessProbe: false
@@ -116,7 +105,7 @@ spec:
     statistics:
       enabled: true
       replicas: 1
-      image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-statistics # {"$imagepolicy": "flux-system:erettsegi-statistics:name"}
+      image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/statistics # {"$imagepolicy": "flux-system:erettsegi-statistics:name"}
       tag: 2.20.17 # {"$imagepolicy": "flux-system:erettsegi-statistics:tag"}
       mongo: mongodb://root:root@statsdb-mongodb.service.svc.cluster.local:27017/erettsegi
     uri:
