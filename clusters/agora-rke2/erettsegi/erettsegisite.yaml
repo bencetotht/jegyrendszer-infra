@@ -1,3 +1,15 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: erettsegi-backend-test
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/backend
+  interval: 5m
+  secretRef:
+    name: regcred-bnb
+---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
