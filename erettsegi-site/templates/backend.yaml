@@ -33,7 +33,7 @@ spec:
       - name: regcred-bnb
       containers:
       - name: erettsegi-backend
-        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/erettsegi-backend:{{.Values.backend.tag}}" 
+        image: "{{.Values.backend.image}}:{{.Values.backend.tag}}" 
         imagePullPolicy: Always
         resources:
           limits:
