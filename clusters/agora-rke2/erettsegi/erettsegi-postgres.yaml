@@ -24,15 +24,28 @@ spec:
     architecture: replication
     readReplicas:
       replicaCount: 2
+      livenessProbe:
+        enabled: false
+      startupProbe:
+        enabled: false
     # backup:
     #   enabled: true
     auth:
       username: root
     metrics:
       enabled: true
+      livenessProbe:
+        enabled: false
+      startupProbe:
+        enabled: false
       serviceMonitor:
         enabled: true
         namespace: monitoring
       prometheusRule:
         enabled: false
         namespace: monitoring
+    primary:
+      livenessProbe:
+        enabled: false
+      startupProbe:
+        enabled: false
