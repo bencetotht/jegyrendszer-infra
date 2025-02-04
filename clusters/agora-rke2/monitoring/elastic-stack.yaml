@@ -1,131 +1,14 @@
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: elasticsearch
-  namespace: monitoring
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: elasticsearch
-      version: '8.5.1'
-      sourceRef:
-        kind: HelmRepository
-        name: elastic-repo
-        namespace: flux-system
-      interval: 1m
-  values:
-    replicas: 2
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: kibana
-  namespace: monitoring
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: kibana
-      version: '8.5.1'
-      sourceRef:
-        kind: HelmRepository
-        name: elastic-repo
-        namespace: flux-system
-      interval: 1m
-  values:
-    elasticsearchHosts: "https://elasticsearch-master:9200"
-    service:
-      type: LoadBalancer
-      loadBalancerIP: 192.168.88.110
-      port: 5601
-    ingress:
-      enabled: true
-      className: traefik
-      hosts:
-        - host: kibana.paks.local
-          paths:
-            - path: /
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: logstash
-  namespace: monitoring
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: logstash
-      version: '8.5.1'
-      sourceRef:
-        kind: HelmRepository
-        name: elastic-repo
-        namespace: flux-system
-      interval: 1m
-  values:
-    persistence:
-      enabled: true
-    secretMounts:
-    - name: "elasticsearch-master-certs"
-      secretName: "elasticsearch-master-certs"
-      path: "/usr/share/logstash/config/elasticsearch-master-certs"
-    extraEnvs: 
-    - name: "ELASTICSEARCH_USERNAME"
-      valueFrom:
-        secretKeyRef:
-          name: elasticsearch-master-credentials
-          key: username
-    - name: "ELASTICSEARCH_PASSWORD"
-      valueFrom:
-        secretKeyRef:
-          name: elasticsearch-master-credentials
-          key: password
-    service:
-      annotations: {}
-      type: ClusterIP
-      loadBalancerIP: ""
-      ports:
-        - name: beats
-          port: 5044
-          protocol: TCP
-          targetPort: 5044
-        - name: http
-          port: 8080
-          protocol: TCP
-          targetPort: 8080
-    logstashConfig:
-      logstash.yml: |
-        http.host: 0.0.0.0
-        xpack.monitoring.enabled: false
-    logstashPipeline:
-      logstash.conf: |
-        input {
-          beats {
-            port => 5044
-          }
-        }
-
-        output {
-          elasticsearch {
-            hosts => "https://elasticsearch-master:9200"
-            cacert => "/usr/share/logstash/config/elasticsearch-master-certs/ca.crt"
-            user => '${ELASTICSEARCH_USERNAME}'
-            password => '${ELASTICSEARCH_PASSWORD}' 
-          }
-        }
 # ---
 # apiVersion: helm.toolkit.fluxcd.io/v2beta1
 # kind: HelmRelease
 # metadata:
-#   name: filebeat
+#   name: elasticsearch
 #   namespace: monitoring
 # spec:
 #   interval: 5m
 #   chart:
 #     spec:
-#       chart: filebeat
+#       chart: elasticsearch
 #       version: '8.5.1'
 #       sourceRef:
 #         kind: HelmRepository
@@ -133,19 +16,136 @@ spec:
 #         namespace: flux-system
 #       interval: 1m
 #   values:
-#     daemonset:
-#       filebeatConfig:
-#         filebeat.yml: |
-#           filebeat.inputs:
-#           - type: container
-#             paths:
-#               - /var/log/containers/*.log
-#             processors:
-#             - add_kubernetes_metadata:
-#                 host: ${NODE_NAME}
-#                 matchers:
-#                 - logs_path:
-#                     logs_path: "/var/log/containers/"
+#     replicas: 2
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: kibana
+#   namespace: monitoring
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: kibana
+#       version: '8.5.1'
+#       sourceRef:
+#         kind: HelmRepository
+#         name: elastic-repo
+#         namespace: flux-system
+#       interval: 1m
+#   values:
+#     elasticsearchHosts: "https://elasticsearch-master:9200"
+#     service:
+#       type: LoadBalancer
+#       loadBalancerIP: 192.168.88.110
+#       port: 5601
+#     ingress:
+#       enabled: true
+#       className: traefik
+#       hosts:
+#         - host: kibana.paks.local
+#           paths:
+#             - path: /
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: logstash
+#   namespace: monitoring
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: logstash
+#       version: '8.5.1'
+#       sourceRef:
+#         kind: HelmRepository
+#         name: elastic-repo
+#         namespace: flux-system
+#       interval: 1m
+#   values:
+#     persistence:
+#       enabled: true
+#     secretMounts:
+#     - name: "elasticsearch-master-certs"
+#       secretName: "elasticsearch-master-certs"
+#       path: "/usr/share/logstash/config/elasticsearch-master-certs"
+#     extraEnvs: 
+#     - name: "ELASTICSEARCH_USERNAME"
+#       valueFrom:
+#         secretKeyRef:
+#           name: elasticsearch-master-credentials
+#           key: username
+#     - name: "ELASTICSEARCH_PASSWORD"
+#       valueFrom:
+#         secretKeyRef:
+#           name: elasticsearch-master-credentials
+#           key: password
+#     service:
+#       annotations: {}
+#       type: ClusterIP
+#       loadBalancerIP: ""
+#       ports:
+#         - name: beats
+#           port: 5044
+#           protocol: TCP
+#           targetPort: 5044
+#         - name: http
+#           port: 8080
+#           protocol: TCP
+#           targetPort: 8080
+#     logstashConfig:
+#       logstash.yml: |
+#         http.host: 0.0.0.0
+#         xpack.monitoring.enabled: false
+#     logstashPipeline:
+#       logstash.conf: |
+#         input {
+#           beats {
+#             port => 5044
+#           }
+#         }
 
-#           output.logstash:
-#             hosts: ["logstash-logstash:5044"]
+#         output {
+#           elasticsearch {
+#             hosts => "https://elasticsearch-master:9200"
+#             cacert => "/usr/share/logstash/config/elasticsearch-master-certs/ca.crt"
+#             user => '${ELASTICSEARCH_USERNAME}'
+#             password => '${ELASTICSEARCH_PASSWORD}' 
+#           }
+#         }
+# # ---
+# # apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# # kind: HelmRelease
+# # metadata:
+# #   name: filebeat
+# #   namespace: monitoring
+# # spec:
+# #   interval: 5m
+# #   chart:
+# #     spec:
+# #       chart: filebeat
+# #       version: '8.5.1'
+# #       sourceRef:
+# #         kind: HelmRepository
+# #         name: elastic-repo
+# #         namespace: flux-system
+# #       interval: 1m
+# #   values:
+# #     daemonset:
+# #       filebeatConfig:
+# #         filebeat.yml: |
+# #           filebeat.inputs:
+# #           - type: container
+# #             paths:
+# #               - /var/log/containers/*.log
+# #             processors:
+# #             - add_kubernetes_metadata:
+# #                 host: ${NODE_NAME}
+# #                 matchers:
+# #                 - logs_path:
+# #                     logs_path: "/var/log/containers/"
+
+# #           output.logstash:
+# #             hosts: ["logstash-logstash:5044"]
