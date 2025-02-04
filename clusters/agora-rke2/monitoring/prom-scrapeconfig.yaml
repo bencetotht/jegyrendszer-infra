@@ -15,6 +15,7 @@ spec:
         - 192.168.88.41:60123
         - 192.168.88.42:60123
         - 192.168.88.43:60123
+        - 192.168.88.44:60123
 # ---
 # apiVersion: monitoring.coreos.com/v1alpha1
 # kind: ScrapeConfig
