@@ -42,7 +42,7 @@ spec:
     matchNames:                                                                                                                                         
     - {{ .Values.namespace }}
   endpoints:
-    - port: "3000"
+    - port: api
       path: /metrics
       interval: 30s
 {{- end -}}
