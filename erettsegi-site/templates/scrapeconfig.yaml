@@ -43,6 +43,5 @@ spec:
     - {{ .Values.namespace }}
   endpoints:
     - port: api
-      path: /metrics
       interval: 30s
 {{- end -}}
