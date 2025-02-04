@@ -22,4 +22,27 @@ spec:
     - port: backend-open
       path: /api/v1/metrics
       interval: 30s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: erettsegi-statistics
+  namespace: {{.Values.prometheus.namespace}}
+  labels:
+    release: prom
+    app.kubernetes.io/name: erettsegis
+    app.kubernetes.io/instance: erettsegis-release
+    prometheus: system-monitoring-prometheus
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: erettsegis-release
+      app.kubernetes.io/name: erettsegis
+  namespaceSelector:
+    matchNames:                                                                                                                                         
+    - {{ .Values.namespace }}
+  endpoints:
+    - port: 3000
+      path: /metrics
+      interval: 30s
 {{- end -}}
