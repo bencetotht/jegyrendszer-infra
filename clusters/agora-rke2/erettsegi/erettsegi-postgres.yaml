@@ -28,8 +28,12 @@ spec:
         enabled: false
       startupProbe:
         enabled: false
-    # backup:
-    #   enabled: true
+    backup:
+      enabled: true
+      cronjob:
+        schedule: '@daily'
+        storage:
+          storageClass: longhorn
     auth:
       username: root
     metrics:
