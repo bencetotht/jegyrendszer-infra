@@ -61,24 +61,24 @@ spec:
       reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
       reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
-# ---
-# apiVersion: cert-manager.io/v1
-# kind: Certificate
-# metadata:
-#   name: local-bnbdevelopment-hu-prod
-#   namespace: certmanager
-# spec:
-#   secretName: local-bnbdevelopment-hu-tls
-#   issuerRef:
-#     name: letsencrypt-production-hu
-#     kind: ClusterIssuer
-#   commonName: "*.local.bnbdevelopment.hu"
-#   dnsNames:
-#   - "local.bnbdevelopment.hu"
-#   - "*.local.bnbdevelopment.hu"
-#   secretTemplate:
-#     annotations:
-#       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-#       reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
-#       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-#       reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: local-bnbdevelopment-hu-prod
+  namespace: certmanager
+spec:
+  secretName: local-bnbdevelopment-hu-tls
+  issuerRef:
+    name: letsencrypt-production-hu
+    kind: ClusterIssuer
+  commonName: "*.local.bnbdevelopment.hu"
+  dnsNames:
+  - "local.bnbdevelopment.hu"
+  - "*.local.bnbdevelopment.hu"
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "certmanager,monitoring,longhorn-system,traefik-system"
