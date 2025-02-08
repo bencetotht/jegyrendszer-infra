@@ -20,14 +20,14 @@ spec:
       enabled: true
       className: traefik
     nextcloud:
-      host: nextcloud.bnbdevelopemnt.hu
+      host: nextcloud.bnbdevelopment.hu
       existingSecret:
         enabled: true
         secretName: nextcloud-secret
         usernameKey: username
         passwordKey: password
       trustedDomains:
-        - nextcloud.bnbdevelopemnt.hu
+        - nextcloud.bnbdevelopment.hu
     persistence:
       nextcloudData:
         enabled: true
