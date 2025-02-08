@@ -71,6 +71,15 @@ metadata:
 spec:
   interval: 5m
   url: https://emberstack.github.io/helm-charts
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: nextcloud
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://nextcloud.github.io/helm/
 # ---
 # apiVersion: image.toolkit.fluxcd.io/v1beta2
 # kind: ImageRepository
