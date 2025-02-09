@@ -1,0 +1,66 @@
+{{- if .Values.devbranch.enabled -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-development
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: frontend-development
+    pod-security.kubernetes.io/audit: baseline
+spec:
+  replicas: {{ .Values.devbranch.replicas }}
+  selector:
+    matchLabels:
+      app: frontend-development
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: frontend-development
+    spec:
+      serviceAccountName: frontend-development
+      imagePullSecrets:
+      - name: regcred-bnb
+      containers:
+      - name: frontend-development
+        image: "{{.Values.devbranch.image}}:{{.Values.devbranch.tag}}"
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: frontend-open
+        env:
+        - name: NODE_ENV
+          value: "production"
+        securityContext:
+          allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-development-service
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: frontend-development
+  ports:
+  - port: 3000
+    targetPort: frontend-open
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: frontend-development-svc-a
+  namespace: {{ .Values.namespace }}
+{{- end -}}

@@ -28,3 +28,10 @@ spec:
     - name: erettsegi-statistics
       port: 3000
 {{ end }}
+{{ if .Values.devbranch.enabled }}
+  - kind: Rule
+    match: "Host(`{{ .Values.devbranch.prefix }}.{{ .Values.ingress.host }}`) && PathPrefix(`/`) "
+    services:
+    - name: frontend-development-service
+      port: 3000
+{{ end }}

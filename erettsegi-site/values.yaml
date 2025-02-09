@@ -1,5 +1,11 @@
 namespace: erettsegi
 development: true
+devbranch:
+  enabled: true
+  replicas: 1
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/frontend-dev
+  tag: 1.20.1
+  prefix: dev
 ingress:
   enabled: true
   host: irodalomerettsegi.hu

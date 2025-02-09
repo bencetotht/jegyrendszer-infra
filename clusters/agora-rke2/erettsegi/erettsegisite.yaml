@@ -124,6 +124,12 @@ spec:
       hpa: true
       livenessProbe: false
       startupProbe: false
+    devbranch:
+      enabled: true
+      replicas: 1
+      image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/frontend-dev # {"$imagepolicy": "flux-system:erettsegi-frontend-dev:name"}
+      tag: 2.20.1 # {"$imagepolicy": "flux-system:erettsegi-frontend-dev:tag"}
+      prefix: dev
     statistics:
       enabled: true
       replicas: 1
