@@ -115,7 +115,7 @@ spec:
     frontend:
       replicas: 2
       image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/frontend # {"$imagepolicy": "flux-system:erettsegi-frontend:name"}
-      tag: 2.20.35 # {"$imagepolicy": "flux-system:erettsegi-frontend:tag"}
+      tag: 2.20.37 # {"$imagepolicy": "flux-system:erettsegi-frontend:tag"}
       hpa: true
     backend:
       replicas: 2
