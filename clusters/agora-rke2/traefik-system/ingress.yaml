@@ -31,7 +31,6 @@ metadata:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
-    - web
     - websecure
   routes:
     - kind: Rule
@@ -39,8 +38,6 @@ spec:
       services:
         - name: proxmox-external
           port: 8006
-      middlewares:
-        - name: redirect-middleware
-          namespace: traefik-system
+          scheme: https
   tls:
     secretName: local-bnbdevelopment-hu-tls
