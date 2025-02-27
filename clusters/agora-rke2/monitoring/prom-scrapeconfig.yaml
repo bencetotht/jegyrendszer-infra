@@ -16,26 +16,26 @@ spec:
         - 192.168.88.42:60123
         - 192.168.88.43:60123
         - 192.168.88.44:60123
----
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: ScrapeConfig
-metadata:
-  name: patroni
-  namespace: monitoring
-  labels:
-    prometheus: system-monitoring-prometheus
-    release: prom
-spec:
-  staticConfigs:
-    - labels:
-        job: patroni
-      targets:
-        - 192.168.88.56:8008
-        - 192.168.88.57:8008
-        - 192.168.88.58:8008
-  scheme: https
-  tlsConfig:
-    insecureSkipVerify: true
+# ---
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: ScrapeConfig
+# metadata:
+#   name: patroni
+#   namespace: monitoring
+#   labels:
+#     prometheus: system-monitoring-prometheus
+#     release: prom
+# spec:
+#   staticConfigs:
+#     - labels:
+#         job: patroni
+#       targets:
+#         - 192.168.88.56:8008
+#         - 192.168.88.57:8008
+#         - 192.168.88.58:8008
+#   scheme: https
+#   tlsConfig:
+#     insecureSkipVerify: true
 # ---
 # apiVersion: monitoring.coreos.com/v1alpha1
 # kind: ScrapeConfig
