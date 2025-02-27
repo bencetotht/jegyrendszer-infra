@@ -33,7 +33,7 @@ spec:
         - 192.168.88.56:8008
         - 192.168.88.57:8008
         - 192.168.88.58:8008
-  scheme: https
+  scheme: HTTPS
   tlsConfig:
     insecureSkipVerify: true
 # ---
