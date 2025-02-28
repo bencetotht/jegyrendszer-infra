@@ -36,6 +36,23 @@ spec:
   scheme: HTTPS
   tlsConfig:
     insecureSkipVerify: true
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: postgres-ha
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+spec:
+  staticConfigs:
+    - labels:
+        job: postgres-ha
+      targets:
+        - 192.168.88.56:9187
+        - 192.168.88.57:9187
+        - 192.168.88.58:9187
 # ---
 # apiVersion: monitoring.coreos.com/v1alpha1
 # kind: ScrapeConfig
