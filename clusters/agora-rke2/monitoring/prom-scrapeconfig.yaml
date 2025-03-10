@@ -111,3 +111,20 @@ spec:
       targetLabel: instance
     - targetLabel: __address__
       replacement: 192.168.88.253:9995
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: smartctl-exporter
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+spec:
+  staticConfigs:
+    - labels:
+        job: smartctl
+      targets:
+        - 192.168.88.253:9633
+        - 192.168.88.250:9633
+  metricsPath: /metrics
