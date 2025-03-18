@@ -1,5 +1,5 @@
 autoscaler: 
-  enabled: true
+  enabled: false
 handle:
   storageClass: longhorn
 replication:
