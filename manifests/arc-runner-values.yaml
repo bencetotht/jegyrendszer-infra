@@ -1,4 +1,4 @@
-runnerScaleSetName: arc-runner
-githubConfigUrl: https://github.com/bencetotht/erettsegi-site
-githubConfigSecret: arc-pat
+runnerScaleSetName: bnb-runner
+githubConfigUrl: https://github.com/bnbdevelopment
+githubConfigSecret: arc-pat-bnb
 maxRunners: 10
