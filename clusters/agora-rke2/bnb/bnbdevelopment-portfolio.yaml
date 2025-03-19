@@ -8,7 +8,7 @@ spec:
   image: europe-west3-docker.pkg.dev/bnbdevelopment/portfolio/portfolio
   interval: 5m
   secretRef:
-    name: regcred
+    name: regcred-bnb
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
@@ -85,3 +85,21 @@ spec:
 # metadata:
 #   name: bnbportfolio-svc-a
 #   namespace: bnb
+# ---
+# apiVersion: traefik.io/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: bnbportfolio-ingressroute
+#   namespace: bnb
+#   annotations:
+#     kubernetes.io/ingress.class: traefik-external
+# spec:
+#   entryPoints:
+#     - web
+#     - websecure
+#   routes:
+#   - match: "Host(`bnbdevelopment.hu`) && PathPrefix(`/`)"
+#     kind: Rule
+#     services:
+#     - name: bnbportfolio-svc
+#       port: 3000
