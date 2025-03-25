@@ -49,12 +49,12 @@ spec:
         envFrom:
         - secretRef:
             name: backend-secretmap
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3000
-          initialDelaySeconds: 10
-          periodSeconds: 30
+        # livenessProbe:
+        #   httpGet:
+        #     path: /health
+        #     port: 3000
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 30
         securityContext:
           # runAsNonRoot: true
           allowPrivilegeEscalation: false
