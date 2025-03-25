@@ -23,6 +23,10 @@ spec:
       serviceAccountName: backend-svc-a
       imagePullSecrets:
       - name: regcred
+      volumes:
+      - name: config-volume
+        configMap:
+          name: backend-configmap
       containers:
       - name: backend
         image: "{{.Values.versions.handle_img}}:{{.Values.versions.handle_tag}}"
@@ -46,9 +50,14 @@ spec:
           value: "Europe/Vienna"
         - name: LOKI_ENABLED
           value: "true"
+        - name: CONFIG_PATH
+          value: "/etc/config/config.json"
         envFrom:
         - secretRef:
             name: backend-secretmap
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
         # livenessProbe:
         #   httpGet:
         #     path: /health
