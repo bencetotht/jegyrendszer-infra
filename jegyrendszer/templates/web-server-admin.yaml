@@ -22,7 +22,7 @@ spec:
       - name: regcred
       containers:
       - name: web-admin
-        image: "{{.Values.versions.web_admin_img}}:{{.Values.versions.web_admin_tag}}"
+        image: "{{.Values.versions.web_admin}}:{{.Values.versions.web_admin_tag}}"
         imagePullPolicy: Always
         ports:
         - containerPort: 80

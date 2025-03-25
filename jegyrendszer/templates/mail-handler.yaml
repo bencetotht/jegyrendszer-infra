@@ -30,7 +30,7 @@ spec:
       - name: regcred
       containers:
       - name: mail-handler
-        image: "{{.Values.versions.mail_img}}:{{.Values.versions.mail_tag}}"
+        image: "{{.Values.versions.mailer_img}}:{{.Values.versions.mailer_tag}}"
         imagePullPolicy: Always
         resources:
           limits:
