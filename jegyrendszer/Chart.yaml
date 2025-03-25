@@ -1,6 +1,6 @@
 apiVersion: v2
 name: jegyrendszer
-description: A Helm chart for Kubernetes
+description: Helm chart for the ticketing system of Agora Savaria
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -20,13 +20,9 @@ spec:
       serviceAccountName: web-svc-a
       imagePullSecrets:
       - name: regcred
-      hostAliases:
-      - ip: "10.10.10.110"
-        hostnames:
-        - "api.jegyrendszer.local"
       containers:
       - name: web-server
-        image: "europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/web-public:{{.Values.versions.web_tag}}"
+        image: "{{.Values.versions.web_img}}:{{.Values.versions.web_tag}}"
         imagePullPolicy: Always
         ports:
         - containerPort: 80

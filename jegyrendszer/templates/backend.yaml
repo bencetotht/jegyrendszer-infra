@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+    pod-security.kubernetes.io/audit: baseline
+spec:
+  replicas: {{.Values.replication.handle}}
+  selector:
+    matchLabels:
+      app: backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      serviceAccountName: backend-svc-a
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: backend
+        image: "{{.Values.versions.handle_img}}:{{.Values.versions.handle_tag}}"
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: backend-open
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: LOKI_URL
+          value: "http://loki-release.monitoring.svc.cluster.local:3100"
+        - name: TZ
+          value: "Europe/Vienna"
+        - name: LOKI_ENABLED
+          value: "true"
+        envFrom:
+        - secretRef:
+            name: backend-secretmap
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        securityContext:
+          # runAsNonRoot: true
+          allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: server_id
+    traefik.ingress.kubernetes.io/service.sticky.cookie.httponly: "true"
+spec:
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: backend-open
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend-svc-a
+  namespace: {{.Values.namespace}}

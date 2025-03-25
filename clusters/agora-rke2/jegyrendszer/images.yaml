@@ -38,7 +38,7 @@ metadata:
   name: web-public
   namespace: flux-system
 spec:
-  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/web-public
+  image: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/web-frontend
   interval: 5m
   secretRef:
     name: regcred
@@ -46,7 +46,7 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: web-public
+  name: web-frontend
   namespace: flux-system
 spec:
   imageRepositoryRef:

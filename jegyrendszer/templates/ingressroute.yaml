@@ -25,13 +25,13 @@ spec:
   - kind: Rule
     match: "Host(`{{ .Values.ingress.hostname }}`) && (PathPrefix(`/api/v1`) || PathPrefix(`/ipn`))"
     services:
-    - name: handle-server-service
-      port: 3001
+    - name: backend-service
+      port: 3000
   - kind: Rule
     match: "Host(`{{ .Values.ingress.hostname }}`) && PathPrefix(`/socket.io`)"
     services:
-    - name: handle-server-service
-      port: 3001
+    - name: backend-service
+      port: 3000
       sticky:
         cookie:
           name: server_id
