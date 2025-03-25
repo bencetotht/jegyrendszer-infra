@@ -49,7 +49,7 @@ spec:
       - name: regcred-bnb
       containers:
       - name: bnbportfolio
-        image: europe-west3-docker.pkg.dev/bnbdevelopment/portfolio/portfolio:2.20.3 # {"$imagepolicy": "flux-system:bnbportfolio"}
+        image: europe-west3-docker.pkg.dev/bnbdevelopment/portfolio/portfolio:2.20.4 # {"$imagepolicy": "flux-system:bnbportfolio"}
         imagePullPolicy: Always
         resources:
           limits:
