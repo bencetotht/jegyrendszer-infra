@@ -19,12 +19,12 @@ spec:
     handle:
       storageClass: longhorn
     autoscaler:
-      enabled: false
+      enabled: true
     replication:
-      web: 1
-      admin: 1
-      handle: 1
-      mail: 1
+      web: 2
+      admin: 2
+      handle: 2
+      mail: 2
     versions:
       handle_img: europe-west3-docker.pkg.dev/agora-jegyrendszer/jegyrendszer/backend # {"$imagepolicy": "flux-system:backend:name"}
       handle_tag: 2.20.111 # {"$imagepolicy": "flux-system:backend:tag"}

@@ -8,8 +8,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: handle-server-deployment
-  minReplicas: 3
-  maxReplicas: 10
+  minReplicas: 2
+  maxReplicas: 8
   metrics:
   - type: Resource
     resource:
@@ -27,8 +27,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: web-server-deployment
-  minReplicas: 4
-  maxReplicas: 15
+  minReplicas: 1
+  maxReplicas: 8
   metrics:
   - type: Resource
     resource:
