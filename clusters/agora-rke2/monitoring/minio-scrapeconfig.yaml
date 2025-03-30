@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: minio-scrape
+  name: minio-scrape-cluster
   namespace: monitoring
   labels:
     prometheus: system-monitoring-prometheus
@@ -14,4 +14,38 @@ spec:
         - "192.168.88.66:9000"
         - "192.168.88.67:9000"
   metricsPath: /minio/v2/metrics/cluster
+  scheme: HTTP
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: minio-scrape-node
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+spec:
+  staticConfigs:
+    - targets: 
+        - "192.168.88.65:9000"
+        - "192.168.88.66:9000"
+        - "192.168.88.67:9000"
+  metricsPath: /minio/v2/metrics/node
+  scheme: HTTP
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: minio-scrape-bucket
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+spec:
+  staticConfigs:
+    - targets: 
+        - "192.168.88.65:9000"
+        - "192.168.88.66:9000"
+        - "192.168.88.67:9000"
+  metricsPath: /minio/v2/metrics/bucket
   scheme: HTTP
