@@ -1,0 +1,101 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: minio1-external
+  namespace: traefik-system
+subsets:
+  - addresses:
+      - ip: 192.168.88.65
+    ports:
+      - port: 9090
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: minio2-external
+  namespace: traefik-system
+subsets:
+  - addresses:
+      - ip: 192.168.88.66
+    ports:
+      - port: 9090
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: minio3-external
+  namespace: traefik-system
+subsets:
+  - addresses:
+      - ip: 192.168.88.67
+    ports:
+      - port: 9090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio1-external
+  namespace: traefik-system
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio2-external
+  namespace: traefik-system
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio3-external
+  namespace: traefik-system
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: minio-ingress
+  namespace: traefik-system
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: "Host(`minio1.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      services:
+        - name: minio1-external
+          port: 9090
+          scheme: https
+    - kind: Rule
+      match: "Host(`minio2.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      services:
+        - name: minio2-external
+          port: 9090
+          scheme: https
+    - kind: Rule
+      match: "Host(`minio3.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      services:
+        - name: minio3-external
+          port: 9090
+          scheme: https
+  tls:
+    secretName: local-bnbdevelopment-hu-tls
