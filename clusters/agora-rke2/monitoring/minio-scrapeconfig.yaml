@@ -49,3 +49,20 @@ spec:
         - "192.168.88.67:9000"
   metricsPath: /minio/v2/metrics/bucket
   scheme: HTTP
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: minio-scrape-resource
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+spec:
+  staticConfigs:
+    - targets: 
+        - "192.168.88.65:9000"
+        - "192.168.88.66:9000"
+        - "192.168.88.67:9000"
+  metricsPath: /minio/v2/metrics/resource
+  scheme: HTTP
