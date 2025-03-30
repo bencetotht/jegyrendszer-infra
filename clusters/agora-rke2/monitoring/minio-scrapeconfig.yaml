@@ -5,7 +5,8 @@ metadata:
   name: minio-scrape
   namespace: monitoring
   labels:
-    release: prometheus
+    prometheus: system-monitoring-prometheus
+    release: prom
 spec:
   staticConfigs:
     - targets: 
