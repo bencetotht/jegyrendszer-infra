@@ -11,7 +11,7 @@ spec:
     - targets: 
         - "192.168.88.65:9000"
   metricsPath: /minio/v2/metrics/cluster
-  scheme: http
+  scheme: HTTP
   authorization:
     credentials:
       name: minio-bearer-token
@@ -29,7 +29,7 @@ spec:
 #     - targets: 
 #         - "192.168.88.66:9000"
 #   metricsPath: /minio/v2/metrics/cluster
-#   scheme: http
+#   scheme: HTTP
 #   authorization:
 #     credentials:
 #       name: minio-bearer-token
@@ -47,7 +47,7 @@ spec:
 #     - targets: 
 #         - "192.168.88.67:9000"
 #   metricsPath: /minio/v2/metrics/cluster
-#   scheme: http
+#   scheme: HTTP
 #   authorization:
 #     credentials:
 #       name: minio-bearer-token
