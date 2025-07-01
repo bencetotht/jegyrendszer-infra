@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-rsync
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: rke-agent-9
+  containers:
+  - name: ubuntu-rsync
+    image: ubuntu:22.04
+    command: ["/bin/sh", "-c"]
+    args:
+      - |
+        apt update && \
+        DEBIAN_FRONTEND=noninteractive apt install -y rsync sshpass openssh-client && \
+        echo "Ready. Sleeping..." && sleep 3600
+    stdin: true
+    tty: true
+    volumeMounts:
+    - name: data
+      mountPath: /data
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: cloned-pgdump
+# ---
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: longhorn-export
+#   namespace: default
+# spec:
+#   nodeSelector:
+#     kubernetes.io/hostname: rke-agent-9
+#   containers:
+#   - name: busybox
+#     image: busybox
+#     command: ["sleep", "3600"]
+#     volumeMounts:
+#     - mountPath: /data
+#       name: longhorn-volume
+#   volumes:
+#   - name: longhorn-volume
+#     persistentVolumeClaim:
+#       claimName: cloned-pgdump

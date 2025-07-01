@@ -1,0 +1,39 @@
+variable "pve_nodes" {
+    type = list(string)
+    default = ["proxmox", "pve2", "pve3"]
+}
+
+variable "dns_ips" {
+    type = list(string)
+    default = ["192.168.88.61", "192.168.88.62", "192.168.88.63"]
+}
+
+variable "dns_pass" {
+    type = string
+    default = "dnspass"
+    sensitive = true
+}
+
+resource "proxmox_lxc" "dns" {
+    count = length(var.pve_nodes)
+    target_node  = var.pve_nodes[count.index]
+    hostname = "dns-${count.index + 1}"
+    ostemplate = "local:vztmpl/debian-12-standard_12.0-1_amd64.tar.zst"
+    password = var.dns_pass
+
+    rootfs {
+        storage = "fast3"
+        size = "8GB"
+    }
+
+    cores = 1
+    memory = 1024
+    swap = 1024
+
+    network {
+        name = "eth0"
+        bridge = "vmbr0"
+        ip = var.dns_ips[count.index]
+        gw = "192.168.88.1"
+    }
+}
