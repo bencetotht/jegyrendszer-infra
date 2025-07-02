@@ -21,6 +21,8 @@ resource "proxmox_lxc" "dns" {
     ostemplate = "local:vztmpl/debian-12-standard_12.0-1_amd64.tar.zst"
     password = var.dns_pass
 
+    vmid = 260 + count.index + 1
+
     rootfs {
         storage = "fast3"
         size = "8GB"
@@ -36,4 +38,13 @@ resource "proxmox_lxc" "dns" {
         ip = var.dns_ips[count.index]
         gw = "192.168.88.1"
     }
+
+    nameserver = "1.1.1.1"
+    searchdomain = "1.1.1.1"
+
+    tags = "dns"
+}
+
+output "vmid" {
+  value = proxmox_lxc.dns[*].vmid
 }

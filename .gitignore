@@ -4,6 +4,17 @@
 .terraform
 .terraform*
 *.tfvars
+*.tfstate
+*.tfstate.backup
 
 .secrets/*
 .certs/*
+
+.terraform.lock.hcl
+*.key
+.keys/*
+
+*.pem
+*.crt
+*.csr
+*.key
