@@ -1,0 +1,104 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: bnbdocs
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/portfolio/docs
+  interval: 5m
+  secretRef:
+    name: regcred-bnb
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: bnbdocs
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: bnbdocs
+  policy:
+    semver:
+      range: 2.x.x
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bnbdocs
+  namespace: bnb
+  labels:
+    app: bnbdocs
+    pod-security.kubernetes.io/audit: baseline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bnbdocs
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: bnbdocs
+    spec:
+      serviceAccountName: bnbdocs-svc-a
+      imagePullSecrets:
+      - name: regcred-bnb
+      containers:
+      - name: bnbdocs
+        image: europe-west3-docker.pkg.dev/bnbdevelopment/portfolio/docs:2.20.1 # {"$imagepolicy": "flux-system:bnbdocs"}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: frontend-open
+        env:
+        - name: NODE_ENV
+          value: "production"
+        securityContext:
+          allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bnbdocs-svc
+  namespace: bnb
+spec:
+  selector:
+    app: bnbdocs
+  ports:
+  - port: 8000
+    targetPort: frontend-open
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bnbdocs-svc-a
+  namespace: bnb
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bnbdocs-ingressroute
+  namespace: bnb
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: "Host(`docs.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      kind: Rule
+      services:
+        - name: bnbdocs-svc
+          port: 8000
