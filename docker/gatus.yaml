@@ -1,0 +1,81 @@
+storage:
+  type: postgres
+  path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
+
+alerting:
+  slack:
+    webhook_url: ""
+    default-alert:
+      enabled: true
+      description: "healthcheck failed"
+      send-on-resolved: true
+      failure-threshold: 5
+      success-threshold: 5
+
+ui:
+  title: "BNBDevelopment Status Page"
+  logo: "https://bnbdevelopment.hu/favicon.ico"
+
+endpoint-defaults: &defaults
+  interval: 1m
+  client:
+    timeout: 10s
+  conditions:
+    - "[STATUS] == 200"
+    - "[CERTIFICATE_EXPIRATION] > 48h"
+  alerts:
+    - type: slack
+
+infra-default: &infra-defaults
+  group: Infrastructure
+  interval: 1m
+  conditions:
+    - "[CONNECTED] == true"
+  alerts:
+    - type: slack
+  ui:
+    hide-hostname: true
+
+endpoints:
+  - name: irodalomerettsegi.hu - Web
+    <<: *defaults
+    group: irodalomerettsegi.hu
+    url: https://irodalomerettsegi.hu
+  - name: irodalomerettsegi.hu - API
+    <<: *defaults
+    group: irodalomerettsegi.hu
+    url: https://api.irodalomerettsegi.hu/api/v1/health
+
+  - name: jegy-agorasavaria.hu - Web
+    <<: *defaults
+    group: jegy-agorasavaria.hu
+    url: https://jegy-agorasavaria.hu
+  - name: jegy-agorasavaria.hu - API
+    <<: *defaults
+    group: jegy-agorasavaria.hu
+    url: https://jegy-agorasavaria.hu/api/v1/health
+
+  - name: BNBDevelopment Portfolio Page
+    <<: *defaults
+    group: BNBDevelopment
+    url: https://bnbdevelopment.hu
+
+  - name: PVE1
+    <<: *infra-defaults
+    url: "icmp://192.168.88.253"
+  - name: PVE2
+    <<: *infra-defaults
+    url: "icmp://192.168.88.25"
+  - name: PVE3
+    <<: *infra-defaults
+    url: "icmp://192.168.88.252"
+  - name: External Gateway
+    <<: *infra-defaults
+    url: "icmp://xxx"
+
+  - name: HA Postgres
+    <<: *infra-defaults
+    url: "tcp://192.168.88.50:5432"
+  - name: Kubernetes Cluster
+    <<: *infra-defaults
+    url: "tcp://192.168.88.50:6443"
