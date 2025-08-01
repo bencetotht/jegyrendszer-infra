@@ -1,0 +1,60 @@
+graph TB
+  subgraph pve1 [PVE1]
+    subgraph pve1_tuns [Tunnels]
+        CF_TUN_1[Cloudflare Tunnel 1]
+        CF_TUN_2[Cloudflare Tunnel 2]
+    end
+    subgraph pve1_lbs [Loadbalancers]
+        LB_1[HAProxy 1]
+        LB_2[HAProxy 2]
+    end
+    subgraph pve1_k8s [Kubernetes]
+        K8S_MASTER_1[MASTER - 1]
+        K8S_WORKER_1[WORKER - 1]
+    end
+    subgraph pve1_ha [HA Services]
+      PG_1[PostgreSQL 1]
+      RMQ_1[RABBITMQ 1]
+      DNS_1[DNS 1]
+    end
+    DOCKER_1[Docker 1]
+    %%BACKUP_1[Backup 1]
+  end
+  subgraph pve2 [PVE2]
+    subgraph pve2_tuns [Tunnels]
+        CF_TUN_3[Cloudflare Tunnel 3]
+    end
+    subgraph pve2_lbs [Loadbalancers]
+        LB_3[HAProxy 3]
+    end
+    subgraph pve2_k8s [Kubernetes]
+        K8S_MASTER_2[MASTER - 2]
+        K8S_WORKER_2[WORKER - 2]
+    end
+    subgraph pve2_ha [HA Services]
+      PG_3[PostgreSQL 3]
+      RMQ_2[RABBITMQ 2]
+      DNS_2[DNS 2]
+    end
+    DOCKER_2[Docker 2]
+    %%BACKUP_2[Backup 2]
+  end
+  subgraph pve3 [PVE3]
+    subgraph pve3_tuns [Tunnels]
+        CF_TUN_4[Cloudflare Tunnel 4]
+    end
+    subgraph pve3_lbs [Loadbalancers]
+        LB_4[HAProxy 4]
+    end
+    subgraph pve3_k8s [Kubernetes]
+        K8S_MASTER_3[MASTER - 3]
+        K8S_WORKER_3[WORKER - 3]
+    end
+    subgraph pve3_ha [HA Services]
+      PG_2[PostgreSQL 2]
+      RMQ_3[RABBITMQ 3]
+      DNS_3[DNS 3]
+    end
+    %%BACKUP_3[Backup 3]
+    MS_1[Mail Server]
+  end
