@@ -3,7 +3,7 @@ name: Generate Mermaid Diagram for Infrastructure
 on:
   push:
     paths:
-      - ./.docs/infra-diagram.mmd
+      - ./docs/infra-diagram.mmd
       - .github/workflows/infra-diagram.yaml
   workflow_dispatch:
 
@@ -26,12 +26,12 @@ jobs:
         run: npm install -g @mermaid-js/mermaid-cli
 
       - name: Generate PNG from Mermaid file
-        run: mmdc -i ./.docs/infra-diagram.mmd -o ./.docs/infra-diagram.png --puppeteerConfigFile ./.docs/puppeteer-config.json --scale 2 --theme neutral
+        run: mmdc -i ./docs/infra-diagram.mmd -o ./docs/infra-diagram.png --puppeteerConfigFile ./docs/puppeteer-config.json --scale 2 --theme neutral
 
       - name: Commit diagram image
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions [bot]@users.noreply.github.com"
-          git add ./.docs/infra-diagram.png
+          git add ./docs/infra-diagram.png
           git commit -m "Auto-generated Mermaid diagram image for push ${{ github.sha }}"
           git push

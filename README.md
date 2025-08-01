@@ -41,6 +41,6 @@ BNB-CLUSTER
     └── Reflector
 ```
 ## Infrastructure
-![infra](./.docs/infra-diagram.png)
+![infra](./docs/infra-diagram.png)
 ---
 Developed & maintained by [Bence Toth](https://github.com/bencetotht) and [Bence Gyurus](https://github.com/BenceGyurus)
