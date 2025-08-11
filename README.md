@@ -10,6 +10,35 @@ All reconciliations are managed by [FluxCD](https://fluxcd.io/).
 - Documentation site: [docs.bnbdevelopment.hu](https://docs.bnbdevelopment.hu)
 
 ## Cluster Architecture
+<!-- ```
+BNBDEVELOPMENT
+  BNBDEVELOPMENT Documentation
+  BNBDEVELOPMENT Portfolio Page
+Certmanager
+  Certmanager
+  Ingresses
+ErettsegiSite
+  irodalomerettsegi.hu
+  Erettsegi Site Redis Cache
+Keycloak
+  HA Keycloak
+Monitoring
+  Prometheus
+    ScrapeConfigs
+  Grafana
+    Ingress
+  Loki
+Default
+  Flux Repositories
+Traefik-System
+  External Ingresses
+    Proxmox
+    Portainer
+Flux-System
+  Flux System Components
+Utility
+  Reflector
+``` -->
 ```bash
 BNB-CLUSTER
 ├── BNBDEVELOPMENT/
@@ -44,3 +73,6 @@ BNB-CLUSTER
 ![infra](./docs/infra-diagram.png)
 ---
 Developed & maintained by [Bence Toth](https://github.com/bencetotht) and [Bence Gyurus](https://github.com/BenceGyurus)
+
+### Hybrid Infra Architecture
+![hybrid-infra](./docs/hybrid_cluster_diagram.png)
