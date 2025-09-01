@@ -71,8 +71,9 @@ BNB-CLUSTER
 ```
 ## Infrastructure
 ![infra](./docs/infra-diagram.png)
----
-Developed & maintained by [Bence Toth](https://github.com/bencetotht) and [Bence Gyurus](https://github.com/BenceGyurus)
 
 ### Hybrid Infra Architecture
 ![hybrid-infra](./docs/hybrid_cluster_diagram.png)
+
+---
+Developed & maintained by [Bence Toth](https://github.com/bencetotht) and [Bence Gyurus](https://github.com/BenceGyurus)
