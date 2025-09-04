@@ -59,7 +59,7 @@ spec:
             cpu: 500m
             memory: 1Gi
         ports:
-        - containerPort: 3000
+        - containerPort: 8000
           name: frontend-open
         env:
         - name: NODE_ENV
