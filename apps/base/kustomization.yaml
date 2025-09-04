@@ -17,4 +17,4 @@ resources:
 # - monitoring/scrapeconfigs.yaml
 # - traefik-system/ir-portainer.yaml
 # - traefik-system/ir-proxmox.yaml
-# - utility/reflector.yaml
+- utility/reflector.yaml
