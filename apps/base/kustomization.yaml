@@ -8,6 +8,7 @@ resources:
 # - certmanager/ingress.yaml
 # - certmanager/issuer.yaml
 - default/repositories.yaml
+- erettsegisite/erettsegi.yaml
 # - erettsegisite/erettsegisite.yaml
 # - erettsegisite/erettsegisite-redis.yaml
 # - keycloak/keycloak.yaml
