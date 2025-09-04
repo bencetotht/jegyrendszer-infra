@@ -10,7 +10,7 @@ resources:
 - default/repositories.yaml
 - erettsegisite/erettsegi.yaml
 # - erettsegisite/erettsegisite.yaml
-# - erettsegisite/erettsegisite-redis.yaml
+- erettsegisite/erettsegisite-redis.yaml
 # - keycloak/keycloak.yaml
 # - monitoring/loki-release.yaml
 # - monitoring/prom-stack.yaml
