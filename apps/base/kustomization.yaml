@@ -11,7 +11,8 @@ resources:
 # - certmanager/issuer.yaml
 - default/repositories.yaml
 - erettsegisite/erettsegi.yaml
-# - erettsegisite/erettsegisite.yaml
+- erettsegisite/erettsegisite.yaml
+- flux-system/flux-system-automation.yaml
 # - erettsegisite/erettsegi-redis.yaml
 - keycloak/ns.yaml
 # - keycloak/keycloak.yaml
