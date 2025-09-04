@@ -5,6 +5,8 @@
 .terraform*
 *.tfvars
 *.tfstate
+terraform.tfstate
+terraform/pve/terraform.tfstate
 *.tfstate.backup
 
 .secrets/*
@@ -18,3 +20,6 @@
 *.crt
 *.csr
 *.key
+
+.secrets/
+talos/conf/

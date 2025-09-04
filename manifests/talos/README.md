@@ -28,5 +28,7 @@ helm install traefik traefik/traefik -n traefik-system --create-namespace --valu
 ```
 ## 4. Install Longhorn Storage Provider
 ```bash
-helm install longhorn longhorn/longhorn -n longhorn-system --create-namespace --values 4-longhorn-values.yaml
+kubectl create ns longhorn-system
+kubectl label namespace longhorn-system pod-security.kubernetes.io/enforce=privileged
+helm install longhorn longhorn/longhorn -n longhorn-system --values 4-longhorn-values.yaml
 ```

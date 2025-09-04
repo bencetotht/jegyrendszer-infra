@@ -3,6 +3,7 @@ variable "pve_nodes" {
         name = string
         template_id = string
         storage_pool = string
+        iso_storage_pool = string
         network_interface = string
     }))
     default = [
@@ -10,18 +11,21 @@ variable "pve_nodes" {
             name = "proxmox"
             template_id = "talos-template"
             storage_pool = "fast2"
+            iso_storage_pool = "local"
             network_interface = "vmbr0"
         },
         {
             name = "pve2"
             template_id = "talos-template" 
             storage_pool = "tb2"
+            iso_storage_pool = "local"
             network_interface = "vmbr0"
         },
         {
             name = "pve3"
             template_id = "talos-template"
             storage_pool = "fast3"
+            iso_storage_pool = "local"
             network_interface = "vmbr1"
         }
     ]
@@ -92,9 +96,10 @@ resource "proxmox_vm_qemu" "master" {
     cpu {
       type = "host"
       cores = 4
-      sockets = 4
+      sockets = 2
     }
     memory = 16384
+    balloon = 16384
 
     network {
         model = "virtio"
@@ -105,6 +110,11 @@ resource "proxmox_vm_qemu" "master" {
     disks {
       ide {
         ide0 {
+          cdrom {
+            iso = "${var.pve_nodes[count.index].iso_storage_pool}:iso/nocloud-amd64.iso"
+          }
+        }
+        ide1 {
           disk {
             storage = var.pve_nodes[count.index].storage_pool
             size = "32G"
@@ -117,19 +127,14 @@ resource "proxmox_vm_qemu" "master" {
         }
       }
     }
-
-    serial {
-      id = 0
-      type = "socket"
-    }
-
+    boot = "order=ide1;ide0;net0"
+    vm_state = "stopped"
 
     clone = var.pve_nodes[count.index].template_id
     full_clone = true
 
     os_type = "cloud-init"
     ciuser = "bence"
-    # sshkeys
     ipconfig0 = "ip=${var.master_ips[count.index]}/24,gw=192.168.88.1"
     nameserver = "1.1.1.1"
     searchdomain = "1.1.1.1"
@@ -146,9 +151,10 @@ resource "proxmox_vm_qemu" "worker" {
     cpu {
       type = "host"
       cores = 4
-      sockets = 4
+      sockets = 2
     }
     memory = 16384
+    balloon = 16384
 
     network {
         model = "virtio"
@@ -159,6 +165,11 @@ resource "proxmox_vm_qemu" "worker" {
     disks {
       ide {
         ide0 {
+          cdrom {
+            iso = "${var.pve_nodes[count.index].iso_storage_pool}:iso/nocloud-amd64.iso"
+          }
+        }
+        ide1 {
           disk {
             storage = var.pve_nodes[count.index].storage_pool
             size = "32G"
@@ -171,18 +182,14 @@ resource "proxmox_vm_qemu" "worker" {
         }
       }
     }
-
-    serial {
-      id = 0
-      type = "socket"
-    }
+    boot = "order=ide1;ide0;net0"
+    vm_state = "stopped"
 
     clone = var.pve_nodes[count.index].template_id
     full_clone = true
 
     os_type = "cloud-init"
     ciuser = "bence"
-    # sshkeys
     ipconfig0 = "ip=${var.worker_ips[count.index]}/24,gw=192.168.88.1"
     nameserver = "1.1.1.1"
     searchdomain = "1.1.1.1"

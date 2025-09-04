@@ -1,26 +1,3 @@
-# Enable L7 Policy Enforcement
-policyEnforcementMode: always
-# Transparent Encryption
-encryption:
-  enabled: true
-  type: wireguard
-# Service Mesh Features
-ingressController:
-  enabled: true
-# Operator settings
-operator:
-  prometheus:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-      namespace: monitoring
-# gRPC Support
-gatewayAPI:
-  enableAlpn: true
-# gRPC Support
-gatewayAPI:
-  enableAlpn: true
-# Initial Values
 ipam:
   mode: kubernetes
 kubeProxyReplacement: true
@@ -34,6 +11,26 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 k8sServiceHost: localhost
 k8sServicePort: 7445
-
 bpf:
   hostLegacyRouting: true
+l2announcements:
+  enabled: true
+hubble:
+  metrics:
+    enabled: ["dns", "drop", "tcp", "flow", "port-distribution", "icmp", "httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction"]
+    enableOpenMetrics: true
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+# envoy:
+#   prometheus:
+#     serviceMonitor:
+#       enabled: true
+operator:
+  prometheus:
+    enabled: true
+    # serviceMonitor:
+    #   enabled: true
+gatewayAPI:
+  enableAlpn: true
