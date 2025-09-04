@@ -18,7 +18,7 @@ resources:
 # - keycloak/keycloak.yaml
 - monitoring/monitoring.yaml
 # - monitoring/loki-release.yaml
-# - monitoring/prom-stack.yaml
+- monitoring/prom-stack.yaml
 # - monitoring/scrapeconfigs.yaml
 # - traefik-system/ir-portainer.yaml
 # - traefik-system/ir-proxmox.yaml
