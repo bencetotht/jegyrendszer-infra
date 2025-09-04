@@ -1,0 +1,54 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+
+patches:
+# PostRenderer that sets replicas=0 for every Deployment/StatefulSet
+  - target:
+      group: helm.toolkit.fluxcd.io
+      version: v2
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/postRenderers
+        value:
+          - kustomize:
+              patches:
+                # Scale Deployments to 0
+                - target:
+                    group: apps
+                    version: v1
+                    kind: Deployment
+                  patch: |-
+                    - op: replace
+                      path: /spec/replicas
+                      value: 0
+                # Scale StatefulSets to 0 (if any chart renders them)
+                - target:
+                    group: apps
+                    version: v1
+                    kind: StatefulSet
+                  patch: |-
+                    - op: replace
+                      path: /spec/replicas
+                      value: 0
+
+# Suspend HelmReleases
+  - target:
+      group: helm.toolkit.fluxcd.io
+      version: v2beta1
+      kind: HelmRelease
+      labelSelector: env.skip=cloud
+    patch: |-
+      - op: add
+        path: /spec/suspend
+        value: true
+# Suspend IngressRoutes
+  # - target:
+  #     group: traefik.io
+  #     version: v1alpha1
+  #     kind: IngressRoute
+  #     labelSelector: env.skip=cloud
+  #   patch: |-
+  #     $patch: delete

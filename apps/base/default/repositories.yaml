@@ -1,0 +1,69 @@
+---
+# Used by: bitnami images
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: bitnami-repo
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://charts.bitnami.com/bitnami
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: elastic-repo
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://helm.elastic.co
+---
+# Used by: loki
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: grafana-repo
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://grafana.github.io/helm-charts
+---
+# Used by: prometheus & grafana
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: prometheus-repo
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://prometheus-community.github.io/helm-charts
+---
+# Used by: weights & biases
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: wandb-repo
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://charts.wandb.ai
+---
+# Used by: certmanager
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: cert-manager
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://charts.jetstack.io
+---
+# Used by: reflector
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: emberstack
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://emberstack.github.io/helm-charts

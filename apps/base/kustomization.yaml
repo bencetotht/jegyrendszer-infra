@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps
+resources:
+# - bnbdevelopment/bnb-portfolio.yaml
+# - bnbdevelopment/bnb-docs.yaml
+# - certmanager/certificate.yaml
+# - certmanager/certmanager.yaml
+# - certmanager/ingress.yaml
+# - certmanager/issuer.yaml
+- default/repositories.yaml
+# - erettsegisite/erettsegisite.yaml
+# - erettsegisite/erettsegisite-redis.yaml
+# - keycloak/keycloak.yaml
+# - monitoring/loki-release.yaml
+# - monitoring/prom-stack.yaml
+# - monitoring/scrapeconfigs.yaml
+# - traefik-system/ir-portainer.yaml
+# - traefik-system/ir-proxmox.yaml
+# - utility/reflector.yaml

@@ -1,0 +1,213 @@
+---
+# Cloudflare tunnel scrape config
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: cloudflare-tunnel
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+    env.skip: cloud
+spec:
+  staticConfigs:
+    - labels:
+        job: cloudflare_tunnel
+      targets:
+        - 192.168.88.41:60123
+        - 192.168.88.42:60123
+        - 192.168.88.43:60123
+        - 192.168.88.44:60123
+---
+# Patroni scrape config
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: patroni
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+    env.skip: cloud
+spec:
+  staticConfigs:
+    - labels:
+        job: patroni
+      targets:
+        - 192.168.88.56:8008
+        - 192.168.88.57:8008
+        - 192.168.88.58:8008
+  scheme: HTTPS
+  tlsConfig:
+    insecureSkipVerify: true
+---
+# Postgres HA scrape config
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: postgres-ha
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+    env.skip: cloud
+spec:
+  staticConfigs:
+    - labels:
+        job: postgres-ha
+      targets:
+        - 192.168.88.56:9187
+        - 192.168.88.57:9187
+        - 192.168.88.58:9187
+# ---
+# # MongoDB HA scrape config
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: ScrapeConfig
+# metadata:
+#   name: mongodb-ha
+#   namespace: monitoring
+#   labels:
+#     prometheus: system-monitoring-prometheus
+#     release: prom
+# spec:
+#   staticConfigs:
+#     - labels:
+#         job: mongodb-ha
+#       targets:
+#         - 192.168.88.53:9216
+#         - 192.168.88.54:9216
+#         - 192.168.88.55:9216
+# ---
+# # PaperMC scrape config: papermc metrics
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: ScrapeConfig
+# metadata:
+#   name: mc-scrapeconfig
+#   namespace: monitoring
+#   labels:
+#     prometheus: system-monitoring-prometheus
+#     release: prom
+# spec:
+#   staticConfigs:
+#     - labels:
+#         job: papermc
+#       targets:
+#         - 10.10.20.106:9940
+---
+# Nut exporter scrape config
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: nut-exporter
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+    env.skip: cloud
+spec:
+  staticConfigs:
+    - labels:
+        job: nut
+      targets:
+        - 192.168.88.253:3493
+  metricsPath: /metrics
+  honorTimestamps: true
+  scrapeTimeout: 10s
+  scrapeInterval: 30s
+  relabelings:
+    - sourceLabels: [__address__]
+      targetLabel: __param_target
+    - sourceLabels: [__param_target]
+      targetLabel: instance
+    - targetLabel: __address__
+      replacement: 192.168.88.253:9995
+---
+# Smartctl exporter scrape config
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: smartctl-exporter
+  namespace: monitoring
+  labels:
+    prometheus: system-monitoring-prometheus
+    release: prom
+spec:
+  staticConfigs:
+    - labels:
+        job: smartctl
+      targets:
+        - 192.168.88.253:9633
+        - 192.168.88.250:9633
+  metricsPath: /metrics
+# ---
+# # Minio external cluster scrape config: cluster metrics
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: ScrapeConfig
+# metadata:
+#   name: minio-scrape-cluster
+#   namespace: monitoring
+#   labels:
+#     prometheus: system-monitoring-prometheus
+#     release: prom
+# spec:
+#   staticConfigs:
+#     - targets: 
+#         - "192.168.88.65:9000"
+#         - "192.168.88.66:9000"
+#         - "192.168.88.67:9000"
+#   metricsPath: /minio/v2/metrics/cluster
+#   scheme: HTTP
+# ---
+# # Minio external node scrape config: node metrics
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: ScrapeConfig
+# metadata:
+#   name: minio-scrape-node
+#   namespace: monitoring
+#   labels:
+#     prometheus: system-monitoring-prometheus
+#     release: prom
+# spec:
+#   staticConfigs:
+#     - targets: 
+#         - "192.168.88.65:9000"
+#         - "192.168.88.66:9000"
+#         - "192.168.88.67:9000"
+#   metricsPath: /minio/v2/metrics/node
+#   scheme: HTTP
+# ---
+# # Minio external bucket scrape config: bucket metrics
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: ScrapeConfig
+# metadata:
+#   name: minio-scrape-bucket
+#   namespace: monitoring
+#   labels:
+#     prometheus: system-monitoring-prometheus
+#     release: prom
+# spec:
+#   staticConfigs:
+#     - targets: 
+#         - "192.168.88.65:9000"
+#         - "192.168.88.66:9000"
+#         - "192.168.88.67:9000"
+#   metricsPath: /minio/v2/metrics/bucket
+#   scheme: HTTP
+# ---
+# # Minio external resource scrape config: resource metrics
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: ScrapeConfig
+# metadata:
+#   name: minio-scrape-resource
+#   namespace: monitoring
+#   labels:
+#     prometheus: system-monitoring-prometheus
+#     release: prom
+# spec:
+#   staticConfigs:
+#     - targets: 
+#         - "192.168.88.65:9000"
+#         - "192.168.88.66:9000"
+#         - "192.168.88.67:9000"
+#   metricsPath: /minio/v2/metrics/resource
+#   scheme: HTTP
