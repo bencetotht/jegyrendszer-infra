@@ -1,0 +1,339 @@
+groups:
+# Node Exporter Alerts
+- name: node_exporter_alerts
+  rules:
+  - alert: NodeDown
+    expr: up == 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Node {{ $labels.instance }} is down
+      description: Failed to scrape {{ $labels.job }} on {{ $labels.instance }} for more than 2 minutes. Node seems down.
+      details: "Node: {{ $labels.instance }}"
+  - alert: HighCPUUsage
+    expr: ((sum by(instance) (irate(node_cpu_seconds_total{job="proxmox_nodeexporter", mode!="idle"}[2m])) / on (instance) group_left sum by (instance) (irate(node_cpu_seconds_total{job="proxmox_nodeexporter"}[2m]))) * 100) > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host high CPU load (instance {{ $labels.instance }})
+      description: CPU load is > 80%
+      details: "Load: {{ $value }}%"
+  - alert: HostHighCpuLoad
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      title: Host high CPU load (instance {{ $labels.instance }})
+      description: CPU load is > 80%
+      details: "Load: {{ $value }}%"
+  - alert: HostOutOfMemory
+    expr: sum by (instance) (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes ) * 100 < 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host out of memory (instance {{ $labels.instance }})
+      description: Node memory is filling up (< 10% left)
+      details: "Memory: {{ $value }}%"
+  - alert: HostMemoryUnderMemoryPressure
+    expr: rate(node_vmstat_pgmajfault[1m]) > 1000
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host memory under memory pressure (instance {{ $labels.instance }})
+      description: The node is under heavy memory pressure. High rate of major page faults
+      details: "Memory: {{ $value }}"
+  - alert: HostUnusalNetworkThroughputIn
+    expr: (sum by (instance) (rate(node_network_receive_bytes_total[10m])) / 1024 / 1024) > 50
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      title: Host unusual network throughput in (instance {{ $labels.instance }})
+      description: Host network interfaces are probably receiving too much data (> 100 MB/s)\n
+      details: "Network: {{ $value }}MB/s"
+  - alert: HostUnusualNetworkThroughputOut
+    expr: (sum by (instance) (rate(node_network_transmit_bytes_total[10m])) / 1024 / 1024) > 50
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      title: Host unusual network throughput out (instance {{ $labels.instance }})
+      description: Host network interfaces are probably sending too much data (> 100 MB/s)\n
+      details: "Network: {{ $value }}MB/s"
+  - alert: HostUnusualDiskReadLatency
+    expr: rate(node_disk_read_time_seconds_total[2m]) / rate(node_disk_reads_completed_total[2m]) > 0.1 and rate(node_disk_reads_completed_total[2m]) > 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host unusual disk read latency (instance {{ $labels.instance }})
+      description: Disk latency is growing (read operations > 100ms)\n
+      details: "Disk: {{ $value }}ms"
+  - alert: HostUnusualDiskWriteLatency
+    expr: rate(node_disk_write_time_seconds_totali{device!~"mmcblk.+"}[1m]) / rate(node_disk_writes_completed_total{device!~"mmcblk.+"}[1m]) > 0.1 and rate(node_disk_writes_completed_total{device!~"mmcblk.+"}[1m]) > 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host unusual disk write latency (instance {{ $labels.instance }})
+      description: Disk latency is growing (write operations > 100ms)\n
+      details: "Disk: {{ $value }}ms"
+  - alert: HostOomKillDetected
+    expr: increase(node_vmstat_oom_kill[1m]) > 0
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      title: Host OOM kill detected (instance {{ $labels.instance }})
+      description: OOM kill detected\n
+      details: "OOM kill: {{ $value }}"
+  - alert: HostNetworkReceiveErrors
+    expr: rate(node_network_receive_errs_total[2m]) / rate(node_network_receive_packets_total[2m]) > 0.01
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host Network Receive Errors (instance {{ $labels.instance }}:{{ $labels.device }})
+      description: Instance interface has encountered {{ printf "%.0f" $value }} receive errors in the last five minutes.\n
+      details: "Network: {{ $value }}"
+  - alert: HostNetworkTransmitErrors
+    expr: rate(node_network_transmit_errs_total[2m]) / rate(node_network_transmit_packets_total[2m]) > 0.01
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host Network Transmit Errors (instance {{ $labels.instance }}:{{ $labels.device }})
+      description: Instance has encountered {{ printf "%.0f" $value }} transmit errors in the last five minutes.\n
+      details: "Network: {{ $value }}"
+  - alert: HostClockSkew
+    expr: (node_timex_offset_seconds > 0.05 and deriv(node_timex_offset_seconds[5m]) >= 0) or (node_timex_offset_seconds < -0.05 and deriv(node_timex_offset_seconds[5m]) <= 0)
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host clock skew (instance {{ $labels.instance }})
+      description: Clock skew detected. Clock is out of sync.\n
+      details: "Clock: {{ $value }}s"
+  - alert: HostClockNotSynchronising
+    expr: min_over_time(node_timex_sync_status[1m]) == 0 and node_timex_maxerror_seconds >= 16
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Host clock not synchronising (instance {{ $labels.instance }})
+      description: Clock not synchronising.\n
+      details: "Clock: {{ $value }}s"
+# UPS Alerts
+- name: ups_alerts
+  rules:
+  - alert: UpsOnBattery
+    expr: nut_ups_status{status="OB"} > 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: UPS is on battery (instance {{ $labels.ups }})
+      description: UPS is on battery.
+      details: "Value: {{ $value }}"
+  - alert: UpsLowOnBattery
+    expr: nut_battery_charge < 0.35 and nut_ups_status{status="OB"} > 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: UPS is low on battery (instance {{ $labels.ups }})
+      description: UPS is low on battery.
+      details: "Value: {{ $value }}"
+  - alert: UpsHighLoad
+    expr: nut_load > 0.80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: UPS is high load (instance {{ $labels.ups }})
+      description: UPS is high load.
+      details: "Value: {{ $value }}"
+  - alert: UpsCriticalLoad
+    expr: nut_load > 0.90
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: UPS is critical load (instance {{ $labels.ups }})
+      description: "UPS is critical load. Consider shutting down."
+      details: "Value: {{ $value }}"
+# Power Alerts
+- name: power_alerts
+  rules:
+  - alert: PowerSocketOff
+    expr: nut_load > 0.90
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: UPS is critical load (instance {{ $labels.ups }})
+      description: UPS is critical load. Consider shutting down. \n  VALUE = {{ $value }}
+  - alert: PowerHighLoad
+    expr: |
+      vector(
+        scalar(homeassistant_sensor_power_w{entity="sensor.sonoff_100255fc7c_power"})
+        + scalar(nut_real_power_watts{instance="192.168.88.253:3493"})
+      ) > 1000
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Power is on high load
+      description: "Power is on high load."
+      details: "Load: {{ $value }}W"
+  - alert: PowerCriticalLoad
+    expr: |
+      vector(
+        scalar(homeassistant_sensor_power_w{entity="sensor.sonoff_100255fc7c_power"})
+        + scalar(nut_real_power_watts{instance="192.168.88.253:3493"})
+      ) > 2500
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: Power is critical load
+      description: "Power is critical load. Consider shutting down."
+      details: "Load: {{ $value }}W"
+  - alert: PowerHighAmperage
+    expr: homeassistant_sensor_current_a{entity="sensor.sonoff_100255fc7c_current"} > 9
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Power is high amperage
+      description: "Power is high amperage. Consider shutting down."
+      details: "Current: {{ $value }}A"
+  - alert: PowerUnusualDailyKwh
+    expr: |
+      (
+        rate(homeassistant_sensor_energy_kwh{entity="sensor.sonoff_100255fc7c_energy_day"}[5m]) * 3600
+      )
+      >
+      1.5 *
+      avg_over_time(
+        rate(homeassistant_sensor_energy_kwh{entity="sensor.sonoff_100255fc7c_energy_day"}[5m])[1d:]
+      ) * 3600
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: Unusual daily kwh detected.
+      description: "Unusual daily kwh detected. It is higher than 1.5 times the average daily kwh."
+      details: "Daily kwh: {{ $value }}kWh"
+# Temperature Alerts
+- name: temperature_alerts
+  rules:
+  - alert: TemperatureHighCPUTemp
+    expr: |
+      avg by (instance) (
+        node_hwmon_temp_celsius{job="proxmox_nodeexporter"}
+        * on(instance, chip) group_left(chip_name)
+        node_hwmon_chip_names{job="proxmox_nodeexporter"}
+      ) > 70
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "High CPU Temperature: {{ $labels.instance }}."
+      description: "High CPU temp detected on node {{ $labels.instance }}. \n  Temp = {{ $value }}°C"
+  - alert: TemperatureCriticalCPUTemp
+    expr: |
+      avg by (instance) (
+        node_hwmon_temp_celsius{job="proxmox_nodeexporter"}
+        * on(instance, chip) group_left(chip_name)
+        node_hwmon_chip_names{job="proxmox_nodeexporter"}
+      ) > 80
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "Critical CPU Temperature: {{ $labels.instance }}."
+      description: Critical CPU temp detected on node {{ $labels.instance }}. Consider shutting down.
+      details: "Temp: {{ $value }}°C"
+  - alert: TemperatureHighDiskTemp
+    expr: avg(smartctl_device_temperature * on(instance, device) group_left(interface,serial_number,model_name) smartctl_device) by (instance,device,model_name) > 70
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.model_name }}: High Disk Temperature ({{ $labels.instance }} / {{ $labels.device }})."
+      description: "High disk temp detected on node {{ $labels.instance }}. \n Disk: {{ $labels.device }} \n Model: {{ $labels.model_name }}"
+      details: "Temp: {{ $value }}°C"
+# Smartctl Alerts
+- name: smartctl_alerts
+  rules:
+  - alert: SmartctlStatusError
+    expr: (smartctl_device_smart_status * on(instance, device) group_left(interface,serial_number,model_family,model_name) smartctl_device) != 1
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.model_name }}: Smartctl Status Error ({{ $labels.instance }} / {{ $labels.device }})."
+      description: Smartctl status error detected on node {{ $labels.instance }}. \n Disk: {{ $labels.device }} \n Model: {{ $labels.model_name }}
+  - alert: SmartctlCriticalError
+    expr: smartctl_device_critical_warning * on(instance, device) group_left(interface,serial_number,model_family,model_name) smartctl_device > 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "{{ $labels.model_name }}: Smartctl Critical Error ({{ $labels.instance }} / {{ $labels.device }})."
+      description: "Smartctl critical error detected on node {{ $labels.instance }}. \n Disk: {{ $labels.device }} \n Model: {{ $labels.model_name }}"
+      details: "Critical warning: {{ $value }}"
+# ZFS Alerts
+- name: zfs_alerts
+  rules:
+  - alert: ZFSPoolOffline
+    expr: node_zfs_zpool_state{state="offline"} > 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.zpool }}: ZFS Pool Offline ({{ $labels.instance }})"
+      description: "ZFS pool is offline on node {{ $labels.instance }}. \n Pool: {{ $labels.zpool }}"
+      details: "State: {{ $value }}"
+  - alert: ZFSPoolDegraded
+    expr: node_zfs_zpool_state{state="degraded"} > 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.zpool }}: ZFS Pool Degraded ({{ $labels.instance }})"
+      description: "ZFS pool is degraded on node {{ $labels.instance }} | Pool: {{ $labels.zpool }}"
+      details: "State: {{ $value }}"
+  - alert: ZFSPoolFaulted
+    expr: node_zfs_zpool_state{state="faulted"} > 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "{{ $labels.zpool }}: ZFS Pool Faulted ({{ $labels.instance }})"
+      description: "ZFS pool is faulted on node {{ $labels.instance }}. \n Pool: {{ $labels.zpool }}"
+      details: "State: {{ $value }}"
+  - alert: ZFSPoolUnavailable
+    expr: node_zfs_zpool_state{state="unavail"} > 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "{{ $labels.zpool }}: ZFS Pool Unavailable ({{ $labels.instance }})"
+      description: "ZFS pool is unavailable on node {{ $labels.instance }}. \n Pool: {{ $labels.zpool }}"
+      details: "State: {{ $value }}"
+  - alert: DegradedSpace
+    expr: 100 * (1 - node_filesystem_avail_bytes / node_filesystem_size_bytes) > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "Running out of space: {{ $labels.device }}"
+      description: "Running out of space on node {{ $labels.instance }}. \n Device: {{ $labels.device }} \n Mountpoint: {{ $labels.mountpoint }}"
+      details: "Space: {{ $value }}%"

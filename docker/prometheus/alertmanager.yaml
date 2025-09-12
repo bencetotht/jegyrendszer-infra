@@ -1,0 +1,53 @@
+global:
+  resolve_timeout: 5m
+
+  smtp_smarthost: 'smtp.example.com:587'
+  smtp_from: 'alerts@example.com'
+  smtp_auth_username: 'alerts@example.com'
+  smtp_auth_password: 'YOUR_EMAIL_PASSWORD'
+  smtp_require_tls: true
+
+route:
+  receiver: 'slack_and_email'
+  group_by: ['alertname', 'instance']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
+
+receivers:
+  - name: 'slack_and_email'
+    slack_configs:
+      - send_resolved: true
+        channel: '#infra-alerts'
+        api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+        icon_emoji: ':warning:'
+        title: |-
+          [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} for {{ .CommonLabels.job }}
+          {{- if gt (len .CommonLabels) (len .GroupLabels) -}}
+            {{" "}}(
+            {{- with .CommonLabels.Remove .GroupLabels.Names }}
+              {{- range $index, $label := .SortedPairs -}}
+                {{ if $index }}, {{ end }}
+                {{- $label.Name }}="{{ $label.Value -}}"
+              {{- end }}
+            {{- end -}}
+            )
+          {{- end }}
+        text: '{{ .CommonAnnotations.title }}'
+        fields:
+          - title: "Severity"
+            value: '{{ .CommonLabels.severity }}'
+            short: true
+          - title: "Description"
+            value: '{{ .CommonAnnotations.description }}'
+            short: false
+          - title: "Details"
+            value: '{{ .CommonAnnotations.details }}'
+            short: false
+    email_configs:
+      - send_resolved: true
+        to: 'myteam@example.com'
+        from: 'alerts@example.com'
+        smarthost: 'smtp.example.com:587'
+        auth_username: 'alerts@example.com'
+        auth_password: 'YOUR_EMAIL_PASSWORD'

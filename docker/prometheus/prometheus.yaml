@@ -1,0 +1,70 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alert.rules
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - '192.168.88.47:9093'
+
+scrape_configs:
+  - job_name: 'nut-exporter'
+    honor_timestamps: true
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    scheme: http
+    follow_redirects: true
+    static_configs:
+      - targets: ['192.168.88.253:3493']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.88.253:9995
+  - job_name: 'cloudflare_tunnel'
+    static_configs:
+      - targets:
+        - 192.168.88.41:60123
+        - 192.168.88.42:60123
+        - 192.168.88.43:60123
+        - 192.168.88.44:60123 
+  - job_name: 'smartctl'
+    static_configs:
+      - targets:
+        - 192.168.88.253:9633
+        - 192.168.88.250:9633
+        - 192.168.88.252:9633
+    metrics_path: /metrics
+  - job_name: postgres-ha
+    static_configs:
+      - targets:
+        - 192.168.88.56:9187
+        - 192.168.88.57:9187
+        - 192.168.88.58:9187
+  - job_name: patroni
+    static_configs:
+      - targets:
+        - 192.168.88.56:8008
+        - 192.168.88.57:8008
+        - 192.168.88.58:8008
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+  - job_name: proxmox_nodeexporter
+    static_configs:
+      - targets:
+        - 192.168.88.253:9100
+        - 192.168.88.250:9100
+        - 192.168.88.252:9100
+  - job_name: homeassistant
+    metrics_path: /api/prometheus
+    static_configs:
+      - targets:
+        - 192.168.88.47:8123
