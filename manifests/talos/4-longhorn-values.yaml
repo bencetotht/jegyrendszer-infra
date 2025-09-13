@@ -1,6 +1,6 @@
-# metrics:
-#   serviceMonitor:
-#     enabled: true
+metrics:
+  serviceMonitor:
+    enabled: true
 defaultSettings:
   defaultReplicaCount: 2
 persistence:

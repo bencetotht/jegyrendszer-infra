@@ -46,8 +46,8 @@ service:
   loadBalancerSourceRanges: []
   externalIPs: []
 
-# metrics:
-#   prometheus:
-#     serviceMonitor:
-#       enabled: true
-#       namespace: monitoring
+metrics:
+  prometheus:
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
