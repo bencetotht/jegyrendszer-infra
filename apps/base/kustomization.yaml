@@ -8,7 +8,7 @@ resources:
 # - certmanager/certificate.yaml
 - certmanager/certmanager.yaml
 # - certmanager/ingress.yaml
-# - certmanager/issuer.yaml
+- certmanager/issuer.yaml
 - default/repositories.yaml
 - erettsegisite/erettsegi.yaml
 - erettsegisite/erettsegisite.yaml
