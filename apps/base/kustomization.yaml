@@ -5,9 +5,9 @@ resources:
 - bnbdevelopment/bnb-portfolio.yaml
 - bnbdevelopment/bnb-docs.yaml
 - certmanager/certns.yaml
-# - certmanager/certificate.yaml
+- certmanager/certificate.yaml
 - certmanager/certmanager.yaml
-# - certmanager/ingress.yaml
+- certmanager/ingress.yaml
 - certmanager/issuer.yaml
 - default/repositories.yaml
 - erettsegisite/erettsegi.yaml
