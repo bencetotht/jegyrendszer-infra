@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - authentik/ns.yaml
-# - authentik/authentik.yaml
+- authentik/authentik.yaml
 - bnbdevelopment/bnb.yaml
 - bnbdevelopment/bnb-portfolio.yaml
 - bnbdevelopment/bnb-docs.yaml
