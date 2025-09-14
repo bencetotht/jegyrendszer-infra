@@ -33,3 +33,36 @@ provider "proxmox" {
 
     pm_tls_insecure = true // only set for self-signed certificates
 }
+
+variable "pve_nodes" {
+    type = list(object({
+        name = string
+        template_id = string
+        storage_pool = string
+        iso_storage_pool = string
+        network_interface = string
+    }))
+    default = [
+        {
+            name = "proxmox"
+            template_id = "talos-template"
+            storage_pool = "fast2"
+            iso_storage_pool = "local"
+            network_interface = "vmbr0"
+        },
+        {
+            name = "pve2"
+            template_id = "talos-template" 
+            storage_pool = "tb2"
+            iso_storage_pool = "local"
+            network_interface = "vmbr0"
+        },
+        {
+            name = "pve3"
+            template_id = "talos-template"
+            storage_pool = "fast3"
+            iso_storage_pool = "local"
+            network_interface = "vmbr1"
+        }
+    ]
+}

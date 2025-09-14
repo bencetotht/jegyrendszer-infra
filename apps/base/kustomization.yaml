@@ -1,6 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- authentik/ns.yaml
+# - authentik/authentik.yaml
 - bnbdevelopment/bnb.yaml
 - bnbdevelopment/bnb-portfolio.yaml
 - bnbdevelopment/bnb-docs.yaml
@@ -13,13 +15,11 @@ resources:
 - erettsegisite/erettsegi.yaml
 - erettsegisite/erettsegisite.yaml
 - flux-system/flux-system-automation.yaml
-# - erettsegisite/erettsegi-redis.yaml
 - keycloak/ns.yaml
 # - keycloak/keycloak.yaml
 - monitoring/monitoring.yaml
 # - monitoring/loki-release.yaml
 - monitoring/prom-stack.yaml
-# - monitoring/scrapeconfigs.yaml
 # - traefik-system/ir-portainer.yaml
 # - traefik-system/ir-proxmox.yaml
 - utility/reflector.yaml

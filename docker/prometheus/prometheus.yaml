@@ -68,3 +68,22 @@ scrape_configs:
     static_configs:
       - targets:
         - 192.168.88.47:8123
+  - job_name: haproxy
+    static_configs:
+      - targets:
+        - 192.168.88.6:8405
+        - 192.168.88.7:8405
+        - 192.168.88.8:8405
+        - 192.168.88.9:8405
+  - job_name: redis
+    static_configs:
+      - targets:
+        - 192.168.88.61:9121
+        - 192.168.88.62:9121
+        - 192.168.88.63:9121
+  - job_name: sentinel
+    static_configs:
+      - targets:
+        - 192.168.88.61:9122
+        - 192.168.88.62:9122
+        - 192.168.88.63:9122
