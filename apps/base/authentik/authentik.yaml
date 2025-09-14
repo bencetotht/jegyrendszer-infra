@@ -24,7 +24,7 @@ spec:
         host: 192.168.88.50
         port: 5432
         database: authentikdb
-        name: "env://AUTHENTIK_POSTGRES_USER"
+        user: "env://AUTHENTIK_POSTGRES_USER"
         password: "env://AUTHENTIK_POSTGRES_PASSWORD"
 
       redis:
