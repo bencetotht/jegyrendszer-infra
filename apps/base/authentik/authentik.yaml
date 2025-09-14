@@ -23,7 +23,7 @@ spec:
       postgresql:
         host: 192.168.88.50
         port: 5432
-        database: authentik
+        database: authentikdb
         name: "env://AUTHENTIK_POSTGRES_USER"
         password: "env://AUTHENTIK_POSTGRES_PASSWORD"
 
