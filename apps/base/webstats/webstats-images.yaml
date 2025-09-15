@@ -1,0 +1,46 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: webstats-backend
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/webstats/backend
+  interval: 5m
+  secretRef:
+    name: regcred-bnb
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: webstats-frontend
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/webstats/frontend
+  interval: 5m
+  secretRef:
+    name: regcred-bnb
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: webstats-backend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: webstats-backend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: webstats-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: webstats-frontend
+  policy:
+    semver:
+      range: 1.x.x

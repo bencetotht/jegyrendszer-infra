@@ -23,3 +23,6 @@ resources:
 # - traefik-system/ir-portainer.yaml
 - traefik-system/ir-proxmox.yaml
 - utility/reflector.yaml
+- webstats/webstats-ns.yaml
+- webstats/webstats-images.yaml
+# - webstats/webstats.yaml
