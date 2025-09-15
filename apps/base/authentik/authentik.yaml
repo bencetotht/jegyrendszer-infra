@@ -113,6 +113,8 @@ spec:
             key: redis-password
       - name: AUTHENTIK_REDIS__DB
         value: "2"
+      - name: DJANGO_DB_CONN_MAX_AGE
+        value: "300"
       - name: AUTHENTIK_EMAIL_PASSWORD
         valueFrom:
           secretKeyRef:
