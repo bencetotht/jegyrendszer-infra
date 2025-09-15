@@ -44,9 +44,9 @@ spec:
           name: frontend-open
         env:
         - name: PREFIX
-          value: {{ .Values.backend.prefix }}
+          value: "{{ .Values.backend.prefix }}"
         - name: BACKEND
-          value: {{ .Values.frontend.backend_url }}
+          value: "{{ .Values.frontend.backend_url }}"
         securityContext:
           allowPrivilegeEscalation: false
 {{ if .Values.frontend.livenessProbe }}

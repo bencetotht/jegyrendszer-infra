@@ -47,11 +47,11 @@ spec:
             name: webstats-sm
         env:
         - name: GIN_MODE
-          value: release
+          value: "release"
         - name: BACKEND_PORT
-          value: {{ .Values.backend.port }}
+          value: "{{ .Values.backend.port }}"
         - name: PREFIX
-          value: {{ .Values.backend.prefix }}
+          value: "{{ .Values.backend.prefix }}"
         securityContext:
           allowPrivilegeEscalation: false
 {{ if .Values.backend.livenessProbe }}
