@@ -1,0 +1,40 @@
+{{- if .Values.ingress.enabled -}}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: webstats-ingressroute
+  namespace: {{ .Values.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.ingressclass | default "traefik-external" }}
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+  # Dashboard route
+  - match: "Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/`)"
+    kind: Rule
+    priority: 10
+    services:
+    - name: webstats-frontend
+      port: {{ .Values.frontend.port }}
+    middlewares:
+    - name: ak-outpost-onprem-cluster
+      namespace: authentik
+  # API Route
+  - match: "Host(`{{ .Values.ingress.host }}`) && PathPrefix(`{{ .Values.backend.prefix }}`)"
+    kind: Rule
+    services:
+    - name: webstats-backend
+      port: {{ .Values.backend.port }}
+  # Authentik callback
+  - kind: Rule
+    match: "Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/outpost.goauthentik.io/`)"
+    priority: 15
+    services:
+      - kind: Service
+        name: ak-outpost-onprem-cluster
+        namespace: authentik
+        port: 9000
+{{- end -}}

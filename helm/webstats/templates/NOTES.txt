@@ -1,0 +1,6 @@
+Project webstats is being deployed to your cluster.
+Main namespace: {{.Values.namespace}}
+Prometheus logging enabled: {{.Values.backend.metrics.enabled}}
+{{- if .Values.ingress.enabled }}
+Hostname: {{.Values.ingress.host}}
+{{- end }}

@@ -25,4 +25,4 @@ resources:
 - utility/reflector.yaml
 - webstats/webstats-ns.yaml
 - webstats/webstats-images.yaml
-# - webstats/webstats.yaml
+- webstats/webstats.yaml

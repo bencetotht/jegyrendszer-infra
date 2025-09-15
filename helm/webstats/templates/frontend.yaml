@@ -1,0 +1,86 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webstats-frontend
+  namespace: {{.Values.namespace}}
+  labels:
+    app.kubernetes.io/instance: webstats-frontend-release
+    app.kubernetes.io/name: webstats-frontend
+    pod-security.kubernetes.io/audit: baseline
+spec:
+  replicas: {{.Values.frontend.replicas}}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: webstats-frontend-release
+      app.kubernetes.io/name: webstats-frontend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: webstats-frontend-release
+        app.kubernetes.io/name: webstats-frontend
+    spec:
+      serviceAccountName: webstats-svc-a
+      imagePullSecrets:
+      - name: regcred-bnb
+      containers:
+      - name: webstats-frontend
+        image: "{{.Values.frontend.image}}:{{.Values.frontend.tag}}" 
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: frontend-open
+        env:
+        - name: PREFIX
+          value: {{ .Values.backend.prefix }}
+        - name: BACKEND
+          value: {{ .Values.frontend.backend_url }}
+        securityContext:
+          allowPrivilegeEscalation: false
+{{ if .Values.frontend.livenessProbe }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.frontend.prefix }}/health
+            port: {{ .Values.frontend.port }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 2
+{{ end }}
+{{ if .Values.frontend.startupProbe }}
+        startupProbe:
+          httpGet:
+            path: {{ .Values.frontend.prefix }}/health
+            port: {{ .Values.frontend.port }}
+          failureThreshold: 3
+          periodSeconds: 10
+{{ end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webstats-frontend
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/instance: webstats-frontend-release
+    app.kubernetes.io/name: webstats-frontend
+spec:
+  selector:
+    app.kubernetes.io/instance: webstats-frontend-release
+    app.kubernetes.io/name: webstats-frontend
+  ports:
+  - name: frontend-open
+    port: {{ .Values.frontend.port }}
+    protocol: TCP
+    targetPort: frontend-open
