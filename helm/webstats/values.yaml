@@ -52,8 +52,14 @@ backend:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # Expose prometheus metrics
   metrics:
-    enabled: false
+    enabled: true
+    # Create servicemonitor crds for prometheus
+    servicemonitor:
+      enabled: true
+      # Namespace of the servicemonitor
+      namespace: monitoring
 
 # Settings for the ingress
 ingress:

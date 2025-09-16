@@ -28,6 +28,14 @@ spec:
     services:
     - name: webstats-backend
       port: {{ .Values.backend.port }}
+{{ if .Values.backend.metrics.enabled }}
+  # Prometheus Endpoint
+  - match: "Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/metrics`)"
+    kind: Rule
+    services:
+    - name: webstats-backend
+      port: {{ .Values.backend.port }}
+{{ end }}
   # Authentik callback
   - kind: Rule
     match: "Host(`{{ .Values.ingress.host }}`) && PathPrefix(`/outpost.goauthentik.io/`)"
