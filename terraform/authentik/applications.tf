@@ -19,12 +19,17 @@ data "authentik_property_mapping_provider_scope" "scope-openid" {
 
 resource "authentik_provider_oauth2" "grafana" {
   name          = "Grafana"
+  invalidation_flow = data.authentik_flow.default-provider-authorization-implicit-consent.id
   # use: openssl rand -hex 16
   client_id     = "my_client_id"
 
   authorization_flow  = data.authentik_flow.default-provider-authorization-implicit-consent.id
 
-  redirect_uris = ["https://grafana.bnbdevelopment.hu/login/generic_oauth"]
+  allowed_redirect_uris = [
+    {
+      url = "https://grafana.bnbdevelopment.hu/login/generic_oauth"
+    }
+  ]
 
   property_mappings = [
     data.authentik_property_mapping_provider_scope.scope-email.id,
@@ -43,6 +48,7 @@ resource "authentik_application" "grafana" {
 resource "authentik_provider_proxy" "webstats" {
   name               = "Webstats"
   external_host      = "http://webstats.bnbdevelopment.hu"
+  invalidation_flow = data.authentik_flow.default-provider-authorization-implicit-consent.id
   authorization_flow = data.authentik_flow.default-provider-authorization-implicit-consent.id
 }
 

@@ -23,3 +23,6 @@ terraform/pve/terraform.tfstate
 
 .secrets/
 talos/conf/
+
+variables.pkr.hcl
+variables.pkrvars.hcl
