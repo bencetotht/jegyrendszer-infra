@@ -8,6 +8,8 @@
 terraform.tfstate
 terraform/pve/terraform.tfstate
 *.tfstate.backup
+.env_vars
+.env
 
 .secrets/*
 .certs/*

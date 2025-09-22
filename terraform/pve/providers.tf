@@ -6,6 +6,12 @@ terraform {
             version = "3.0.2-rc04"
         }
     }
+    backend "s3" {
+      bucket = "bnbdevelopment-tfstate-bucket"
+      key = "pve/terraform.tfstate"
+      region = "eu-north-1"
+      encrypt = true
+    }
 }
 
 variable "proxmox_api_url" {
