@@ -28,6 +28,36 @@ spec:
       serviceAccountName: webstats-svc-a
       imagePullSecrets:
       - name: regcred-bnb
+      volumes:
+      - name: geodb
+        emptyDir: {}
+{{ if .Values.s3.enabled }}
+      initContainers:
+      - name: fetch-geodb
+        image: amazon/aws-cli:2.31.0
+        command:
+          - sh
+          - -c
+          - aws --endpoint-url {{ .Values.s3.bucket_endpoint }} s3 cp s3://{{ .Values.s3.bucket_name }}/{{ .Values.s3.dbname }} /geodb/GeoDB.mmdb
+        volumeMounts:
+        - name: geodb
+          mountPath: /geodb
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.s3.secret_ref }}
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.s3.secret_ref }}
+                key: AWS_SECRET_ACCESS_KEY
+          - name: AWS_DEFAULT_REGION
+            value: {{ .Values.s3.bucket_region }}
+          - name: AWS_ENDPOINT_URL
+            value: {{ .Values.s3.bucket_endpoint }}
+{{ end }}
       containers:
       - name: webstats-backend
         image: "{{.Values.backend.image}}:{{.Values.backend.tag}}" 
@@ -70,6 +100,12 @@ spec:
             port: {{ .Values.backend.port }}
           failureThreshold: 3
           periodSeconds: 10
+{{ end }}
+{{ if .Values.s3.enabled }}
+        volumeMounts:
+        - name: geodb
+          mountPath: /geodb
+          readOnly: true
 {{ end }}
 ---
 apiVersion: v1

@@ -69,3 +69,18 @@ ingress:
   ingressclass: traefik-external
   # The host to use
   host: stats.bnbdevelopment.hu
+
+# Setting up S3 storage for GeoDB data
+s3:
+  # Whether to enable the S3 storage
+  enabled: true
+  # The secret reference to configure access and secret keys
+  secret_ref: webstats-sm
+  # The bucket name to use
+  bucket_name: webstats-geodb
+  # The bucket region to use
+  bucket_region: garage
+  # The bucket endpoint to use
+  bucket_endpoint: http://192.168.88.77:3900
+  # Filename to use
+  dbname: GeoLite2-City.mmdb
