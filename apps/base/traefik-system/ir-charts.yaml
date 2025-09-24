@@ -1,17 +1,29 @@
 ---
 apiVersion: traefik.io/v1alpha1
-kind: IngressRouteTCP
+kind: ServersTransport
 metadata:
-  name: charts-oci-tcp
+  name: oci-transport
+  namespace: traefik-system
+spec:
+  serverName: europe-west3-docker.pkg.dev
+  insecureSkipVerify: false
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: charts-oci
   namespace: traefik-system
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HostSNI(`charts.bnbdevelopment.hu`)
+    - match: Host(`charts.bnbdevelopment.hu`)
+      kind: Rule
       services:
         - name: oci-forward
           port: 443
+          scheme: https
+          serversTransport: oci-transport
 ---
 apiVersion: v1
 kind: Service
