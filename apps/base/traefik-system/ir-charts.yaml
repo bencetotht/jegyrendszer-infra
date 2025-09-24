@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oci-forward
+  namespace: traefik-system
+spec:
+  type: ExternalName
+  externalName: europe-west3-docker.pkg.dev
+  ports:
+    - port: 443
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: charts-oci
+  namespace: traefik-system
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`charts.bnbdevelopment.hu`)
+      kind: Rule
+      services:
+        - name: oci-forward
+          port: 443
