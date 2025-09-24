@@ -58,3 +58,24 @@ metadata:
 spec:
   interval: 5m
   url: https://charts.goauthentik.io/
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: bnb-charts
+  namespace: flux-system
+spec:
+  type: oci
+  interval: 1h
+  url: oci://europe-west3-docker.pkg.dev/bnbdevelopment/charts
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: OCIRepository
+# metadata:
+#   name: bnbdevelopment-repo
+#   namespace: flux-system
+# spec:
+#   interval: 5m0s
+#   url: oci://europe-west3-docker.pkg.dev/bnbdevelopment/charts/
+#   ref:
+#     tag: latest
