@@ -7,5 +7,3 @@ metadata:
 spec:
   interval: 5m0s
   url: oci://europe-west3-docker.pkg.dev/bnbdevelopment/charts/webstats
-  ref:
-    tag: latest
