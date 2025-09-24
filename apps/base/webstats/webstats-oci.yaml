@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: bnbdevelopment-repo
+  namespace: flux-system
+spec:
+  interval: 5m0s
+  url: oci://europe-west3-docker.pkg.dev/bnbdevelopment/charts/webstats
+  ref:
+    tag: latest

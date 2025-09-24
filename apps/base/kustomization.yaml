@@ -24,5 +24,6 @@ resources:
 - traefik-system/ir-proxmox.yaml
 - utility/reflector.yaml
 - webstats/webstats-ns.yaml
+- webstats/webstats-oci.yaml
 - webstats/webstats-images.yaml
 - webstats/webstats.yaml
