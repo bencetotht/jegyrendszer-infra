@@ -12,7 +12,7 @@ alerting:
           - '192.168.88.47:9093'
 
 scrape_configs:
-  - job_name: 'nut-exporter'
+  - job_name: nut-exporter
     honor_timestamps: true
     scrape_interval: 30s
     scrape_timeout: 10s
@@ -28,14 +28,14 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: 192.168.88.253:9995
-  - job_name: 'cloudflare_tunnel'
+  - job_name: cloudflare_tunnel
     static_configs:
       - targets:
         - 192.168.88.41:60123
         - 192.168.88.42:60123
         - 192.168.88.43:60123
         - 192.168.88.44:60123 
-  - job_name: 'smartctl'
+  - job_name: smartctl
     static_configs:
       - targets:
         - 192.168.88.253:9633
@@ -90,6 +90,6 @@ scrape_configs:
   - job_name: mktxp
     static_configs:
       - targets: ['192.168.88.47:49090']
-  - job_name: 'rabbitmq'
+  - job_name: rabbitmq
     static_configs:
       - targets: ['192.168.88.66:15692', '192.168.88.67:15692', '192.168.88.68:15692']

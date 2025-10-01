@@ -269,6 +269,15 @@ groups:
       title: "{{ $labels.model_name }}: High Disk Temperature ({{ $labels.instance }} / {{ $labels.device }})."
       description: "High disk temp detected on node {{ $labels.instance }}. \n Disk: {{ $labels.device }} \n Model: {{ $labels.model_name }}"
       details: "Temp: {{ $value }}°C"
+  - alert: TemperatureHighRoomTemp
+    expr: homeassistant_sensor_temperature_celsius > 38
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "High Room Temperature"
+      description: "High room temperature detected. Consider shutting down."
+      details: "Temp: {{ $value }}°C"
 # Smartctl Alerts
 - name: smartctl_alerts
   rules:
@@ -337,3 +346,109 @@ groups:
       title: "Running out of space: {{ $labels.device }}"
       description: "Running out of space on node {{ $labels.instance }}. \n Device: {{ $labels.device }} \n Mountpoint: {{ $labels.mountpoint }}"
       details: "Space: {{ $value }}%"
+# Mikrotik Alerts
+- name: mikrotik_alerts
+  rules:
+  - alert: MikrotikTempHigh
+    expr: mktxp_system_routerboard_temperature > 60
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.mikrotik }}: Mikrotik Temp High ({{ $labels.routerboard }})"
+      description: "Mikrotik temp is high on node {{ $labels.routerboard }}."
+      details: "Temperature: {{ $value }}°C"
+  - alert: MikrotikTempCritical
+    expr: mktxp_system_routerboard_temperature > 85
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "{{ $labels.mikrotik }}: Mikrotik Temp Critical ({{ $labels.routerboard }})"
+      description: "Mikrotik temp is critical on node {{ $labels.routerboard }}."
+      details: "Temperature: {{ $value }}°C"
+  - alert: MikrotikHighRamUsage
+    expr: (1 - mktxp_system_free_memory / mktxp_system_total_memory)*100 > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.mikrotik }}: Mikrotik High Ram Usage ({{ $labels.routerboard }})"
+      description: "Mikrotik ram is high on node {{ $labels.routerboard }}."
+      details: "Ram: {{ $value }}%"
+  - alert: MikrotikHighCpuUsage
+    expr: mktxp_system_cpu_load > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.mikrotik }}: Mikrotik High Cpu Usage ({{ $labels.routerboard }})"
+      description: "Mikrotik cpu is high on node {{ $labels.routerboard }}."
+      details: "Cpu: {{ $value }}%"
+  - alert: MikrotikInterfaceChange
+    expr: changes(mktxp_interface_status[5m]) > 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.mikrotik }}: Mikrotik Interface Change ({{ $labels.routerboard }})"
+      description: "Mikrotik interface is changed on node {{ $labels.routerboard }} / {{ $labels.name }}."
+      details: "Interface: {{ $labels.name }}"
+  - alert: MikrotikInterfaceRxError
+    expr: rate(mktxp_interface_rx_error_total[5m]) > 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.mikrotik }}: Mikrotik Interface Rx Error ({{ $labels.routerboard }})"
+      description: "Mikrotik interface is receiving errors on node {{ $labels.routerboard }} / {{ $labels.name }}."
+      details: "Interface: {{ $labels.name }}"
+# HomeAssistant Alerts
+- name: homeassistant_alerts
+  rules:
+  - alert: HomeAssistantSensorBatteryLow
+    expr: homeassistant_sensor_battery_percent < 30
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.friendly_name }}: Sensor Battery Low"
+      description: "HomeAssistant sensor battery is low on device {{ $labels.friendly_name }}."
+      details: "Battery: {{ $value }}%"
+  - alert: HomeAssistantHumidityLow
+    expr: homeassistant_sensor_humidity_percent < 30
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.friendly_name }}: Sensor Humidity Low"
+      description: "HomeAssistant sensor humidity is low on device {{ $labels.friendly_name }}."
+      details: "Humidity: {{ $value }}%"
+  - alert: HomeAssistantHumidityHigh
+    expr: homeassistant_sensor_humidity_percent > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      title: "{{ $labels.friendly_name }}: Sensor Humidity High"
+      description: "HomeAssistant sensor humidity is high on device {{ $labels.friendly_name }}."
+      details: "Humidity: {{ $value }}%"
+  - alert: HomeAssistantSmokeDetection
+    expr: homeassistant_binary_sensor_state{friendly_name="Bing Chilling Smoke"} != 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "{{ $labels.friendly_name }}: Sensor Smoke Detection"
+      description: "HomeAssistant sensor smoke detection is detected on device {{ $labels.friendly_name }}."
+      details: "Smoke Detection: {{ $value }}"
+  - alert: HomeAssistantTamperDetection
+    expr: homeassistant_binary_sensor_state{friendly_name="Bing Chilling Tamper"} != 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "{{ $labels.friendly_name }}: Sensor Tamper Detection"
+      description: "HomeAssistant sensor tamper detection is detected on device {{ $labels.friendly_name }}."
+      details: "Tamper Detection: {{ $value }}"
+# Longhorn Alerts
