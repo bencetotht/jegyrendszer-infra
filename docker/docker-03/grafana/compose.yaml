@@ -1,0 +1,61 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: grafana_postgres
+    environment:
+      POSTGRES_DB: grafana
+      POSTGRES_USER: grafana_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - traefik_backend
+
+  grafana:
+    image: grafana/grafana:12.1.1
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    networks:
+      - traefik_backend
+    environment:
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_HOST: postgres:5432
+      GF_DATABASE_NAME: grafana
+      GF_DATABASE_USER: grafana_user
+      GF_DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+      GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: ${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+      GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://your.oauth.server/application/o/authorize/"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://your.oauth.server/application/o/token/"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "https://your.oauth.server/application/o/userinfo/"
+      GF_AUTH_SIGNOUT_REDIRECT_URL: "https://your.oauth.server/application/o/grafana/end-session/"
+      # Optionally enable auto-login (bypasses Grafana login screen)
+      #GF_AUTH_OAUTH_AUTO_LOGIN: "true"
+      # Optionally map user groups to Grafana roles
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(groups, 'bnbdevelopment') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'"
+      GF_SERVER_ROOT_URL: "https://your.grafana.server/"
+    volumes:
+      - 'grafana_data:/var/lib/grafana'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.entrypoints=web,websecure"
+      - "traefik.http.routers.grafana.rule=Host(`your.grafana.server`)"
+      - "traefik.http.routers.grafana.service=grafana"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
+volumes:
+  grafana_data:
+  postgres_data:
+
+networks:
+  traefik_backend:
+    external: true

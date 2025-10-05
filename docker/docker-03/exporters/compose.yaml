@@ -1,0 +1,9 @@
+services:
+  mktxp:
+    container_name: mktxp
+    image: ghcr.io/akpw/mktxp:latest
+    ports:
+      - 49090:49090
+    volumes:
+      - "./mktxp:/root/mktxp/"
+    user: root
