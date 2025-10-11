@@ -52,6 +52,12 @@ data:
       password: '${ELASTICSEARCH_PASSWORD}'
       index: "nestjs-logs-%{+yyyy.MM.dd}"
 
+    setup.template.name: "nestjs-logs"
+    setup.template.pattern: "nestjs-logs-*"
+    setup.template.settings:
+      index.number_of_shards: 1
+      index.number_of_replicas: 1
+
     setup.ilm:
       enabled: true
       rollover_alias: "nestjs-logs"
