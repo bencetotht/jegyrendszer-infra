@@ -15,8 +15,9 @@ resources:
 - erettsegisite/erettsegi.yaml
 - erettsegisite/erettsegisite.yaml
 - flux-system/flux-system-automation.yaml
-- keycloak/ns.yaml
+# - keycloak/ns.yaml
 # - keycloak/keycloak.yaml
+- logging/logging.yaml
 - monitoring/monitoring.yaml
 # - monitoring/loki-release.yaml
 - monitoring/prom-stack.yaml
