@@ -1,5 +1,5 @@
 namespace: erettsegi
-development: true
+development: false
 devbranch:
   enabled: true
   replicas: 1
@@ -22,6 +22,10 @@ backend:
   hpa: true
   livenessProbe: true
   startupProbe: true
+  filebeat: 
+    enabled: true
+    elasticsearch_hosts: https://elasticsearch-master:9200
+    secret_name: elasticsearch-credentials
 statistics:
   enabled: true
   replicas: 1

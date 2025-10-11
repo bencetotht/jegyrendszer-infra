@@ -1,0 +1,62 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config
+  namespace: default
+data:
+  filebeat.yml: |
+    filebeat.inputs:
+      - type: filestream
+        id: nestjs-app-logs
+        enabled: true
+        paths:
+          - /var/log/app/app.log
+        parsers:
+          - ndjson:
+              keys_under_root: true
+              add_error_key: true
+              overwrite_keys: true
+        fields:
+          log_type: application
+        fields_under_root: true
+
+      - type: filestream
+        id: nestjs-error-logs
+        enabled: true
+        paths:
+          - /var/log/app/error.log
+        parsers:
+          - ndjson:
+              keys_under_root: true
+              add_error_key: true
+              overwrite_keys: true
+        fields:
+          log_type: error
+          severity: error
+        fields_under_root: true
+
+    processors:
+      - add_host_metadata:
+          when.not.contains.tags: forwarded
+      - add_cloud_metadata: ~
+      - add_kubernetes_metadata:
+          host: ${NODE_NAME}
+          matchers:
+          - logs_path:
+              logs_path: "/var/log/app/"
+
+    output.elasticsearch:
+      hosts: ['${ELASTICSEARCH_HOSTS}']
+      username: '${ELASTICSEARCH_USERNAME}'
+      password: '${ELASTICSEARCH_PASSWORD}'
+      index: "nestjs-logs-%{+yyyy.MM.dd}"
+
+    setup.ilm:
+      enabled: true
+      rollover_alias: "nestjs-logs"
+      pattern: "{now/d}-000001"
+
+    logging.level: info
+    logging.to_files: false
+    logging.to_stderr: true

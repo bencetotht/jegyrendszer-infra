@@ -18,6 +18,7 @@ machine:
           - rw
   sysctls:
     vm.nr_hugepages: "1024"
+    vm.max_map_count: "262144"
   kernel:
     modules:
       - name: nvme_tcp
