@@ -51,6 +51,7 @@ data:
       username: '${ELASTICSEARCH_USERNAME}'
       password: '${ELASTICSEARCH_PASSWORD}'
       index: "nestjs-logs-%{+yyyy.MM.dd}"
+      ssl.verification_mode: none
 
     setup.template.name: "nestjs-logs"
     setup.template.pattern: "nestjs-logs-*"
