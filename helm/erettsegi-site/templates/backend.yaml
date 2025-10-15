@@ -143,14 +143,14 @@ spec:
           mountPath: /var/log/app
           readOnly: true
         - name: filebeat-config
-          mountPath: /etc/filebeat.yml
+          mountPath: /usr/share/filebeat/filebeat.yml
           subPath: filebeat.yml
           readOnly: true
         - name: filebeat-data
           mountPath: /usr/share/filebeat/data
-        - name: elasticsearch-ca
-          mountPath: /etc/pki/elasticsearch
-          readOnly: true
+        # - name: elasticsearch-ca
+        #   mountPath: /etc/pki/elasticsearch
+        #   readOnly: true
         securityContext:
           runAsUser: 0
 {{ end }}
