@@ -107,7 +107,7 @@ spec:
         image: docker.elastic.co/beats/filebeat:8.11.0
         imagePullPolicy: Always
         args: [
-          "-c", "/etc/filebeat.yml",
+          "-c", "/usr/share/filebeat/data/filebeat.yml",
           "-e",
         ]
         env:
