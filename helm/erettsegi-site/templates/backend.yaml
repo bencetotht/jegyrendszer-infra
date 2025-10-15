@@ -141,7 +141,7 @@ spec:
         volumeMounts:
         - name: logs
           mountPath: /var/log/app
-          readOnly: true
+          # readOnly: true
         - name: filebeat-config
           mountPath: /usr/share/filebeat/filebeat.yml
           subPath: filebeat.yml
