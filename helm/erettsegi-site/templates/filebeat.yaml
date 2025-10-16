@@ -21,19 +21,37 @@ data:
 
     processors:
       - add_host_metadata: ~
-      - add_cloud_metadata: ~
-      - add_docker_metadata: ~
-      - add_kubernetes_metadata: ~
 
     output.elasticsearch:
       hosts: ["${ELASTICSEARCH_HOSTS}"]
       username: "${ELASTICSEARCH_USERNAME}"
       password: "${ELASTICSEARCH_PASSWORD}"
-      index: "erettsegisite-logs-%{+yyyy.MM.dd}"
+      index: "erettsegindex-logs-%{+yyyy.MM.dd}"
       ssl.verification_mode: none
 
-    setup.template.name: "erettsegisite-logs"
-    setup.template.pattern: "erettsegisite-logs-*"
+  # filebeat.yml: |
+  #   filebeat.inputs:
+  #     - type: filestream
+  #       id: erettsegisite-logs
+  #       enabled: true
+  #       paths:
+  #         - /var/log/app/app.log
+  #         - /var/log/app/error.log
+  #       parsers:
+  #         - ndjson:
+  #             target: ""
+  #             overwrite_keys: true
+  #             add_error_key: true
+
+  #   processors:
+  #     - add_host_metadata: ~
+
+  #   output.elasticsearch:
+  #     hosts: ["${ELASTICSEARCH_HOSTS}"]
+  #     username: "${ELASTICSEARCH_USERNAME}"
+  #     password: "${ELASTICSEARCH_PASSWORD}"
+  #     index: "erettsegindex-logs-%{+yyyy.MM.dd}"
+  #     ssl.verification_mode: none
 
   # filebeat.yml: |
   #   filebeat.inputs:
