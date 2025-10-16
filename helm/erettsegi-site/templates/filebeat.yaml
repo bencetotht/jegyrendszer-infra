@@ -19,14 +19,10 @@ data:
               overwrite_keys: true
               add_error_key: true
 
-    processors:
-      - add_host_metadata: ~
-
     output.elasticsearch:
       hosts: ["${ELASTICSEARCH_HOSTS}"]
       username: "${ELASTICSEARCH_USERNAME}"
       password: "${ELASTICSEARCH_PASSWORD}"
-      index: "erettsegindex-logs-%{+yyyy.MM.dd}"
       ssl.verification_mode: none
 
   # filebeat.yml: |
@@ -52,6 +48,10 @@ data:
   #     password: "${ELASTICSEARCH_PASSWORD}"
   #     index: "erettsegindex-logs-%{+yyyy.MM.dd}"
   #     ssl.verification_mode: none
+
+  #   setup.template.name: "erettsegisite-logs"
+  #   setup.template.pattern: "erettsegisite-logs-*"
+  #   setup.template.overwrite: true
 
   # filebeat.yml: |
   #   filebeat.inputs:
