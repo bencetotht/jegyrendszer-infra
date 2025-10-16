@@ -17,11 +17,7 @@ data:
           - ndjson:
               target: ""
               overwrite_keys: true
-        json.add_error_key: true
-        multiline:
-          pattern: '^\s'
-          negate: true
-          match: after
+              add_error_key: true
 
       processors:
         - add_host_metadata: ~
