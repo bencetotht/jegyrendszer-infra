@@ -19,18 +19,18 @@ data:
               overwrite_keys: true
               add_error_key: true
 
-      processors:
-        - add_host_metadata: ~
-        - add_cloud_metadata: ~
-        - add_docker_metadata: ~
-        - add_kubernetes_metadata: ~
+    processors:
+      - add_host_metadata: ~
+      - add_cloud_metadata: ~
+      - add_docker_metadata: ~
+      - add_kubernetes_metadata: ~
 
-      output.elasticsearch:
-        hosts: ["${ELASTICSEARCH_HOSTS}"]
-        username: "${ELASTICSEARCH_USERNAME}"
-        password: "${ELASTICSEARCH_PASSWORD}"
-        index: "erettsegi-logs-%{+yyyy.MM.dd}"
-        ssl.verification_mode: none
+    output.elasticsearch:
+      hosts: ["${ELASTICSEARCH_HOSTS}"]
+      username: "${ELASTICSEARCH_USERNAME}"
+      password: "${ELASTICSEARCH_PASSWORD}"
+      index: "erettsegi-logs-%{+yyyy.MM.dd}"
+      ssl.verification_mode: none
 
   # filebeat.yml: |
   #   filebeat.inputs:
