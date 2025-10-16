@@ -8,56 +8,87 @@ data:
   filebeat.yml: |
     filebeat.inputs:
       - type: filestream
-        id: erettsegi-app-logs
+        id: app-logs
         enabled: true
         paths:
           - /var/log/app/app.log
-        parsers:
-          - ndjson:
-              keys_under_root: true
-              add_error_key: true
-              overwrite_keys: true
-        fields:
-          log_type: application
-        fields_under_root: true
-
-      - type: filestream
-        id: erettsegi-error-logs
-        enabled: true
-        paths:
           - /var/log/app/error.log
         parsers:
           - ndjson:
-              keys_under_root: true
-              add_error_key: true
+              target: ""
               overwrite_keys: true
-        fields:
-          log_type: error
-          severity: error
-        fields_under_root: true
+        json.add_error_key: true
+        multiline:
+          pattern: '^\s'
+          negate: true
+          match: after
 
-    processors:
-      - add_host_metadata:
-          when.not.contains.tags: forwarded
-      - add_cloud_metadata: ~
+      processors:
+        - add_host_metadata: ~
+        - add_cloud_metadata: ~
+        - add_docker_metadata: ~
+        - add_kubernetes_metadata: ~
 
-    output.elasticsearch:
-      hosts: ['${ELASTICSEARCH_HOSTS}']
-      username: '${ELASTICSEARCH_USERNAME}'
-      password: '${ELASTICSEARCH_PASSWORD}'
-      index: "erettsegi-logs-%{+yyyy.MM.dd}"
-      ssl.verification_mode: none
+      output.elasticsearch:
+        hosts: ["${ELASTICSEARCH_HOSTS}"]
+        username: "${ELASTICSEARCH_USERNAME}"
+        password: "${ELASTICSEARCH_PASSWORD}"
+        index: "erettsegi-logs-%{+yyyy.MM.dd}"
+        ssl.verification_mode: none
 
-    setup.template.name: "erettsegi-logs"
-    setup.template.pattern: "erettsegi-logs-*"
-    setup.template.settings:
-      index.number_of_shards: 1
-      index.number_of_replicas: 1
-    setup.template.type: index
+  # filebeat.yml: |
+  #   filebeat.inputs:
+  #     - type: filestream
+  #       id: erettsegi-app-logs
+  #       enabled: true
+  #       paths:
+  #         - /var/log/app/app.log
+  #       parsers:
+  #         - ndjson:
+  #             keys_under_root: true
+  #             add_error_key: true
+  #             overwrite_keys: true
+  #       fields:
+  #         log_type: application
+  #       fields_under_root: true
 
-    setup.ilm:
-      enabled: false
+  #     - type: filestream
+  #       id: erettsegi-error-logs
+  #       enabled: true
+  #       paths:
+  #         - /var/log/app/error.log
+  #       parsers:
+  #         - ndjson:
+  #             keys_under_root: true
+  #             add_error_key: true
+  #             overwrite_keys: true
+  #       fields:
+  #         log_type: error
+  #         severity: error
+  #       fields_under_root: true
 
-    logging.level: info
-    logging.to_files: false
-    logging.to_stderr: true
+  #   processors:
+  #     - add_host_metadata:
+  #         when.not.contains.tags: forwarded
+  #     - add_cloud_metadata: ~
+
+  #   output.elasticsearch:
+  #     hosts: ['${ELASTICSEARCH_HOSTS}']
+  #     username: '${ELASTICSEARCH_USERNAME}'
+  #     password: '${ELASTICSEARCH_PASSWORD}'
+  #     index: "erettsegi-logs-%{+yyyy.MM.dd}"
+  #     ssl.verification_mode: none
+
+  #   setup.template.name: "erettsegi-logs"
+  #   setup.template.pattern: "erettsegi-logs-*"
+  #   setup.template.settings:
+  #     index.number_of_shards: 1
+  #     index.number_of_replicas: 1
+  #   setup.template.type: index
+
+  #   setup.ilm:
+  #     enabled: false
+
+  #   logging.level: info
+  #   logging.to_files: false
+  #   logging.to_stderr: true
