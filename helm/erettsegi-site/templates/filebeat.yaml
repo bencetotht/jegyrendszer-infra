@@ -8,7 +8,7 @@ data:
   filebeat.yml: |
     filebeat.inputs:
       - type: filestream
-        id: nestjs-app-logs
+        id: erettsegi-app-logs
         enabled: true
         paths:
           - /var/log/app/app.log
@@ -22,7 +22,7 @@ data:
         fields_under_root: true
 
       - type: filestream
-        id: nestjs-error-logs
+        id: erettsegi-error-logs
         enabled: true
         paths:
           - /var/log/app/error.log
@@ -45,11 +45,11 @@ data:
       hosts: ['${ELASTICSEARCH_HOSTS}']
       username: '${ELASTICSEARCH_USERNAME}'
       password: '${ELASTICSEARCH_PASSWORD}'
-      index: "nestjs-logs-%{+yyyy.MM.dd}"
+      index: "erettsegi-logs-%{+yyyy.MM.dd}"
       ssl.verification_mode: none
 
-    setup.template.name: "nestjs-logs"
-    setup.template.pattern: "nestjs-logs-*"
+    setup.template.name: "erettsegi-logs"
+    setup.template.pattern: "erettsegi-logs-*"
     setup.template.settings:
       index.number_of_shards: 1
       index.number_of_replicas: 1
