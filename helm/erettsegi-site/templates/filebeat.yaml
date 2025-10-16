@@ -19,6 +19,9 @@ data:
               overwrite_keys: true
               add_error_key: true
 
+    setup.dashboards.enabled: false
+    setup.kibana.host: ""
+
     output.elasticsearch:
       hosts: ["${ELASTICSEARCH_HOSTS}"]
       username: "${ELASTICSEARCH_USERNAME}"
