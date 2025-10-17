@@ -8,25 +8,27 @@ data:
   filebeat.yml: |
     filebeat.inputs:
       - type: filestream
-        id: erettsegisite-logs
+        id: es1a-logs
         enabled: true
         paths:
           - /var/log/app/app.log
-          - /var/log/app/error.log
-        parsers:
-          - ndjson:
-              target: ""
-              overwrite_keys: true
-              add_error_key: true
+        json.keys_under_root: true
+        json.add_error_key: true
+        json.message_key: message
 
-    setup.dashboards.enabled: false
-    setup.kibana.host: ""
+      - type: filestream
+        id: es1e-logs
+        enabled: true
+        paths:
+          - /var/log/app/app.log
+        json.keys_under_root: true
+        json.add_error_key: true
+        json.message_key: message
+    
+    output.logstash:
+      hosts: ["logstash-logstash:5044"]
 
-    output.elasticsearch:
-      hosts: ["${ELASTICSEARCH_HOSTS}"]
-      username: "${ELASTICSEARCH_USERNAME}"
-      password: "${ELASTICSEARCH_PASSWORD}"
-      ssl.verification_mode: none
+
 
   # filebeat.yml: |
   #   filebeat.inputs:
