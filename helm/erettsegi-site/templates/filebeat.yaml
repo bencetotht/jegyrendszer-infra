@@ -23,9 +23,11 @@ data:
         enabled: true
         paths:
           - /var/log/app/app.log
-        json.keys_under_root: true
-        json.add_error_key: true
-        json.message_key: message
+        parsers:
+          - ndjson:
+              target: ""
+              overwrite_keys: true
+              add_error_key: true
     
     output.logstash:
       hosts: ["logstash-logstash-headless.logging.svc.cluster.local:5044"]
