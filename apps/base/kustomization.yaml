@@ -6,6 +6,7 @@ resources:
 - bnbdevelopment/bnb.yaml
 - bnbdevelopment/bnb-portfolio.yaml
 - bnbdevelopment/bnb-docs.yaml
+- bnbdevelopment/bizray.yaml
 - certmanager/certns.yaml
 - certmanager/certificate.yaml
 - certmanager/certmanager.yaml
