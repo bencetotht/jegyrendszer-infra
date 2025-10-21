@@ -4,6 +4,8 @@ kind: ImageRepository
 metadata:
   name: bizray-frontend
   namespace: flux-system
+  labels:
+    env.skip: cloud
 spec:
   image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-frontend
   interval: 5m
@@ -15,6 +17,8 @@ kind: ImagePolicy
 metadata:
   name: bizray-frontend
   namespace: flux-system
+  labels:
+    env.skip: cloud
 spec:
   imageRepositoryRef:
     name: bizray-frontend
@@ -27,6 +31,8 @@ kind: ImageRepository
 metadata:
   name: bizray-backend
   namespace: flux-system
+  labels:
+    env.skip: cloud
 spec:
   image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-backend
   interval: 5m
@@ -38,91 +44,166 @@ kind: ImagePolicy
 metadata:
   name: bizray-backend
   namespace: flux-system
+  labels:
+    env.skip: cloud
 spec:
   imageRepositoryRef:
     name: bizray-backend
   policy:
     semver:
       range: 1.x.x
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: bnbdocs
-#   namespace: bnb
-#   labels:
-#     app: bnbdocs
-#     pod-security.kubernetes.io/audit: baseline
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: bnbdocs
-#   strategy:
-#     type: RollingUpdate
-#     rollingUpdate:
-#       maxUnavailable: 1
-#       maxSurge: 1
-#   template:
-#     metadata:
-#       labels:
-#         app: bnbdocs
-#     spec:
-#       serviceAccountName: bnbdocs-svc-a
-#       imagePullSecrets:
-#       - name: regcred-bnb
-#       containers:
-#       - name: bnbdocs
-#         image: europe-west3-docker.pkg.dev/bnbdevelopment/portfolio/docs:2.20.115 # {"$imagepolicy": "flux-system:bnbdocs"}
-#         imagePullPolicy: Always
-#         resources:
-#           limits:
-#             cpu: 1000m
-#             memory: 2Gi
-#           requests:
-#             cpu: 500m
-#             memory: 1Gi
-#         ports:
-#         - containerPort: 3000
-#           name: frontend-open
-#         env:
-#         - name: NODE_ENV
-#           value: "production"
-#         securityContext:
-#           allowPrivilegeEscalation: false
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: bnbdocs-svc
-#   namespace: bnb
-# spec:
-#   selector:
-#     app: bnbdocs
-#   ports:
-#   - port: 3000
-#     targetPort: frontend-open
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: bnbdocs-svc-a
-#   namespace: bnb
-# ---
-# apiVersion: traefik.io/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: bnbdocs-ingressroute
-#   namespace: bnb
-#   annotations:
-#     kubernetes.io/ingress.class: traefik-external
-# spec:
-#   entryPoints:
-#     - web
-#     - websecure
-#   routes:
-#     - match: "Host(`docs.bnbdevelopment.hu`) && PathPrefix(`/`)"
-#       kind: Rule
-#       services:
-#         - name: bnbdocs-svc
-#           port: 3000
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bizray-svc-a
+  namespace: bnb
+  labels:
+    env.skip: cloud
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bizray-frontend
+  namespace: bnb
+  labels:
+    app: bizray-frontend
+    pod-security.kubernetes.io/audit: baseline
+    env.skip: cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bizray-frontend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: bizray-frontend
+    spec:
+      serviceAccountName: bizray-svc-a
+      imagePullSecrets:
+      - name: regcred-bnb
+      containers:
+      - name: bizray-frontend
+        image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-frontend:1.0.0 # {"$imagepolicy": "flux-system:bizray-frontend"}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 80
+          name: frontend-open
+        env:
+        - name: NODE_ENV
+          value: "production"
+        securityContext:
+          allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bizray-frontend-svc
+  namespace: bnb
+  labels:
+    env.skip: cloud
+spec:
+  selector:
+    app: bizray-frontend
+  ports:
+  - port: 80
+    targetPort: frontend-open
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bizray-backend
+  namespace: bnb
+  labels:
+    app: bizray-backend
+    pod-security.kubernetes.io/audit: baseline
+    env.skip: cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bizray-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: bizray-backend
+    spec:
+      serviceAccountName: bizray-svc-a
+      imagePullSecrets:
+      - name: regcred-bnb
+      containers:
+      - name: bizray-backend
+        image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-backend:1.0.0 # {"$imagepolicy": "flux-system:bizray-backend"}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+        - containerPort: 3000
+          name: backend-open
+        env:
+        - name: NODE_ENV
+          value: "production"
+        securityContext:
+          allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bizray-backend-svc
+  namespace: bnb
+  labels:
+    env.skip: cloud
+spec:
+  selector:
+    app: bizray-backend
+  ports:
+  - port: 3000
+    targetPort: backend-open
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bizray-ingressroute
+  namespace: bnb
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+  labels:
+    env.skip: cloud
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: "Host(`bizray.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      kind: Rule
+      services:
+        - name: bizray-frontend-svc
+          port: 80
+    - match: "Host(`apibizray.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      kind: Rule
+      services:
+        - name: bizray-backend-svc
+          port: 3000
