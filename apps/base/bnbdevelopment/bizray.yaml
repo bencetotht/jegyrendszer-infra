@@ -202,17 +202,18 @@ spec:
       services:
         - name: bizray-frontend-svc
           port: 80
-      middlewares:
-        - name: ak-outpost-onprem-cluster
-          namespace: authentik
-    - kind: Rule
-      match: "Host(`bizray.bnbdevelopment.hu`) && PathPrefix(`/outpost.goauthentik.io/`)"
-      priority: 15
-      services:
-        - kind: Service
-          name: ak-outpost-onprem-cluster
-          namespace: authentik
-          port: 9000
+      # middlewares:
+      #   - name: ak-outpost-onprem-cluster
+      #     namespace: authentik
+    # - kind: Rule
+    #   match: "Host(`bizray.bnbdevelopment.hu`) && PathPrefix(`/outpost.goauthentik.io/`)"
+    #   priority: 15
+    #   services:
+    #     - kind: Service
+    #       name: ak-outpost-onprem-cluster
+    #       namespace: authentik
+    #       port: 9000
+    #       passHostHeader: true
     - match: "Host(`apibizray.bnbdevelopment.hu`) && PathPrefix(`/`)"
       kind: Rule
       services:
