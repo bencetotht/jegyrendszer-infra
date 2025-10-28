@@ -213,6 +213,7 @@ spec:
           name: ak-outpost-onprem-cluster
           namespace: authentik
           port: 9000
+          passHostHeader: true
     - match: "Host(`apibizray.bnbdevelopment.hu`) && PathPrefix(`/`)"
       kind: Rule
       services:
