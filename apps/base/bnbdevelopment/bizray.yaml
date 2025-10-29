@@ -89,7 +89,7 @@ spec:
       - name: regcred-bnb
       containers:
       - name: bizray-frontend
-        image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-frontend:1.0.8 # {"$imagepolicy": "flux-system:bizray-frontend"}
+        image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-frontend:1.0.9 # {"$imagepolicy": "flux-system:bizray-frontend"}
         imagePullPolicy: Always
         resources:
           limits:
@@ -202,9 +202,9 @@ spec:
       services:
         - name: bizray-frontend-svc
           port: 80
-      # middlewares:
-      #   - name: ak-outpost-onprem-cluster
-      #     namespace: authentik
+          # middlewares:
+          #   - name: ak-outpost-onprem-cluster
+          #     namespace: authentik
     # - kind: Rule
     #   match: "Host(`bizray.bnbdevelopment.hu`) && PathPrefix(`/outpost.goauthentik.io/`)"
     #   priority: 15
