@@ -165,6 +165,8 @@ spec:
         env:
         - name: NODE_ENV
           value: "production"
+        - name: DATABASE_URL
+          value: "postgresql+psycopg://admin:admin@192.168.88.46:5432/bizray"
         securityContext:
           allowPrivilegeEscalation: false
 ---
