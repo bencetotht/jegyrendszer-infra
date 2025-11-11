@@ -150,7 +150,7 @@ spec:
       - name: regcred-bnb
       containers:
       - name: bizray-backend
-        image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-backend:1.0.11 # {"$imagepolicy": "flux-system:bizray-backend"}
+        image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-backend:1.0.12 # {"$imagepolicy": "flux-system:bizray-backend"}
         imagePullPolicy: Always
         resources:
           limits:
