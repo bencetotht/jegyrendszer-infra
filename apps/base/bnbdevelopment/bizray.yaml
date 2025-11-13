@@ -167,6 +167,8 @@ spec:
           value: "production"
         - name: DATABASE_URL
           value: "postgresql+psycopg://admin:admin@192.168.88.46:5432/bizray"
+        - name: REDIS_HOST
+          value: "192.168.88.46"
         - name: API_KEY
           valueFrom:
             secretKeyRef:
@@ -177,6 +179,11 @@ spec:
             secretKeyRef:
               name: bizray-creds
               key: WSDL_URL
+         - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bizray-creds
+              key: REDIS_PASSWORD
         securityContext:
           allowPrivilegeEscalation: false
 ---
