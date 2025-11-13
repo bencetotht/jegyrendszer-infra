@@ -179,11 +179,11 @@ spec:
             secretKeyRef:
               name: bizray-creds
               key: WSDL_URL
-         - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: bizray-creds
-              key: REDIS_PASSWORD
+        - name: REDIS_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: bizray-creds
+            key: REDIS_PASSWORD
         securityContext:
           allowPrivilegeEscalation: false
 ---
