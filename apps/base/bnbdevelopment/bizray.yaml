@@ -169,6 +169,11 @@ spec:
           value: "postgresql+psycopg://admin:admin@192.168.88.46:5432/bizray"
         - name: REDIS_HOST
           value: "192.168.88.46"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: bizray-creds
+              key: JWT_SECRET
         - name: API_KEY
           valueFrom:
             secretKeyRef:
