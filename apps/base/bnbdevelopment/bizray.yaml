@@ -89,7 +89,7 @@ spec:
       - name: regcred-bnb
       containers:
       - name: bizray-frontend
-        image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-frontend:1.0.35 # {"$imagepolicy": "flux-system:bizray-frontend"}
+        image: europe-west3-docker.pkg.dev/bnbdevelopment/bizray/bizray-frontend:1.0.36 # {"$imagepolicy": "flux-system:bizray-frontend"}
         imagePullPolicy: Always
         resources:
           limits:
