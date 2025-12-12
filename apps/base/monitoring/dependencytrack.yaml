@@ -32,20 +32,24 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: dependencytrack-ingress
-  namespace: monitoring
+  namespace: traefik-system
   annotations:
     kubernetes.io/ingress.class: traefik-external
   labels:
     env.skip: cloud
 spec:
   entryPoints:
+    - web
     - websecure
   routes:
     - kind: Rule
       match: "Host(`dtrack.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      middlewares:
+        - name: redirect-middleware
+          namespace: traefik-system
       services:
         - name: dependencytrack-dependency-track-frontend
           port: 8080
-          scheme: https
+          namespace: monitoring
   tls:
     secretName: local-bnbdevelopment-hu-tls
