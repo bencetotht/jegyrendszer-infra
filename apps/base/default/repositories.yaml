@@ -68,3 +68,13 @@ metadata:
 spec:
   interval: 5m
   url: https://helm.elastic.co
+---
+# Used by: Dependency-Track
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: dependencytrack
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://dependencytrack.github.io/helm-charts
