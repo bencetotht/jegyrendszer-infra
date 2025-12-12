@@ -43,7 +43,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: "Host(`dtrack.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      match: "Host(`dependencytrack.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
       middlewares:
         - name: redirect-middleware
           namespace: traefik-system
