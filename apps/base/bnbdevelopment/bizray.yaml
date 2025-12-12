@@ -198,12 +198,14 @@ metadata:
   name: bizray-backend-svc
   namespace: bnb
   labels:
+    app: bizray-backend
     env.skip: cloud
 spec:
   selector:
     app: bizray-backend
   ports:
-  - port: 3000
+  - name: backend-open
+    port: 3000
     targetPort: backend-open
 ---
 apiVersion: traefik.io/v1alpha1
@@ -243,3 +245,24 @@ spec:
       services:
         - name: bizray-backend-svc
           port: 3000
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bizray-backend
+  namespace: monitoring
+  labels:
+    release: prom
+    prometheus: system-monitoring-prometheus
+    env.skip: cloud
+spec:
+  selector:
+    matchLabels:
+      app: bizray-backend
+  namespaceSelector:
+    matchNames:
+    - bnb
+  endpoints:
+  - port: backend-open
+    path: /export
+    interval: 30s
