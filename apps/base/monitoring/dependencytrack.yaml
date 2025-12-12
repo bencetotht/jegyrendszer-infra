@@ -27,3 +27,25 @@ spec:
         namespace: monitoring
     ingress:
       enabled: false
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dependencytrack-ingress
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+  labels:
+    env.skip: cloud
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: "Host(`dtrack.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      services:
+        - name: dependencytrack-dependency-track-frontend
+          port: 8080
+          scheme: https
+  tls:
+    secretName: local-bnbdevelopment-hu-tls
