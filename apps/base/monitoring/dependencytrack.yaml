@@ -43,6 +43,18 @@ spec:
     - websecure
   routes:
     - kind: Rule
+      match: "Host(`dependencytrack.local.bnbdevelopment.hu`) && PathPrefix(`/api`)"
+      services:
+        - name: dependencytrack-dependency-track-api-server
+          port: 8080
+          namespace: monitoring
+    - kind: Rule
+      match: "Host(`dependencytrack.local.bnbdevelopment.hu`) && PathPrefix(`/health`)"
+      services:
+        - name: dependencytrack-dependency-track-api-server
+          port: 8080
+          namespace: monitoring
+    - kind: Rule
       match: "Host(`dependencytrack.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
       middlewares:
         - name: redirect-middleware
