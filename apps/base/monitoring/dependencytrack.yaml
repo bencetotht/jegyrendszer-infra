@@ -1,32 +1,32 @@
-# ---
-# apiVersion: helm.toolkit.fluxcd.io/v2beta1
-# kind: HelmRelease
-# metadata:
-#   name: dependencytrack
-#   namespace: monitoring
-#   labels:
-#     env.skip: cloud
-# spec:
-#   interval: 5m
-#   chart:
-#     spec:
-#       chart: dependency-track
-#       version: 0.40.0
-#       sourceRef:
-#         kind: HelmRepository
-#         name: dependencytrack
-#         namespace: flux-system
-#       interval: 1m
-#   values:
-#     apiServer:
-#       persistentVolume:
-#         enabled: true
-#         className: longhorn
-#       serviceMonitor:
-#         enabled: true
-#         namespace: monitoring
-#     ingress:
-#       enabled: false
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dependencytrack
+  namespace: monitoring
+  labels:
+    env.skip: cloud
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: dependency-track
+      version: 0.40.0
+      sourceRef:
+        kind: HelmRepository
+        name: dependencytrack
+        namespace: flux-system
+      interval: 1m
+  values:
+    apiServer:
+      persistentVolume:
+        enabled: true
+        className: longhorn
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+    ingress:
+      enabled: false
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
