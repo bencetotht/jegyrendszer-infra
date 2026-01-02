@@ -1,0 +1,121 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: gitlab
+  namespace: gitlab
+  labels:
+    env.skip: cloud
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: gitlab
+      version: '9.7.0'
+      sourceRef:
+        kind: HelmRepository
+        name: gitlab-repo
+        namespace: flux-system
+      interval: 1m
+  values:
+    global:
+      edition: ce
+
+      # GitLab hosts
+      hosts:
+        domain: bnbdevelopment.hu
+        https: true
+        gitlab:
+          name: gitlab.bnbdevelopment.hu
+          https: true
+        registry:
+          name: registry.bnbdevelopment.hu
+          https: true
+
+      # Ingress
+      ingress:
+        enabled: true
+        provider: traefik
+        class: traefik-external
+        configureCertmanager: false
+
+      # Shell
+      shell: 
+        port: 22
+
+      # Registry
+      registry:
+        enabled: true
+
+      # SMTP
+      smtp:
+        enabled: true
+        hostname: mail.bnbdevelopment.hu
+        username: auth@bnbdevelopment.hu
+        password:
+          secret: gitlab-smtp-creds
+          key: password
+      
+      # Time zone
+      time_zone: Europe/Vienna
+    
+    # Certmanager
+    installCertmanager: false
+    certmanager:
+      installCRDs: false
+
+    # PostgreSQL configuration
+    postgresql:
+      install: true
+      metrics:
+        enabled: true
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+      postgresqlSharedBuffers: "256MB"
+
+    # Redis configuration
+    redis:
+      install: true
+      metrics:
+        enabled: true
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+
+    registry:
+      enabled: true
+      hpa:
+        minReplicas: 1
+        maxReplicas: 1
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+
+    # Disabling components
+    nginx-ingress:
+      enabled: false
+    prometheus:
+      install: false
+    grafana:
+      enabled: false
+    gitlab-runner:
+      install: false
+    traefik:
+      install: false
+      ports:
+        gitlab-shell:
+          expose: true
+          port: 22
+          exposedPort: 22
