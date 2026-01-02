@@ -25,7 +25,7 @@ resources:
 - monitoring/monitoring.yaml
 # - monitoring/loki-release.yaml
 - monitoring/prom-stack.yaml
-- monitoring/dependencytrack.yaml
+# - monitoring/dependencytrack.yaml
 # - traefik-system/ir-portainer.yaml
 - traefik-system/ir-proxmox.yaml
 - utility/reflector.yaml
