@@ -49,11 +49,18 @@ spec:
       # SMTP
       smtp:
         enabled: true
-        hostname: mail.bnbdevelopment.hu
-        username: gitlab@bnbdevelopment.hu
+        address: mail.bnbdevelopment.hu
+        port: 587
+        user_name: gitlab@bnbdevelopment.hu
         password:
           secret: gitlab-smtp-creds
           key: password
+        authentication: login
+        enable_starttls_auto: true
+      email:
+        from: gitlab@bnbdevelopment.hu
+        display_name: BNBGitLab
+        reply_to: gitlab@bnbdevelopment.hu
       
       # Time zone
       time_zone: Europe/Vienna
