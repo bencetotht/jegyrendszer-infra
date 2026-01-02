@@ -55,8 +55,10 @@ spec:
         password:
           secret: gitlab-smtp-creds
           key: password
+        domain: bnbdevelopment.hu
         authentication: login
-        enable_starttls_auto: true
+        starttls_auto: true
+        openssl_verify_mode: peer
       email:
         from: gitlab@bnbdevelopment.hu
         display_name: BNBGitLab
