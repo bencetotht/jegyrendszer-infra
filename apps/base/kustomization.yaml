@@ -17,7 +17,7 @@ resources:
 - erettsegisite/erettsegisite.yaml
 - flux-system/flux-system-automation.yaml
 - gitlab/ns.yaml
-# - gitlab/gitlab.yaml
+- gitlab/gitlab.yaml
 # - keycloak/ns.yaml
 # - keycloak/keycloak.yaml
 - logging/logging.yaml
