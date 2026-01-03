@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: gitlab-runner
-      version: '9.7.0'
+      version: '0.84.1'
       sourceRef:
         kind: HelmRepository
-        name: gitlab-repo
+        name: gitlab
         namespace: flux-system
       interval: 1m
   values:
