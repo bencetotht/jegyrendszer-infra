@@ -36,7 +36,6 @@ spec:
     extraEnvFrom:
       - secretRef:
           name: gitlab-runner-creds
-          key: GITLAB_RUNNER_TOKEN
 
     runners:
       config: |
