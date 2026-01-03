@@ -43,3 +43,6 @@ spec:
       database: invoiceninja
       # existing secret must contain mariadb-password key
       existingSecret: invoiceninja-db-creds
+
+    nginx:
+      enabled: false
