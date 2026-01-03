@@ -19,7 +19,7 @@ resources:
 - gitlab/ns.yaml
 - gitlab/gitlab.yaml
 - gitlabrunners/ns.yaml
-# - gitlabrunners/gitlab-runners.yaml
+- gitlabrunners/gitlab-runners.yaml
 - invoicing/ns.yaml
 # - invoicing/invoiceninja.yaml
 # - keycloak/ns.yaml
