@@ -35,6 +35,8 @@ spec:
         cache: 11
 
      # MariaDB configuration
+    mariadb:
+      enabled: false
     externalDatabase:
       host: 192.168.88.47
       user: invoiceninja
