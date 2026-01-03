@@ -27,10 +27,17 @@ spec:
     # redis configuration
     redis:
       enabled: false
-      
-      externalRedis:
-        host: 192.168.88.50
-        password: root
-        databases:
-          default: 10
-          cache: 11
+    externalRedis:
+      host: 192.168.88.50
+      password: root
+      databases:
+        default: 10
+        cache: 11
+
+     # MariaDB configuration
+    externalDatabase:
+      host: 192.168.88.47
+      user: invoiceninja
+      database: invoiceninja
+      # existing secret must contain mariadb-password key
+      existingSecret: invoiceninja-db-creds
