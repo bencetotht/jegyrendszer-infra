@@ -18,6 +18,10 @@ resources:
 - flux-system/flux-system-automation.yaml
 - gitlab/ns.yaml
 - gitlab/gitlab.yaml
+- gitlabrunners/ns.yaml
+# - gitlabrunners/gitlab-runners.yaml
+- invoicing/ns.yaml
+# - invoicing/invoiceninja.yaml
 # - keycloak/ns.yaml
 # - keycloak/keycloak.yaml
 - logging/logging.yaml

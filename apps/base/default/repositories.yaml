@@ -88,3 +88,13 @@ metadata:
 spec:
   interval: 5m
   url: https://charts.gitlab.io/
+---
+# Used by: InvoiceNinja
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: invoiceninja
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://invoiceninja.github.io/dockerfiles
