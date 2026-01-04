@@ -30,16 +30,10 @@ spec:
     serviceAccount:
       create: true
 
-    runnerToken: "env://GITLAB_RUNNER_TOKEN"
     gitlabUrl: https://gitlab.bnbdevelopment.hu/
 
-    extraEnvFrom:
-      GITLAB_RUNNER_TOKEN:
-        secretKeyRef:
-          name: gitlab-runner-creds
-          key: GITLAB_RUNNER_TOKEN
-
     runners:
+      secret: gitlab-runner-creds
       config: |
         [[runners]]
           [runners.kubernetes]
