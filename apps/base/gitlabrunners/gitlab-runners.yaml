@@ -19,6 +19,7 @@ spec:
   values:
     rbac:
       create: true
+      clusterWideAccess: true
       rules:
         - apiGroups: [""]
           resources: ["secrets", "configmaps", "pods", "pods/attach", "pods/exec", "pods/log"]
@@ -29,6 +30,7 @@ spec:
 
     serviceAccount:
       create: true
+      name: gitlab-runners
 
     gitlabUrl: https://gitlab.bnbdevelopment.hu/
 
@@ -37,9 +39,10 @@ spec:
       config: |
         [[runners]]
           [runners.kubernetes]
-            namespace = "gitlab-runners"
+            namespace = "gitlabrunners"
             image = "ubuntu:22.04"
             privileged = true
+            service_account = "gitlab-runners"
             [[runners.kubernetes.volumes.empty_dir]]
               name = "docker-certs"
               mount_path = "/certs/client"
