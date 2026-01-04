@@ -93,8 +93,8 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: invoiceninja
+  name: bnb-charts
   namespace: flux-system
 spec:
   interval: 5m
-  url: https://invoiceninja.github.io/dockerfiles
+  url: https://gitlab.bnbdevelopment.hu/api/v4/projects/4/packages/helm/stable/
