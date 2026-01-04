@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: invoiceninja
-      version: 0.10.2
+      version: 0.10.3
       sourceRef:
         kind: HelmRepository
         name: bnb-charts
@@ -49,6 +49,33 @@ spec:
     nginx:
       enabled: false
 
+    # fix permissions on persistent volumes
+    volumePermissions:
+      enabled: true
+      image:
+        registry: docker.io
+        repository: busybox
+        tag: "1.36"
+        pullPolicy: IfNotPresent
+
+    # custom init container to remove lost+found
+    initContainers:
+      - name: remove-lost-found
+        image: busybox:1.36
+        command:
+          - sh
+          - -c
+          - |
+            rm -rf /var/www/app/public/lost+found || true
+            rm -rf /var/www/app/storage/lost+found || true
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+          - name: public
+            mountPath: /var/www/app/public
+          - name: storage
+            mountPath: /var/www/app/storage
+
     # persistent volume configuration
     persistence:
       storage:
@@ -67,7 +94,6 @@ spec:
       hostname: invoiceninja.local
       traefikCRD:
         enabled: true
----
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
