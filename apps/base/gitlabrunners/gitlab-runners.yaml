@@ -33,12 +33,11 @@ spec:
     runnerToken: "env://GITLAB_RUNNER_TOKEN"
     gitlabUrl: https://gitlab.bnbdevelopment.hu/
 
-    env:
-      - name: GITLAB_RUNNER_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: gitlab-runner-creds
-            key: GITLAB_RUNNER_TOKEN
+    extraEnvFrom:
+      GITLAB_RUNNER_TOKEN:
+        secretKeyRef:
+          name: gitlab-runner-creds
+          key: GITLAB_RUNNER_TOKEN
 
     runners:
       config: |
