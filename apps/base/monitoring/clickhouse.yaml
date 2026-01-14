@@ -1,0 +1,120 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: clickstack
+  namespace: monitoring
+  labels:
+    env.skip: cloud
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: clickstack
+      version: 1.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: clickstack
+        namespace: flux-system
+      interval: 1m
+  values:
+    # Global settings
+    global:
+      storageClassName: longhorn
+      keepPVC: false
+
+    # HyperDX service configuration
+    hyperdx:
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 2048Mi
+        requests:
+          cpu: 250m
+          memory: 512Mi
+
+      env:
+      - name: API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: hyperdx-secret
+            key: API_KEY
+
+      frontendUrl: "http://hyperdx.local"
+      logLevel: "info"
+      usageStatsEnabled: false
+
+      ingress:
+        enabled: true
+        className: traefik-external
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: web
+        hosts:
+          - host: hyperdx.local
+            paths:
+              - path: /
+                pathType: Prefix
+    # MongoDB configuration
+    mongodb:
+      persistence:
+        enabled: true
+        size: 10Gi
+
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 256Mi
+
+    # ClickHouse configuration
+    clickhouse:
+      persistence:
+        data:
+          enabled: true
+          size: 10Gi
+        logs:
+          enabled: true
+          size: 5Gi
+
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 2Gi
+        requests:
+          cpu: 250m
+          memory: 512Mi
+
+      users:
+        app:
+          password: "clickhouse"  # TODO: Change in production
+        otelCollector:
+          password: "otelcollector"  # TODO: Change in production
+
+    # OTEL Collector configuration
+    otelCollector:
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 256Mi
+
+      # Use internal ClickHouse
+      externalClickHouse:
+        enabled: false
+
+    # Scheduled tasks
+    tasks:
+      checkAlerts:
+        enabled: true
+        schedule: "*/1 * * * *"
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi

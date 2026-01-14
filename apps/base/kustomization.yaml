@@ -26,6 +26,7 @@ resources:
 # - keycloak/keycloak.yaml
 - logging/logging.yaml
 # - logging/elk.yaml
+- monitoring/clickhouse.yaml
 - monitoring/monitoring.yaml
 # - monitoring/loki-release.yaml
 - monitoring/prom-stack.yaml
