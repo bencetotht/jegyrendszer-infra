@@ -98,3 +98,23 @@ metadata:
 spec:
   interval: 5m
   url: https://gitlab.bnbdevelopment.hu/api/v4/projects/4/packages/helm/stable/
+---
+# Used by: ClickHouse
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: clickstack
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://clickhouse.github.io/ClickStack-helm-charts
+---
+# Used by: ClickHouse
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: sentry
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://sentry-kubernetes.github.io/charts
