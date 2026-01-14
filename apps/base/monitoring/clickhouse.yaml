@@ -40,7 +40,7 @@ spec:
             name: hyperdx-secret
             key: API_KEY
 
-      frontendUrl: "http://hyperdx.local"
+      frontendUrl: "https://clickhouse.local.bnbdevelopment.hu"
       logLevel: "info"
       usageStatsEnabled: false
 
