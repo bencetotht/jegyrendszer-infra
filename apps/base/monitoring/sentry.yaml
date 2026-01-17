@@ -110,7 +110,17 @@ spec:
         resources:
           requests:
             cpu: 100m
-            memory: 256Mi
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+
+      # Note: taskWorker (not worker) is the new taskworker component
+      taskWorker:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
           limits:
             cpu: 1000m
             memory: 1Gi
