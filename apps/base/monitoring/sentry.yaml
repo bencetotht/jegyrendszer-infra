@@ -64,7 +64,7 @@ spec:
 
     # External Kafka configuration
     externalKafka:
-      host: 192.168.88.47
+      host: "192.168.88.47"
       port: 9092
       compression:
         type: gzip
