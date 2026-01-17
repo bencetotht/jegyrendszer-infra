@@ -137,12 +137,9 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: sentry
-  namespace: monitoring
+  namespace: traefik-system
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
     kubernetes.io/ingress.class: traefik-external
-  labels:
-    app: sentry
 spec:
   entryPoints:
     - websecure
@@ -152,3 +149,4 @@ spec:
       services:
         - name: sentry-nginx
           port: 80
+          namespace: monitoring
