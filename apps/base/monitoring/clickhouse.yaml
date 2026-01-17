@@ -56,6 +56,10 @@ spec:
                 pathType: Prefix
     # MongoDB configuration
     mongodb:
+      # MongoDB requires AVX support - only available on worker-3
+      nodeSelector:
+        kubernetes.io/hostname: worker-3
+
       persistence:
         enabled: true
         size: 10Gi
