@@ -125,7 +125,9 @@ spec:
             cpu: 1000m
             memory: 1Gi
         livenessProbe:
-          enabled: false  # Disabled due to buggy probe in chart 28.0.2
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 5
 
       worker:
         resources:
