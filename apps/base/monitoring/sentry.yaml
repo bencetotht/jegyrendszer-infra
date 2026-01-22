@@ -146,6 +146,65 @@ spec:
           limits:
             cpu: 200m
             memory: 256Mi
+
+      # Disable liveness probes on consumers due to restart issues
+      ingestConsumerAttachments:
+        livenessProbe:
+          enabled: false
+
+      ingestConsumerEvents:
+        livenessProbe:
+          enabled: false
+
+      ingestConsumerTransactions:
+        livenessProbe:
+          enabled: false
+
+      billingMetricsConsumer:
+        livenessProbe:
+          enabled: false
+
+      genericMetricsConsumer:
+        livenessProbe:
+          enabled: false
+
+      metricsConsumer:
+        livenessProbe:
+          enabled: false
+
+      subscriptionConsumerEvents:
+        livenessProbe:
+          enabled: false
+
+      subscriptionConsumerTransactions:
+        livenessProbe:
+          enabled: false
+
+      subscriptionConsumerGenericMetrics:
+        livenessProbe:
+          enabled: false
+
+      subscriptionConsumerMetrics:
+        livenessProbe:
+          enabled: false
+
+      eapItemsConsumer:
+        livenessProbe:
+          enabled: false
+
+      outcomesConsumer:
+        livenessProbe:
+          enabled: false
+
+      outcomesBillingConsumer:
+        livenessProbe:
+          enabled: false
+
+    # Disable liveness probe on snuba consumer
+    snuba:
+      consumer:
+        livenessProbe:
+          enabled: false
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
