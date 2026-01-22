@@ -131,7 +131,7 @@ spec:
     devbranch:
       enabled: false
       image: europe-west3-docker.pkg.dev/bnbdevelopment/irodalomerettsegi/frontend-dev # {"$imagepolicy": "flux-system:erettsegi-frontend-dev:name"}
-      tag: 2.20.124 # {"$imagepolicy": "flux-system:erettsegi-frontend-dev:tag"}
+      tag: 2.20.2 # {"$imagepolicy": "flux-system:erettsegi-frontend-dev:tag"}
       prefix: dev
     statistics:
       enabled: false
