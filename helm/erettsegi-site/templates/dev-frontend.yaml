@@ -23,7 +23,7 @@ spec:
       labels:
         app: frontend-development
     spec:
-      serviceAccountName: frontend-development
+      serviceAccountName: frontend-development-svc-a
       imagePullSecrets:
       - name: regcred-bnb
       containers:
