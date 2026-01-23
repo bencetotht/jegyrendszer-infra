@@ -78,6 +78,10 @@ resource "aws_iam_user" "barman" {
   tags = {
     "CreatedBy" = "terraform"
   }
+  lifecycle {
+    ignore_changes = all
+    prevent_destroy = true
+  }
 }
 
 # IAM Policy Document
@@ -127,6 +131,13 @@ resource "aws_iam_user_policy_attachment" "pgbackup-bucket-admin-attach" {
 
 resource "aws_iam_access_key" "barman" {
   user = aws_iam_user.barman.name
+  lifecycle {
+    ignore_changes = [
+      user,
+      status
+    ]
+    prevent_destroy = true
+  }
 }
 
 # Outputs
