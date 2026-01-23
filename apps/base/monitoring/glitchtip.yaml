@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: glitchtip
+  namespace: monitoring
+  labels:
+    env.skip: cloud
+spec:
+  interval: 5m
+  timeout: 20m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: glitchtip
+      version: 7.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: glitchtip
+        namespace: flux-system
+      interval: 1m
+  values:
+    # Reference external secret for all sensitive configuration
+    existingSecret: glitchtip-secret
+
+    env:
+      normal:
+        GLITCHTIP_DOMAIN: https://glitchtip.bnbdevelopment.hu
+        ENABLE_SOCIAL_AUTH: false
+        CELERY_WORKER_AUTOSCALE: "1,3"
+        CELERY_WORKER_MAX_TASKS_PER_CHILD: "10000"
+
+    # Use external PostgreSQL database
+    postgresql:
+      enabled: false
+
+    # Use external Redis
+    valkey:
+      enabled: false
+
+    # Web component configuration
+    web:
+      replicaCount: 2
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 256Mi
+
+      # Enable ingress for external access
+      ingress:
+        enabled: true
+        hosts:
+          - host: glitchtip.local
+            paths:
+              - path: /
+                pathType: Prefix
+
+    # Worker configuration
+    worker:
+      enabled: true
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: 900m
+          memory: 768Mi
+        requests:
+          cpu: 100m
+          memory: 350Mi
+
+    # Beat scheduler configuration
+    beat:
+      enabled: true
+      resources:
+        limits:
+          cpu: 200m
+          memory: 150Mi
+        requests:
+          cpu: 1m
+          memory: 130Mi
+
+    # Migration job configuration
+    migrationJob:
+      enabled: true
+      activeDeadlineSeconds: 900
