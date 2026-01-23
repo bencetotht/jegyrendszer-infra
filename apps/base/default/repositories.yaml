@@ -109,12 +109,12 @@ spec:
   interval: 5m
   url: https://clickhouse.github.io/ClickStack-helm-charts
 ---
-# Used by: ClickHouse
+# Used by: GlitchTip
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: sentry
+  name: glitchtip
   namespace: flux-system
 spec:
   interval: 5m
-  url: https://sentry-kubernetes.github.io/charts
+  url: https://gitlab.com/api/v4/projects/16325141/packages/helm/stable
