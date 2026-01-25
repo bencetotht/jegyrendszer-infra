@@ -130,3 +130,13 @@ spec:
   url: https://gitlab.bnbdevelopment.hu/api/v4/projects/11/packages/helm/stable
   secretRef:
     name: bnbbilling-helm-auth
+---
+# Used by: Signoz
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: signoz
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://charts.signoz.io

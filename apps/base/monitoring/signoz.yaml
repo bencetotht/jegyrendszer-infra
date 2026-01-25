@@ -1,0 +1,164 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: signoz
+  namespace: monitoring
+  labels:
+    env.skip: cloud
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: signoz
+      version: 0.108.0
+      sourceRef:
+        kind: HelmRepository
+        name: signoz
+        namespace: flux-system
+      interval: 1m
+  values:
+    global:
+      storageClass: longhorn
+      clusterDomain: cluster.local
+      clusterName: ""
+
+    # Disable built-in ClickHouse since we're using external
+    clickhouse:
+      enabled: false
+
+    # External ClickHouse configuration
+    externalClickhouse:
+      cluster: cluster
+      database: signoz_metrics
+      logDatabase: signoz_logs
+      meterDatabase: signoz_meter
+      traceDatabase: signoz_traces
+      existingSecret: signoz-clickhouse-creds
+      existingSecretPasswordKey: clickhouse-password
+      host: clickstack-clickhouse.monitoring.svc.cluster.local
+      httpPort: 8123
+      secure: false
+      tcpPort: 9000
+      user: default
+      verify: false
+
+    # SigNoz Query Service Configuration
+    signoz:
+      name: signoz
+      replicaCount: 1
+
+      image:
+        repository: signoz/signoz
+
+      service:
+        type: ClusterIP
+        port: 8080
+        internalPort: 8085
+        opampPort: 4320
+
+      # Environment variables for SigNoz
+      env:
+        signoz_telemetrystore_provider: clickhouse
+        dot_metrics_enabled: true
+        signoz_emailing_enabled: false
+        signoz_prometheus_active_query_tracker_enabled: false
+        signoz_alertmanager_provider: signoz
+        signoz_alertmanager_signoz_external__url: http://signoz.monitoring.svc.cluster.local:8080
+
+      # Resource limits and requests
+      resources:
+        requests:
+          cpu: 200m
+          memory: 256Mi
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+
+      # Persistence for internal SQLite database
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        accessModes:
+          - ReadWriteOnce
+        size: 2Gi
+
+      # Ingress configuration (optional - enable if needed)
+      ingress:
+        enabled: false
+        className: ""
+        annotations: {}
+          # kubernetes.io/ingress.class: nginx
+          # cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts:
+          - host: signoz.example.com
+            paths:
+              - path: /
+                pathType: ImplementationSpecific
+                port: 8080
+        tls: []
+          # - secretName: signoz-tls
+          #   hosts:
+          #     - signoz.example.com
+
+      # Probes
+      livenessProbe:
+        enabled: true
+        port: http
+        path: /api/v1/health
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 6
+        successThreshold: 1
+
+      readinessProbe:
+        enabled: true
+        port: http
+        path: /api/v1/health?live=1
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 6
+        successThreshold: 1
+
+      nodeSelector: {}
+      tolerations: []
+      affinity: {}
+
+    # Schema Migrator - runs database migrations
+    schemaMigrator:
+      enabled: true
+      name: schema-migrator
+      image:
+        repository: signoz/signoz-schema-migrator
+      args:
+        - "--up="
+      upgradeHelmHooks: true
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+
+    # OpenTelemetry Collector Configuration
+    otelCollector:
+      enabled: true
+      name: otel-collector
+      replicaCount: 1
+
+      image:
+        repository: signoz/signoz-otel-collector
+
+      resources:
+        requests:
+          cpu: 200m
+          memory: 256Mi
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+
+      service:
+        type: ClusterIP
