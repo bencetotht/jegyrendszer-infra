@@ -145,3 +145,30 @@ spec:
           namespace: monitoring
   tls:
     secretName: local-bnbdevelopment-hu-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    io.cilium/lb-ipam-ips: 192.168.88.101
+  name: clickstack-lb
+  namespace: monitoring
+spec:
+  ports:
+  - name: http
+    port: 8123
+    protocol: TCP
+    targetPort: 8123
+  - name: native
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
+  - name: prometheus
+    port: 9363
+    protocol: TCP
+    targetPort: 9363
+  selector:
+    app: clickhouse
+    app.kubernetes.io/instance: clickstack
+    app.kubernetes.io/name: clickstack
+  type: LoadBalancer
