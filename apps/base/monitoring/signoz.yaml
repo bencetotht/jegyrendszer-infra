@@ -40,7 +40,7 @@ spec:
       httpPort: 8123
       secure: false
       tcpPort: 9000
-      user: default
+      user: app
       verify: false
 
     # SigNoz Query Service Configuration
@@ -81,17 +81,17 @@ spec:
         storageClass: longhorn
         accessModes:
           - ReadWriteOnce
-        size: 2Gi
+        size: 5Gi
 
       # Ingress configuration (optional - enable if needed)
       ingress:
-        enabled: false
+        enabled: true
         className: ""
         annotations: {}
           # kubernetes.io/ingress.class: nginx
           # cert-manager.io/cluster-issuer: letsencrypt-prod
         hosts:
-          - host: signoz.example.com
+          - host: signoz.local
             paths:
               - path: /
                 pathType: ImplementationSpecific
