@@ -161,3 +161,26 @@ spec:
 
       service:
         type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: signoz-ingress
+  namespace: traefik-system
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+  labels:
+    env.skip: cloud
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - kind: Rule
+      match: "Host(`signoz.local.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      services:
+        - name: signoz
+          port: 8080
+          namespace: monitoring
+  tls:
+    secretName: local-bnbdevelopment-hu-tls
