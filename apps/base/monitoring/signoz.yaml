@@ -29,7 +29,6 @@ spec:
 
     # External ClickHouse configuration
     externalClickhouse:
-      cluster: cluster
       database: signoz_metrics
       logDatabase: signoz_logs
       meterDatabase: signoz_meter
