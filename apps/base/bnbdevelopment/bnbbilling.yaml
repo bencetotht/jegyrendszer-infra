@@ -187,7 +187,7 @@ spec:
     - name: bnbbilling-backend
       port: 80
   - kind: Rule
-    match: Host(`billing.bnbdevelopment.hu`)
+    match: Host(`billing.bnbdevelopment.hu`) && PathPrefix(`/`)
     services:
     - name: bnbbilling-frontend
       port: 80
