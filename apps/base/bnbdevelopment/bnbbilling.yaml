@@ -177,6 +177,8 @@ kind: IngressRoute
 metadata:
   name: bnbbilling-ingressroute
   namespace: bnb
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
   - websecure
