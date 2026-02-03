@@ -43,131 +43,151 @@ spec:
   policy:
     semver:
       range: 1.x.x
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: bnbbilling
+#   namespace: bnb
+#   labels:
+#     env.skip: cloud
+# spec:
+#   chart:
+#     spec:
+#       chart: bnbbilling
+#       version: 0.1.1
+#       sourceRef:
+#         kind: HelmRepository
+#         name: bnbbilling
+#         namespace: flux-system
+#       interval: 1m
+#   interval: 5m
+#   timeout: 10m
+#   values:
+#     # Backend Image Configuration
+#     backend:
+#       image:
+#         repository: europe-west3-docker.pkg.dev/bnbdevelopment/bnbbilling/billing-backend # {"$imagepolicy": "flux-system:bnbbilling-backend:name"}
+#         pullPolicy: IfNotPresent
+#         tag: "1.0.1" # {"$imagepolicy": "flux-system:bnbbilling-backend:tag"}
+#       imagePullSecrets:
+#       - name: regcred-bnb
+#       replicaCount: 2
+#     # Frontend Image Configuration
+#     frontend:
+#       enabled: true
+#       image:
+#         repository: europe-west3-docker.pkg.dev/bnbdevelopment/bnbbilling/billing-frontend # {"$imagepolicy": "flux-system:bnbbilling-frontend:name"}
+#         pullPolicy: IfNotPresent
+#         tag: "1.0.1" # {"$imagepolicy": "flux-system:bnbbilling-frontend:tag"}
+#       imagePullSecrets:
+#       - name: regcred-bnb
+#       replicaCount: 2
+#       apiUrl: "https://billing.bnbdevelopment.hu/api"
+#     # Use existing secret for all sensitive credentials
+#     secrets:
+#       existingSecret: "bnbbilling-secret"
+#     # External Services Configuration
+#     # Note: Connection strings and passwords come from the secret
+#     # These values configure non-sensitive connection details
+#     externalServices:
+#       postgres:
+#         host: "" # Host will be extracted from DATABASE_URL in secret
+#         port: 5432
+#         database: "bnbbilling"
+#         user: "bnbbilling"
+#       redis:
+#         host: 192.168.88.50
+#         port: 6379
+#       clickhouse:
+#         host: clickstack-clickhouse.monitoring.svc.cluster.local
+#         port: 8123
+#         database: "bnbbilling"
+#         user: "app"
+#     # Application Configuration
+#     app:
+#       nodeEnv: "production"
+#       name: "billing-backend"
+#       port: 3001
+#     # JWT Configuration
+#     jwt:
+#       expiresIn: "24h"
+#       checkoutTokenExpiresIn: "15m"
+#     # SimplePay Provider Configuration
+#     simplepay:
+#       merchantId: "" # TODO: Set SimplePay merchant ID
+#       sandboxMode: true # Set to true for testing
+#       timeoutMinutes: 15
+#       webhookUrl: "https://billing.bnbdevelopment.hu/api/webhooks/simplepay"
+#       callbackUrl: "https://billing.bnbdevelopment.hu/payment/callback"
+#       apiTimeout: 10000
+#       maxRetries: 3
+#       circuitBreaker:
+#         threshold: 5
+#         timeout: 30000
+#     # Feature Flags
+#     features:
+#       invoicing:
+#         enabled: false # Enable when Billingo integration is needed
+#     # Database Migrations
+#     migrations:
+#       enabled: true
+#       timeout: 300
+#     # Traefik IngressRoute Configuration
+#     traefik:
+#       enabled: false
+#       domain: "billing.bnbdevelopment.hu"
+#     # Disable standard Ingress (using Traefik instead)
+#     ingress:
+#       enabled: false
+#     # Disable Gateway API HTTPRoute (using Traefik instead)
+#     httpRoute:
+#       enabled: false
+#     # Resource Management
+#     resources:
+#       requests:
+#         cpu: 250m
+#         memory: 512Mi
+#       limits:
+#         cpu: 1000m
+#         memory: 1Gi
+#     # Horizontal Pod Autoscaler
+#     autoscaling:
+#       enabled: true
+#       minReplicas: 2
+#       maxReplicas: 10
+#       targetCPUUtilizationPercentage: 70
+#       targetMemoryUtilizationPercentage: 80
+#     # Pod Disruption Budget for HA
+#     podDisruptionBudget:
+#       enabled: true
+#       minAvailable: 1
+#     # Monitoring
+#     monitoring:
+#       enabled: true
+#       serviceMonitor:
+#         enabled: true
+#     # Logging
+#     logging:
+#       level: "info"
+#       enableCorrelationId: true
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
-  name: bnbbilling
+  name: bnbbilling-ingressroute
   namespace: bnb
-  labels:
-    env.skip: cloud
 spec:
-  chart:
-    spec:
-      chart: bnbbilling
-      version: 0.1.1
-      sourceRef:
-        kind: HelmRepository
-        name: bnbbilling
-        namespace: flux-system
-      interval: 1m
-  interval: 5m
-  timeout: 10m
-  values:
-    # Backend Image Configuration
-    backend:
-      image:
-        repository: europe-west3-docker.pkg.dev/bnbdevelopment/bnbbilling/billing-backend # {"$imagepolicy": "flux-system:bnbbilling-backend:name"}
-        pullPolicy: IfNotPresent
-        tag: "1.0.1" # {"$imagepolicy": "flux-system:bnbbilling-backend:tag"}
-      imagePullSecrets:
-      - name: regcred-bnb
-      replicaCount: 2
-    # Frontend Image Configuration
-    frontend:
-      enabled: true
-      image:
-        repository: europe-west3-docker.pkg.dev/bnbdevelopment/bnbbilling/billing-frontend # {"$imagepolicy": "flux-system:bnbbilling-frontend:name"}
-        pullPolicy: IfNotPresent
-        tag: "1.0.1" # {"$imagepolicy": "flux-system:bnbbilling-frontend:tag"}
-      imagePullSecrets:
-      - name: regcred-bnb
-      replicaCount: 2
-      apiUrl: "https://billing.bnbdevelopment.hu/api"
-    # Use existing secret for all sensitive credentials
-    secrets:
-      existingSecret: "bnbbilling-secret"
-    # External Services Configuration
-    # Note: Connection strings and passwords come from the secret
-    # These values configure non-sensitive connection details
-    externalServices:
-      postgres:
-        host: "" # Host will be extracted from DATABASE_URL in secret
-        port: 5432
-        database: "bnbbilling"
-        user: "bnbbilling"
-      redis:
-        host: 192.168.88.50
-        port: 6379
-      clickhouse:
-        host: clickstack-clickhouse.monitoring.svc.cluster.local
-        port: 8123
-        database: "bnbbilling"
-        user: "app"
-    # Application Configuration
-    app:
-      nodeEnv: "production"
-      name: "billing-backend"
-      port: 3001
-    # JWT Configuration
-    jwt:
-      expiresIn: "24h"
-      checkoutTokenExpiresIn: "15m"
-    # SimplePay Provider Configuration
-    simplepay:
-      merchantId: "" # TODO: Set SimplePay merchant ID
-      sandboxMode: true # Set to true for testing
-      timeoutMinutes: 15
-      webhookUrl: "https://billing.bnbdevelopment.hu/api/webhooks/simplepay"
-      callbackUrl: "https://billing.bnbdevelopment.hu/payment/callback"
-      apiTimeout: 10000
-      maxRetries: 3
-      circuitBreaker:
-        threshold: 5
-        timeout: 30000
-    # Feature Flags
-    features:
-      invoicing:
-        enabled: false # Enable when Billingo integration is needed
-    # Database Migrations
-    migrations:
-      enabled: true
-      timeout: 300
-    # Traefik IngressRoute Configuration
-    traefik:
-      enabled: true
-      domain: "billing.bnbdevelopment.hu"
-    # Disable standard Ingress (using Traefik instead)
-    ingress:
-      enabled: false
-    # Disable Gateway API HTTPRoute (using Traefik instead)
-    httpRoute:
-      enabled: false
-    # Resource Management
-    resources:
-      requests:
-        cpu: 250m
-        memory: 512Mi
-      limits:
-        cpu: 1000m
-        memory: 1Gi
-    # Horizontal Pod Autoscaler
-    autoscaling:
-      enabled: true
-      minReplicas: 2
-      maxReplicas: 10
-      targetCPUUtilizationPercentage: 70
-      targetMemoryUtilizationPercentage: 80
-    # Pod Disruption Budget for HA
-    podDisruptionBudget:
-      enabled: true
-      minAvailable: 1
-    # Monitoring
-    monitoring:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-    # Logging
-    logging:
-      level: "info"
-      enableCorrelationId: true
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`billing.bnbdevelopment.hu`) && PathPrefix(`/api/`)
+    services:
+    - name: bnbbilling-backend
+      port: 80
+  - kind: Rule
+    match: Host(`billing.bnbdevelopment.hu`)
+    services:
+    - name: bnbbilling-frontend
+      port: 80
