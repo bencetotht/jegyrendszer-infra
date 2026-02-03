@@ -115,7 +115,7 @@ spec:
       checkoutTokenExpiresIn: "15m"
     # SimplePay Provider Configuration
     simplepay:
-      merchantId: "" # TODO: Set SimplePay merchant ID
+      merchantId: "sandbox" # TODO: Set SimplePay merchant ID
       sandboxMode: true # Set to true for testing
       timeoutMinutes: 15
       webhookUrl: "https://billing.bnbdevelopment.hu/api/webhooks/simplepay"
