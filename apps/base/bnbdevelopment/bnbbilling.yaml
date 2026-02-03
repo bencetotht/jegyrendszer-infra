@@ -55,7 +55,7 @@ spec:
   chart:
     spec:
       chart: bnbbilling
-      version: 0.1.0
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: bnbbilling
@@ -70,6 +70,8 @@ spec:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/bnbbilling/billing-backend:1.0.1 # {"$imagepolicy": "flux-system:bnbbilling-backend"}
         pullPolicy: IfNotPresent
         tag: "europe-west3-docker.pkg.dev/bnbdevelopment/bnbbilling/billing-backend:1.0.1" # {"$imagepolicy": "flux-system:bnbbilling-backend"}
+      imagePullSecrets::
+      - name: regcred-bnb
       replicaCount: 2
     # Frontend Image Configuration
     frontend:
@@ -78,6 +80,8 @@ spec:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/bnbbilling/billing-frontend:1.0.1 # {"$imagepolicy": "flux-system:bnbbilling-frontend"}
         pullPolicy: IfNotPresent
         tag: "europe-west3-docker.pkg.dev/bnbdevelopment/bnbbilling/billing-frontend:1.0.1" # {"$imagepolicy": "flux-system:bnbbilling-frontend"}
+      imagePullSecrets:
+      - name: regcred-bnb
       replicaCount: 2
       apiUrl: "https://billing.bnbdevelopment.hu/api"
     # Use existing secret for all sensitive credentials
