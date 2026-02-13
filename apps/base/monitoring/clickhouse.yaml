@@ -146,6 +146,32 @@ spec:
   tls:
     secretName: local-bnbdevelopment-hu-tls
 ---
+# Custom ClickHouse Config - Adds cluster definition for single-node setup
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clickstack-clickhouse-config
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/instance: clickstack
+    app.kubernetes.io/name: clickstack
+data:
+  config.xml: |-
+    <?xml version="1.0"?>
+    <clickhouse>
+        <remote_servers>
+            <!-- Dummy cluster for single-node setup, required by SigNoz migrator -->
+            <cluster>
+                <shard>
+                    <replica>
+                        <host>localhost</host>
+                        <port>9000</port>
+                    </replica>
+                </shard>
+            </cluster>
+        </remote_servers>
+    </clickhouse>
+---
 # Custom ClickHouse Users ConfigMap - Overrides ClickStack defaults
 # This gives the "app" user full permissions needed for SigNoz schema migration
 apiVersion: v1
