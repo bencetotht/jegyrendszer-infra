@@ -28,7 +28,7 @@ resources:
 # - logging/elk.yaml
 - monitoring/clickhouse.yaml
 - monitoring/glitchtip.yaml
-- monitoring/signoz.yaml
+# - monitoring/signoz.yaml
 - monitoring/monitoring.yaml
 # - monitoring/loki-release.yaml
 - monitoring/prom-stack.yaml
