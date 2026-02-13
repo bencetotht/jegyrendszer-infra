@@ -92,9 +92,9 @@ spec:
 
       users:
         app:
-          password: "clickhouse"  # TODO: Change in production
+          password: "hyperdx"
         otelCollector:
-          password: "otelcollector"  # TODO: Change in production
+          password: "otelcollectorpass"
 
     # OTEL Collector configuration
     otelCollector:
@@ -145,6 +145,90 @@ spec:
           namespace: monitoring
   tls:
     secretName: local-bnbdevelopment-hu-tls
+---
+# Custom ClickHouse Users ConfigMap - Overrides ClickStack defaults
+# This gives the "app" user full permissions needed for SigNoz schema migration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clickstack-clickhouse-users
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/instance: clickstack
+    app.kubernetes.io/name: clickstack
+data:
+  users.xml: |-
+    <?xml version="1.0"?>
+    <clickhouse>
+        <profiles>
+            <default>
+                <max_memory_usage>10000000000</max_memory_usage>
+                <use_uncompressed_cache>0</use_uncompressed_cache>
+                <load_balancing>in_order</load_balancing>
+                <log_queries>1</log_queries>
+            </default>
+            <readonly>
+                <readonly>2</readonly>
+            </readonly>
+        </profiles>
+
+        <users>
+            <default>
+                <password></password>
+                <profile>default</profile>
+                <networks>
+                    <ip>::1</ip>
+                    <ip>127.0.0.1</ip>
+                </networks>
+                <quota>default</quota>
+            </default>
+
+            <!-- App user with full permissions for SigNoz -->
+            <app>
+                <password>hyperdx</password>
+                <networks>
+                    <ip>10.0.0.0/8</ip>
+                    <ip>172.16.0.0/12</ip>
+                    <ip>192.168.0.0/16</ip>
+                    <host_regexp>.*\.svc\.cluster\.local$</host_regexp>
+                </networks>
+                <profile>default</profile>
+                <quota>default</quota>
+                <grants>
+                    <query>GRANT ALL ON *.*</query>
+                </grants>
+            </app>
+
+            <!-- OtelCollector user with full permissions -->
+            <otelcollector>
+                <password>otelcollectorpass</password>
+                <networks>
+                    <ip>10.0.0.0/8</ip>
+                    <ip>172.16.0.0/12</ip>
+                    <ip>192.168.0.0/16</ip>
+                    <host_regexp>.*\.svc\.cluster\.local$</host_regexp>
+                </networks>
+                <profile>default</profile>
+                <quota>default</quota>
+                <grants>
+                    <query>GRANT ALL ON *.*</query>
+                </grants>
+            </otelcollector>
+        </users>
+
+        <quotas>
+            <default>
+                <interval>
+                    <duration>3600</duration>
+                    <queries>0</queries>
+                    <errors>0</errors>
+                    <result_rows>0</result_rows>
+                    <read_rows>0</read_rows>
+                    <execution_time>0</execution_time>
+                </interval>
+            </default>
+        </quotas>
+    </clickhouse>
 ---
 apiVersion: v1
 kind: Service
