@@ -270,7 +270,8 @@ data:
                 <profile>default</profile>
                 <quota>default</quota>
                 <grants>
-                    <query>GRANT ALL ON *.*</query>
+                    <query>GRANT CHECK, SHOW, SELECT, INSERT, ALTER, CREATE, DROP, UNDROP TABLE, TRUNCATE, OPTIMIZE, BACKUP, KILL QUERY, KILL TRANSACTION, MOVE PARTITION BETWEEN SHARDS, ROLE ADMIN, CREATE ROW POLICY, ALTER ROW POLICY, DROP ROW POLICY, CREATE QUOTA, ALTER QUOTA, DROP QUOTA, CREATE SETTINGS PROFILE, ALTER SETTINGS PROFILE, DROP SETTINGS PROFILE, ALLOW SQL SECURITY NONE, SHOW ACCESS, SYSTEM, dictGet, displaySecretsInShowAndSelect, INTROSPECTION, CLUSTER, FILE, URL, REMOTE, MONGO, REDIS, MYSQL, POSTGRES, SQLITE, ODBC, JDBC, HDFS, S3, HIVE, AZURE, KAFKA, NATS, RABBITMQ, SOURCES ON *.*</query>
+                    <query>GRANT TABLE ENGINE ON *</query>
                 </grants>
             </app>
 
@@ -287,6 +288,7 @@ data:
                 <quota>default</quota>
                 <grants>
                     <query>GRANT ALL ON *.*</query>
+                    <query>GRANT CLUSTER ON *.*</query>
                 </grants>
             </otelcollector>
         </users>
