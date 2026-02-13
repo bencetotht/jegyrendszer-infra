@@ -24,7 +24,6 @@ spec:
           - target:
               kind: Deployment
               name: clickstack-clickhouse
-              namespace: monitoring
             patch: |-
               - op: add
                 path: /spec/template/spec/containers/0/volumeMounts/-
@@ -184,12 +183,42 @@ data:
                 <shard>
                     <internal_replication>false</internal_replication>
                     <replica>
-                        <host>clickstack-clickhouse.monitoring.svc.cluster.local</host>
+                        <host>127.0.0.1</host>
                         <port>9000</port>
                     </replica>
                 </shard>
             </cluster>
         </remote_servers>
+
+        <zookeeper>
+            <node index="1">
+                <host>127.0.0.1</host>
+                <port>9181</port>
+            </node>
+        </zookeeper>
+
+        <keeper_server>
+            <tcp_port>9181</tcp_port>
+            <server_id>1</server_id>
+            <log_storage_path>/var/lib/clickhouse/coordination/log</log_storage_path>
+            <snapshot_storage_path>/var/lib/clickhouse/coordination/snapshots</snapshot_storage_path>
+            <coordination_settings>
+                <operation_timeout_ms>10000</operation_timeout_ms>
+                <session_timeout_ms>30000</session_timeout_ms>
+                <raft_logs_level>warning</raft_logs_level>
+            </coordination_settings>
+            <raft_configuration>
+                <server>
+                    <id>1</id>
+                    <hostname>127.0.0.1</hostname>
+                    <port>9444</port>
+                </server>
+            </raft_configuration>
+        </keeper_server>
+
+        <distributed_ddl>
+            <path>/clickhouse/task_queue/ddl_signoz</path>
+        </distributed_ddl>
     </clickhouse>
 ---
 # Custom ClickHouse Users ConfigMap - Overrides ClickStack defaults
