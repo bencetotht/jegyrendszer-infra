@@ -26,7 +26,7 @@ resources:
 # - keycloak/keycloak.yaml
 - logging/logging.yaml
 # - logging/elk.yaml
-# - monitoring/clickhouse.yaml
+- monitoring/clickhouse.yaml
 - monitoring/glitchtip.yaml
 - monitoring/signoz.yaml
 - monitoring/monitoring.yaml

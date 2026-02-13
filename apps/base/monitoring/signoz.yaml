@@ -41,6 +41,7 @@ spec:
       tcpPort: 9000
       user: app
       verify: false
+      cluster: "cluster"
 
     # SigNoz Query Service Configuration
     signoz:

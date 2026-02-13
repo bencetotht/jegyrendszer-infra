@@ -17,6 +17,27 @@ spec:
         name: clickstack
         namespace: flux-system
       interval: 1m
+  # This is a workaround to get the cluster configuration working
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: clickstack-clickhouse
+              namespace: monitoring
+            patch: |-
+              - op: add
+                path: /spec/template/spec/containers/0/volumeMounts/-
+                value:
+                  name: cluster-config
+                  mountPath: /etc/clickhouse-server/config.d/cluster.xml
+                  subPath: cluster.xml
+              - op: add
+                path: /spec/template/spec/volumes/-
+                value:
+                  name: cluster-config
+                  configMap:
+                    name: clickstack-clickhouse-cluster-config
   values:
     # Global settings
     global:
@@ -146,12 +167,10 @@ spec:
   tls:
     secretName: local-bnbdevelopment-hu-tls
 ---
-# Additional ClickHouse Config - Adds cluster definition for single-node setup
-# This will be mounted as a drop-in config file
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: clickhouse-cluster-config
+  name: clickstack-clickhouse-cluster-config
   namespace: monitoring
   labels:
     app.kubernetes.io/instance: clickstack
@@ -161,12 +180,11 @@ data:
     <?xml version="1.0"?>
     <clickhouse>
         <remote_servers>
-            <!-- Dummy cluster for single-node setup, required by SigNoz migrator -->
             <cluster>
                 <shard>
                     <internal_replication>false</internal_replication>
                     <replica>
-                        <host>127.0.0.1</host>
+                        <host>clickstack-clickhouse.monitoring.svc.cluster.local</host>
                         <port>9000</port>
                     </replica>
                 </shard>
