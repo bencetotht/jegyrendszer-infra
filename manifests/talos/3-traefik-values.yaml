@@ -1,10 +1,9 @@
-globalArguments:
-  - "--global.sendanonymoususage=false"
-  - "--global.checknewversion=false"
-
 additionalArguments:
   - "--serversTransport.insecureSkipVerify=true"
   - "--log.level=INFO"
+  - "--entryPoints.websecure.transport.respondingTimeouts.readTimeout=7200s"
+  - "--entryPoints.websecure.transport.respondingTimeouts.writeTimeout=7200s"
+  - "--entryPoints.websecure.transport.respondingTimeouts.idleTimeout=1800s"
 
 deployment:
   enabled: true
