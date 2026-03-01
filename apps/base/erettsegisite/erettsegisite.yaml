@@ -138,6 +138,7 @@ spec:
     uri:
       mongo: mongodb://root:root@erettsegi-mongo-mongodb-0.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017,erettsegi-mongo-mongodb-1.erettsegi-mongo-mongodb-headless.service.svc.cluster.local:27017/material
       redis: 192.168.88.50
+      otel: http://signoz-otel-collector.monitoring.svc.cluster.local:4317
     prometheus:
       enabled: true
       namespace: monitoring

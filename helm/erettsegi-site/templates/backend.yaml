@@ -74,6 +74,8 @@ spec:
               fieldPath: metadata.name
         - name: REDIS
           value: {{ .Values.uri.redis }}
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: {{ .Values.uri.otel }}
         - name: MONGO
           value: {{ .Values.uri.mongo }}
 {{ if .Values.development }}

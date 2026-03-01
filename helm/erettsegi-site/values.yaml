@@ -35,6 +35,7 @@ statistics:
 uri:
   mongo: mongodb://root:root@erettsegi-mongo-mongodb.application.svc.cluster.local:27017/material
   redis: ''
+  otel: ''
 prometheus:
   enabled: true
   namespace: monitoring
