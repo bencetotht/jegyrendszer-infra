@@ -32,11 +32,23 @@ spec:
                   mountPath: /etc/clickhouse-server/config.d/cluster.xml
                   subPath: cluster.xml
               - op: add
+                path: /spec/template/spec/containers/0/volumeMounts/-
+                value:
+                  name: resource-config
+                  mountPath: /etc/clickhouse-server/config.d/resource-limits.xml
+                  subPath: resource-limits.xml
+              - op: add
                 path: /spec/template/spec/volumes/-
                 value:
                   name: cluster-config
                   configMap:
                     name: clickstack-clickhouse-cluster-config
+              - op: add
+                path: /spec/template/spec/volumes/-
+                value:
+                  name: resource-config
+                  configMap:
+                    name: clickstack-clickhouse-resource-config
   values:
     # Global settings
     global:
@@ -105,10 +117,10 @@ spec:
       resources:
         limits:
           cpu: 1000m
-          memory: 2Gi
+          memory: 4Gi
         requests:
           cpu: 250m
-          memory: 512Mi
+          memory: 1Gi
 
       users:
         app:
@@ -221,6 +233,24 @@ data:
         </distributed_ddl>
     </clickhouse>
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clickstack-clickhouse-resource-config
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/instance: clickstack
+    app.kubernetes.io/name: clickstack
+data:
+  resource-limits.xml: |-
+    <?xml version="1.0"?>
+    <clickhouse>
+        <!-- Keep caches proportional to container memory to avoid OOM kills. -->
+        <uncompressed_cache_size>268435456</uncompressed_cache_size>
+        <mark_cache_size>536870912</mark_cache_size>
+        <max_server_memory_usage_to_ram_ratio>0.85</max_server_memory_usage_to_ram_ratio>
+    </clickhouse>
+---
 # Custom ClickHouse Users ConfigMap - Overrides ClickStack defaults
 # This gives the "app" user full permissions needed for SigNoz schema migration
 apiVersion: v1
@@ -237,7 +267,9 @@ data:
     <clickhouse>
         <profiles>
             <default>
-                <max_memory_usage>10000000000</max_memory_usage>
+                <max_memory_usage>1073741824</max_memory_usage>
+                <max_memory_usage_for_user>2147483648</max_memory_usage_for_user>
+                <max_memory_usage_for_all_queries>3221225472</max_memory_usage_for_all_queries>
                 <use_uncompressed_cache>0</use_uncompressed_cache>
                 <load_balancing>in_order</load_balancing>
                 <log_queries>1</log_queries>
