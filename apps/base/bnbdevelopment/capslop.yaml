@@ -50,7 +50,7 @@ spec:
 #     spec:
 #       containers:
 #         - name: capslop-server
-#           image: ghcr.io/bencetotht/capstone-project-server:main
+#           image: ghcr.io/bencetotht/capstone-project-server:main # {"$imagepolicy": "flux-system:capstone-project-server"}
 #           imagePullPolicy: Always
 #           ports:
 #             - name: http
