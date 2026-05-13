@@ -19,7 +19,7 @@ resources:
 - flux-system/flux-system-automation.yaml
 - git/git.yaml
 - git/forgejo.yaml
-# - git/forgejo-runner.yaml
+- git/forgejo-runner.yaml
 - gitlab/ns.yaml
 - gitlab/gitlab.yaml
 - gitlabrunners/ns.yaml
