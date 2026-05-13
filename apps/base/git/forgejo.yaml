@@ -74,6 +74,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - kind: Rule
       match: "Host(`git.bnbdevelopment.hu`) && PathPrefix(`/`)"
