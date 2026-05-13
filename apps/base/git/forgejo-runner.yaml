@@ -62,9 +62,7 @@ spec:
             level: info
             job_level: info
           runner:
-            # The chart still mounts a legacy .runner secret file, but the
-            # actual Forgejo connection now comes from server.connections below.
-            file: /data/.runner-legacy-unused
+            file: /data/.runner
             capacity: 2
             envs:
               DOCKER_HOST: tcp://127.0.0.1:2376
@@ -78,27 +76,3 @@ spec:
             options: -v /certs/client:/certs/client
             valid_volumes:
               - /certs/client
-          server:
-            connections:
-              forgejo:
-                url: https://git.bnbdevelopment.hu/
-                uuid: c50a2264-4b01-48f0-b3c1-e914c9c3feea
-                token_url: file:///etc/runner-secrets/token
-                labels:
-                  - ubuntu-latest:docker://node:22-bookworm
-                  - ubuntu-22.04:docker://node:22-bookworm
-                  - ubuntu-24.04:docker://node:22-bookworm
-                  - docker:docker://node:22-bookworm
-
-    volumes:
-      - name: forgejo-runner-secret
-        secret:
-          secretName: forgejo-runner-init
-          items:
-            - key: token
-              path: token
-
-    volumeMounts:
-      - name: forgejo-runner-secret
-        mountPath: /etc/runner-secrets
-        readOnly: true
