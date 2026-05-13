@@ -8,96 +8,96 @@ spec:
   type: oci
   interval: 5m
   url: oci://codeberg.org/wrenix/helm-charts
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: forgejo-runner
-  namespace: git
-  labels:
-    env.skip: cloud
-spec:
-  dependsOn:
-    - name: forgejo
-  interval: 5m
-  chart:
-    spec:
-      chart: forgejo-runner
-      version: "0.7.3"
-      sourceRef:
-        kind: HelmRepository
-        name: forgejo-runner-helm
-        namespace: flux-system
-      interval: 1m
-  values:
-    replicaCount: 1
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: forgejo-runner
+#   namespace: git
+#   labels:
+#     env.skip: cloud
+# spec:
+#   dependsOn:
+#     - name: forgejo
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: forgejo-runner
+#       version: "0.7.3"
+#       sourceRef:
+#         kind: HelmRepository
+#         name: forgejo-runner-helm
+#         namespace: flux-system
+#       interval: 1m
+#   values:
+#     replicaCount: 1
 
-    serviceAccount:
-      create: true
-      name: forgejo-runner
+#     serviceAccount:
+#       create: true
+#       name: forgejo-runner
 
-    resources:
-      requests:
-        cpu: 250m
-        memory: 512Mi
-      limits:
-        cpu: 1000m
-        memory: 1Gi
+#     resources:
+#       requests:
+#         cpu: 250m
+#         memory: 512Mi
+#       limits:
+#         cpu: 1000m
+#         memory: 1Gi
 
-    dind:
-      resources:
-        requests:
-          cpu: 250m
-          memory: 512Mi
-        limits:
-          cpu: 2000m
-          memory: 2Gi
+#     dind:
+#       resources:
+#         requests:
+#           cpu: 250m
+#           memory: 512Mi
+#         limits:
+#           cpu: 2000m
+#           memory: 2Gi
 
-    runner:
-      config:
-        existingSecret: forgejo-runner-init
-        file:
-          log:
-            level: info
-            job_level: info
-          runner:
-            # The chart still mounts a legacy .runner secret file, but the
-            # actual Forgejo connection now comes from server.connections below.
-            file: /data/.runner-legacy-unused
-            capacity: 2
-            envs:
-              DOCKER_HOST: tcp://127.0.0.1:2376
-              DOCKER_CERT_PATH: /certs/client
-              DOCKER_TLS_VERIFY: "1"
-          cache:
-            enabled: true
-          container:
-            network: host
-            privileged: true
-            options: -v /certs/client:/certs/client
-            valid_volumes:
-              - /certs/client
-          server:
-            connections:
-              forgejo:
-                url: https://git.bnbdevelopment.hu/
-                uuid: c50a2264-4b01-48f0-b3c1-e914c9c3feea
-                token_url: file:///etc/runner-secrets/token
-                labels:
-                  - ubuntu-latest:docker://node:22-bookworm
-                  - ubuntu-22.04:docker://node:22-bookworm
-                  - ubuntu-24.04:docker://node:22-bookworm
-                  - docker:docker://node:22-bookworm
+#     runner:
+#       config:
+#         existingSecret: forgejo-runner-init
+#         file:
+#           log:
+#             level: info
+#             job_level: info
+#           runner:
+#             # The chart still mounts a legacy .runner secret file, but the
+#             # actual Forgejo connection now comes from server.connections below.
+#             file: /data/.runner-legacy-unused
+#             capacity: 2
+#             envs:
+#               DOCKER_HOST: tcp://127.0.0.1:2376
+#               DOCKER_CERT_PATH: /certs/client
+#               DOCKER_TLS_VERIFY: "1"
+#           cache:
+#             enabled: true
+#           container:
+#             network: host
+#             privileged: true
+#             options: -v /certs/client:/certs/client
+#             valid_volumes:
+#               - /certs/client
+#           server:
+#             connections:
+#               forgejo:
+#                 url: https://git.bnbdevelopment.hu/
+#                 uuid: c50a2264-4b01-48f0-b3c1-e914c9c3feea
+#                 token_url: file:///etc/runner-secrets/token
+#                 labels:
+#                   - ubuntu-latest:docker://node:22-bookworm
+#                   - ubuntu-22.04:docker://node:22-bookworm
+#                   - ubuntu-24.04:docker://node:22-bookworm
+#                   - docker:docker://node:22-bookworm
 
-    volumes:
-      - name: forgejo-runner-secret
-        secret:
-          secretName: forgejo-runner-init
-          items:
-            - key: token
-              path: token
+#     volumes:
+#       - name: forgejo-runner-secret
+#         secret:
+#           secretName: forgejo-runner-init
+#           items:
+#             - key: token
+#               path: token
 
-    volumeMounts:
-      - name: forgejo-runner-secret
-        mountPath: /etc/runner-secrets
-        readOnly: true
+#     volumeMounts:
+#       - name: forgejo-runner-secret
+#         mountPath: /etc/runner-secrets
+#         readOnly: true
