@@ -1,0 +1,84 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: forgejo-helm
+  namespace: flux-system
+spec:
+  type: oci
+  interval: 5m
+  url: oci://code.forgejo.org/forgejo-helm
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: forgejo
+  namespace: git
+  labels:
+    env.skip: cloud
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: forgejo
+      version: "17.0.1"
+      sourceRef:
+        kind: HelmRepository
+        name: forgejo-helm
+        namespace: flux-system
+      interval: 1m
+  values:
+    global:
+      storageClass: longhorn
+
+    ingress:
+      enabled: false
+
+    persistence:
+      enabled: true
+      size: 20Gi
+
+    gitea:
+      admin:
+        existingSecret: forgejo-admin-secret
+        email: git@bnbdevelopment.hu
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          namespace: monitoring
+      config:
+        server:
+          DOMAIN: git.bnbdevelopment.hu
+          ROOT_URL: https://git.bnbdevelopment.hu/
+          SSH_DOMAIN: git.bnbdevelopment.hu
+          SSH_PORT: 22
+          START_SSH_SERVER: true
+        service:
+          DISABLE_REGISTRATION: true
+        actions:
+          ENABLED: true
+          DEFAULT_ACTIONS_URL: https://data.forgejo.org
+        indexer:
+          REPO_INDEXER_ENABLED: true
+---
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: forgejo-ingress
+  namespace: traefik-system
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+  labels:
+    env.skip: cloud
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: "Host(`git.bnbdevelopment.hu`) && PathPrefix(`/`)"
+      services:
+        - name: forgejo-http
+          port: 3000
+          namespace: git
