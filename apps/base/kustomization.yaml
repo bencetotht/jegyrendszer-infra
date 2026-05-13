@@ -17,6 +17,7 @@ resources:
 - erettsegisite/erettsegi.yaml
 - erettsegisite/erettsegisite.yaml
 - flux-system/flux-system-automation.yaml
+- git/git.yaml
 - gitlab/ns.yaml
 - gitlab/gitlab.yaml
 - gitlabrunners/ns.yaml
