@@ -19,6 +19,7 @@ metadata:
 spec:
   dependsOn:
     - name: forgejo
+      namespace: git
   interval: 5m
   chart:
     spec:
