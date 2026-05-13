@@ -62,7 +62,6 @@ spec:
         indexer:
           REPO_INDEXER_ENABLED: true
 ---
----
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
