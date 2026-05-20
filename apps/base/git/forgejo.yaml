@@ -39,6 +39,12 @@ spec:
       size: 20Gi
 
     gitea:
+      additionalConfigFromEnvs:
+        - name: FORGEJO__MAILER__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: forgejo-smtp-creds
+              key: password
       admin:
         existingSecret: forgejo-admin-secret
         email: git@bnbdevelopment.hu
@@ -61,6 +67,13 @@ spec:
           DEFAULT_ACTIONS_URL: https://data.forgejo.org
         indexer:
           REPO_INDEXER_ENABLED: true
+        mailer:
+          ENABLED: true
+          FROM: Forgejo <gitlab@bnbdevelopment.hu>
+          PROTOCOL: smtp+starttls
+          SMTP_ADDR: mail.bnbdevelopment.hu
+          SMTP_PORT: 587
+          USER: gitlab@bnbdevelopment.hu
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
