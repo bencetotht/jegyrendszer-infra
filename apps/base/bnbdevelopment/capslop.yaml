@@ -38,6 +38,7 @@ metadata:
   namespace: bnb
   labels:
     app.kubernetes.io/name: capslop-server
+    app.kubernetes.io/part-of: capslop
 spec:
   replicas: 1
   selector:
@@ -47,7 +48,10 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: capslop-server
+        app.kubernetes.io/part-of: capslop
     spec:
+      imagePullSecrets:
+        - name: ghcr-pull-secret
       containers:
         - name: capslop-server
           image: ghcr.io/bencetotht/capstone-project-server:v1.0.11 # {"$imagepolicy": "flux-system:capstone-project-server"}
@@ -81,6 +85,12 @@ spec:
                 secretKeyRef:
                   name: capslop-server-secrets
                   key: API_KEY
+            - name: PREDICTOR_BASE_URL
+              value: http://capslop-predictor.bnb.svc.cluster.local:8001
+            - name: PREDICTOR_TIMEOUT_SECONDS
+              value: "5"
+            - name: CSV_FALLBACK_ENABLED
+              value: "0"
           readinessProbe:
             httpGet:
               path: /health
@@ -101,6 +111,7 @@ metadata:
   namespace: bnb
   labels:
     app.kubernetes.io/name: capslop-server
+    app.kubernetes.io/part-of: capslop
 spec:
   type: ClusterIP
   selector:
@@ -128,3 +139,96 @@ spec:
       services:
         - name: capslop-server
           port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capslop-dashboard
+  namespace: bnb
+  labels:
+    app.kubernetes.io/name: capslop-dashboard
+    app.kubernetes.io/part-of: capslop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: capslop-dashboard
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: capslop-dashboard
+        app.kubernetes.io/part-of: capslop
+    spec:
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      containers:
+        - name: capslop-dashboard
+          image: ghcr.io/bencetotht/capstone-project-dashboard:main
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: DASHBOARD_API_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: capslop-server-secrets
+                  key: DASHBOARD_API_BASE_URL
+            - name: DASHBOARD_API_UPSTREAM
+              valueFrom:
+                secretKeyRef:
+                  name: capslop-server-secrets
+                  key: DASHBOARD_API_UPSTREAM
+            - name: DASHBOARD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: capslop-server-secrets
+                  key: API_KEY
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: capslop-dashboard-lb
+  namespace: bnb
+  labels:
+    app.kubernetes.io/name: capslop-dashboard
+    app.kubernetes.io/part-of: capslop
+  annotations:
+    io.cilium/lb-ipam-ips: 192.168.88.108
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: capslop-dashboard
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: capslop-dashboard
+  namespace: bnb
+  labels:
+    app.kubernetes.io/name: capslop-dashboard
+    app.kubernetes.io/part-of: capslop
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: capslop-dashboard
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
