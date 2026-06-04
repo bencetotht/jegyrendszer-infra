@@ -54,7 +54,7 @@ spec:
         - name: ghcr-pull-secret
       containers:
         - name: capslop-server
-          image: ghcr.io/bencetotht/capstone-project-server:v1.0.12 # {"$imagepolicy": "flux-system:capstone-project-server"}
+          image: ghcr.io/bencetotht/capstone-project-server:v1.0.13 # {"$imagepolicy": "flux-system:capstone-project-server"}
           imagePullPolicy: Always
           ports:
             - name: http
