@@ -84,11 +84,17 @@ metadata:
   labels:
     env.skip: cloud
 spec:
-
-  chartRef:
-    kind: OCIRepository
-    name: matekerettsegi
-
+  chart:
+    spec:
+      chart: matekerettsegi
+      version: ">=0.2.0 <1.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: matekerettsegi
+        namespace: bnb
+      interval: 5m
+  interval: 5m
+  timeout: 5m
   values:
     # hostname, routing
     routing:
