@@ -60,7 +60,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: matekerettsegi
-  namespace: matekerettsegi
+  namespace: flux-system
 spec:
   interval: 5m
   url: oci://europe-west3-docker.pkg.dev/bnbdevelopment/charts/matekerettsegi
