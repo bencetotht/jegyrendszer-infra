@@ -75,55 +75,47 @@ spec:
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
-# ---
-# apiVersion: helm.toolkit.fluxcd.io/v2beta1
-# kind: HelmRelease
-# metadata:
-#   name: matekerettsegi
-#   namespace: bnb
-#   labels:
-#     env.skip: cloud
-# spec:
-#   chart:
-#     spec:
-#       chart: matekerettsegi
-#       version: 0.2.0
-#       sourceRef:
-#         kind: HelmRepository
-#         name: matekerettsegi
-#         namespace: flux-system
-#       interval: 1m
-#   interval: 5m
-#   timeout: 5m
-#   values:
-#     # hostname, routing
-#     routing:
-#       host: matekerettsegi.hu
-#     traefik:
-#       annotations:
-#         kubernetes.io/ingress.class: traefik-external
-#       tls:
-#         enabled: false
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: matekerettsegi
+  namespace: bnb
+  labels:
+    env.skip: cloud
+spec:
 
-#     # images
-#     web:
-#       image:
-#         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/frontend # {"$imagepolicy": "flux-system:matekerettsegi-frontend:name"}
-#         tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-frontend:tag"}
-#     api:
-#       image:
-#         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/backend # {"$imagepolicy": "flux-system:matekerettsegi-backend:name"}
-#         tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-backend:tag"}
-#       env:
-#         WEB_ORIGIN: https://matekerettsegi.hu
-#         BETTER_AUTH_URL: https://matekerettsegi.hu
+  chartRef:
+    kind: OCIRepository
+    name: matekerettsegi
 
-#     generator:
-#       image:
-#         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/generator # {"$imagepolicy": "flux-system:matekerettsegi-generator:name"}
-#         tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-generator:tag"}
+  values:
+    # hostname, routing
+    routing:
+      host: matek.bnbdevelopment.hu
+    traefik:
+      annotations:
+        kubernetes.io/ingress.class: traefik-external
+      tls:
+        enabled: false
 
+    # images
+    web:
+      image:
+        repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/frontend # {"$imagepolicy": "flux-system:matekerettsegi-frontend:name"}
+        tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-frontend:tag"}
+    api:
+      image:
+        repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/backend # {"$imagepolicy": "flux-system:matekerettsegi-backend:name"}
+        tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-backend:tag"}
+      env:
+        WEB_ORIGIN: https://matekerettsegi.hu
+        BETTER_AUTH_URL: https://matekerettsegi.hu
 
+    generator:
+      image:
+        repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/generator # {"$imagepolicy": "flux-system:matekerettsegi-generator:name"}
+        tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-generator:tag"}
 
 # ---
 # apiVersion: traefik.io/v1alpha1
