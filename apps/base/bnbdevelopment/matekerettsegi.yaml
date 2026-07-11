@@ -39,7 +39,7 @@ metadata:
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: bnbbilling-backend
+    name: matekerettsegi-backend
   policy:
     semver:
       range: 1.x.x
@@ -52,6 +52,18 @@ metadata:
 spec:
   imageRepositoryRef:
     name: matekerettsegi-frontend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: matekerettsegi-generator
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: matekerettsegi-generator
   policy:
     semver:
       range: 1.x.x
