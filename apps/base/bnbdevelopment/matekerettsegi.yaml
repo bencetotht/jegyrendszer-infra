@@ -1,0 +1,124 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: matekerettsegi-backend
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/backend
+  interval: 5m
+  secretRef:
+    name: regcred-bnb
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: matekerettsegi-generator
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/generator
+  interval: 5m
+  secretRef:
+    name: regcred-bnb
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: matekerettsegi-frontend
+  namespace: flux-system
+spec:
+  image: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/frontend
+  interval: 5m
+  secretRef:
+    name: regcred-bnb
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: matekerettsegi-backend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: bnbbilling-backend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: matekerettsegi-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: matekerettsegi-frontend
+  policy:
+    semver:
+      range: 1.x.x
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: bnbbilling
+#   namespace: bnb
+#   labels:
+#     env.skip: cloud
+# spec:
+#   chart:
+#     spec:
+#       chart: bnbbilling
+#       version: 0.1.9
+#       sourceRef:
+#         kind: HelmRepository
+#         name: bnbbilling
+#         namespace: flux-system
+#       interval: 1m
+#   interval: 5m
+#   timeout: 5m
+#   values:
+#     # hostname, routing
+#     routing:
+#       host: matekerettsegi.hu
+#     traefik:
+#       annotations:
+#         kubernetes.io/ingress.class: traefik-external
+
+#     # images
+#     web:
+#       image:
+#         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/frontend # {"$imagepolicy": "flux-system:matekerettsegi-frontend:name"}
+#         tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-frontend:tag"}
+#     api:
+#       image:
+#         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/backend # {"$imagepolicy": "flux-system:matekerettsegi-backend:name"}
+#         tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-backend:tag"}
+#       env:
+#         WEB_ORIGIN: https://matekerettsegi.hu
+#         BETTER_AUTH_URL: https://matekerettsegi.hu
+
+#     generator:
+#       image:
+#         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/generator # {"$imagepolicy": "flux-system:matekerettsegi-generator:name"}
+#         tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-generator:tag"}
+# ---
+# apiVersion: traefik.io/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: bnbbilling-ingressroute
+#   namespace: bnb
+#   annotations:
+#     kubernetes.io/ingress.class: traefik-external
+# spec:
+#   entryPoints:
+#   - websecure
+#   routes:
+#   - kind: Rule
+#     match: Host(`billing.bnbdevelopment.hu`) && PathPrefix(`/api/`)
+#     services:
+#     - name: bnbbilling-backend
+#       port: 80
+#   - kind: Rule
+#     match: Host(`billing.bnbdevelopment.hu`) && PathPrefix(`/`)
+#     services:
+#     - name: bnbbilling-frontend
+#       port: 80
