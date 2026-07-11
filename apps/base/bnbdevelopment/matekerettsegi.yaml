@@ -1,4 +1,3 @@
----
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
@@ -77,13 +76,10 @@ spec:
   interval: 5m
   url: oci://europe-west3-docker.pkg.dev/bnbdevelopment/charts/matekerettsegi
   provider: generic
-
   secretRef:
     name: regcred-bnb
-
   ref:
     semver: ">=0.2.0 <1.0.0"
-
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
@@ -105,7 +101,6 @@ spec:
   values:
     imagePullSecrets:
       - name: regcred-bnb
-
     # hostname, routing
     routing:
       host: matek.bnbdevelopment.hu
@@ -114,7 +109,6 @@ spec:
         kubernetes.io/ingress.class: traefik-external
       tls:
         enabled: false
-
     # images
     web:
       image:
@@ -123,11 +117,10 @@ spec:
     api:
       image:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/backend # {"$imagepolicy": "flux-system:matekerettsegi-backend:name"}
-        tag: "latest" # {"$imagepolicy": "flux-system:matekerettsegi-backend:tag"}
+        tag: "v0.6.0" # {"$imagepolicy": "flux-system:matekerettsegi-backend:tag"}
       env:
         WEB_ORIGIN: https://matekerettsegi.hu
         BETTER_AUTH_URL: https://matekerettsegi.hu
-
     generator:
       image:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/generator # {"$imagepolicy": "flux-system:matekerettsegi-generator:name"}
