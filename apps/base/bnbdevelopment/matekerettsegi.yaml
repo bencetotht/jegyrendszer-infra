@@ -121,6 +121,16 @@ spec:
       env:
         WEB_ORIGIN: https://matek.bnbdevelopment.hu
         BETTER_AUTH_URL: https://matek.bnbdevelopment.hu
+      extraEnv:
+        - name: AUTHENTIK_DISCOVERY_URL
+          value: https://auth.bnbdevelopment.hu/application/o/matekerettsegi-bnb/.well-known/openid-configuration
+        - name: AUTHENTIK_CLIENT_ID
+          value: vwMCrswVNEhYEiGfFbcCpKlMaP6vLU4wrqtRgLGL
+        - name: AUTHENTIK_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: matekerettsegi-runtime
+              key: AUTHENTIK_CLIENT_SECRET
     generator:
       image:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/generator # {"$imagepolicy": "flux-system:matekerettsegi-generator:name"}
