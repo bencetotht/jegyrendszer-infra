@@ -117,7 +117,7 @@ spec:
     api:
       image:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/backend # {"$imagepolicy": "flux-system:matekerettsegi-backend:name"}
-        tag: "v0.28.0" # {"$imagepolicy": "flux-system:matekerettsegi-backend:tag"}
+        tag: "v0.29.0" # {"$imagepolicy": "flux-system:matekerettsegi-backend:tag"}
       env:
         WEB_ORIGIN: https://matek.bnbdevelopment.hu
         BETTER_AUTH_URL: https://matek.bnbdevelopment.hu
