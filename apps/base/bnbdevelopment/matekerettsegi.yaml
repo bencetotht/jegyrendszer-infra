@@ -119,8 +119,8 @@ spec:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/backend # {"$imagepolicy": "flux-system:matekerettsegi-backend:name"}
         tag: "v0.32.0" # {"$imagepolicy": "flux-system:matekerettsegi-backend:tag"}
       env:
-        WEB_ORIGIN: https://matek.bnbdevelopment.hu
-        BETTER_AUTH_URL: https://matek.bnbdevelopment.hu
+        WEB_ORIGIN: https://matekx.hu
+        BETTER_AUTH_URL: https://matekx.hu
       extraEnv:
         - name: AUTHENTIK_DISCOVERY_URL
           value: https://auth.bnbdevelopment.hu/application/o/matekerettsegi-bnb/.well-known/openid-configuration
