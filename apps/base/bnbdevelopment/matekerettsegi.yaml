@@ -113,7 +113,7 @@ spec:
     web:
       image:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/frontend # {"$imagepolicy": "flux-system:matekerettsegi-frontend:name"}
-        tag: "v0.37.0" # {"$imagepolicy": "flux-system:matekerettsegi-frontend:tag"}
+        tag: "v0.38.0" # {"$imagepolicy": "flux-system:matekerettsegi-frontend:tag"}
     api:
       image:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/backend # {"$imagepolicy": "flux-system:matekerettsegi-backend:name"}
