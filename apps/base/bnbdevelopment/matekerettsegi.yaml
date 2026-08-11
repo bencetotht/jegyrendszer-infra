@@ -134,7 +134,7 @@ spec:
     generator:
       image:
         repository: europe-west3-docker.pkg.dev/bnbdevelopment/matekerettsegi/generator # {"$imagepolicy": "flux-system:matekerettsegi-generator:name"}
-        tag: "v0.19.0" # {"$imagepolicy": "flux-system:matekerettsegi-generator:tag"}
+        tag: "v0.21.0" # {"$imagepolicy": "flux-system:matekerettsegi-generator:tag"}
 
 # ---
 # apiVersion: traefik.io/v1alpha1
